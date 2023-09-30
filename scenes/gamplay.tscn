@@ -906,6 +906,10 @@ points = PackedVector2Array(197, 5, 197, 417.305, 1339, 451, 1339, 5, 197, 5)
 width = 20.0
 texture_mode = 1
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Camera2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Camera2D/StaticBody2D"]
+
 [node name="TileMap" type="TileMap" parent="."]
 self_modulate = Color(0.462745, 0.756863, 0.811765, 1)
 z_index = -1
