@@ -625,5 +625,6 @@ uv = PackedVector2Array(0, 0, 1920, 0, 1920, 1017, 0, 1017, 0, 0, 17, 0, 17, 584
 
 [node name="Line2D" type="Line2D" parent="Camera2D/LetterboxCollider"]
 points = PackedVector2Array(197, 5, 197, 417.305, 1339, 451, 1339, 5, 197, 5)
+default_color = Color(0, 0, 0, 1)
 
 [connection signal="pull_requested" from="TileMap/Player" to="." method="_on_player_pull_requested"]

@@ -21,6 +21,7 @@ func recalculate_border():
 	var polygon_rect := get_viewport_rect()
 	polygon_rect.size *= get_viewport_transform().get_scale()
 	
+	
 	assert(polygon_rect.encloses(inner_rect))
 	
 	var polygon := get_points_from_rect(polygon_rect)
@@ -65,7 +66,12 @@ func _on_player_pull_requested(direction : float):
 	var rect := get_viewport_rect()
 	rect.size *= get_viewport_transform().get_scale()
 	
-	var side_index : int = fmod(direction + (3*PI/2), TAU)/(PI/2)
+	if direction < 0:
+		direction = TAU + direction
+	direction = fmod(direction + 3*(PI/2),TAU)
+	direction = deg_to_rad(round(rad_to_deg(direction)))
+	var side_index : int = direction/(PI/2)
+	print(rad_to_deg(direction),"/",rad_to_deg((PI/2)),"=",side_index)
 	
 	inner_rect = inner_rect.grow_side(side_index,-tile_map.tile_set.tile_size.x)
 	inner_rect = inner_rect.grow_side((side_index + 2) % 4,-tile_map.tile_set.tile_size.x)
