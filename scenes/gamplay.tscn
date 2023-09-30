@@ -1,9 +1,10 @@
-[gd_scene load_steps=55 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=56 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
+[ext_resource type="AudioStream" uid="uid://c1kvh244yu0bm" path="res://assets/Alli....wav" id="6_frn83"]
 [ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
@@ -943,5 +944,9 @@ position = Vector2(328, 562)
 
 [node name="EnemySpawner5" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(146, 439)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_frn83")
+autoplay = true
 
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
