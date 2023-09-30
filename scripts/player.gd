@@ -9,6 +9,8 @@ const SPEED = 300.0
 var harpoon_tween : Tween
 var rotate_tween :Tween
 
+signal pull_requested(direction : Vector2)
+
 func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -49,6 +51,9 @@ func try_fire_harpoon():
 		var target = ray_cast.get_collision_point()
 		harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
+	else:
+		pull_requested.emit(Vector2(cos(rotation), sin(rotation)))
+		
 
 func while_harpoon_out(target):
 	harpoon_tween = create_tween()

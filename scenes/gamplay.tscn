@@ -763,5 +763,8 @@ collision_mask = 0
 
 [node name="Polygon2D" type="Polygon2D" parent="Camera2D/LetterboxCollider"]
 color = Color(0, 0, 0, 1)
+uv = PackedVector2Array(0, 0, 1920, 0, 1920, 1017, 0, 1017, 0, 0, 17, 0, 17, 584, 1058, 584, 1058, 0, 17, 0, 0, 0)
 
 [node name="Line2D" type="Line2D" parent="Camera2D/LetterboxCollider"]
+
+[connection signal="pull_requested" from="TileMap/Player" to="." method="_on_player_pull_requested"]
