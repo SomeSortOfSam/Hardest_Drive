@@ -1,5 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://cs6q1kfpyk763"]
 
+[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="1_nod8v"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
@@ -126,18 +127,13 @@ texture_filter = 1
 collision_mask = 0
 script = ExtResource("1_qmkjd")
 
-[node name="WalkDust" type="GPUParticles2D" parent="."]
-position = Vector2(0, 9)
-amount = 10
-process_material = SubResource("ParticleProcessMaterial_cdaia")
-texture = ExtResource("2_enmir")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5qmfi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_7qneq")
-hframes = 6
+visible = false
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_nod8v")
 
 [node name="Destroy" type="GPUParticles2D" parent="Sprite2D"]
 modulate = Color(1, 0, 0, 1)
@@ -156,14 +152,8 @@ collision_mask = 9
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_2678v")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Run"
-speed_scale = 1.2
-libraries = {
-"": SubResource("AnimationLibrary_tcx8n")
-}
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
-[ext_resource type="PackedScene" uid="uid://cs6q1kfpyk763" path="res://scenes/enemy.tscn" id="5_l7srj"]
+[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -905,6 +905,11 @@ points = PackedVector2Array(197, 5, 197, 417.305, 1339, 451, 1339, 5, 197, 5)
 width = 20.0
 texture_mode = 1
 
+[node name="StaticBody2D" type="StaticBody2D" parent="Camera2D"]
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Camera2D/StaticBody2D"]
+
 [node name="TileMap" type="TileMap" parent="."]
 self_modulate = Color(0.462745, 0.756863, 0.811765, 1)
 z_index = -1
@@ -915,22 +920,28 @@ layer_0/tile_data = PackedInt32Array(196615, 589825, 1, 131079, 589825, 1, 65543
 
 [node name="Player" parent="TileMap" instance=ExtResource("2_7pc31")]
 
-[node name="Enemy" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(131, 85)
+[node name="EnemySpawner" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(803, 557)
 
-[node name="Enemy2" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(948, 85)
+[node name="EnemySpawner6" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(983, 390)
 
-[node name="Enemy3" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(131, 553)
+[node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(782, 83)
 
-[node name="Enemy4" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(518, 85)
+[node name="EnemySpawner7" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(972, 219)
 
-[node name="Enemy5" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(131, 351)
+[node name="EnemySpawner8" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(361, 78)
 
-[node name="Enemy6" parent="." instance=ExtResource("5_l7srj")]
-position = Vector2(955, 564)
+[node name="EnemySpawner3" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(154, 254)
+
+[node name="EnemySpawner4" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(328, 562)
+
+[node name="EnemySpawner5" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(146, 439)
 
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]

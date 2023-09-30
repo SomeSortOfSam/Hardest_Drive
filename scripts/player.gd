@@ -66,6 +66,14 @@ func try_fire_harpoon():
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
 	else:
 		pull_requested.emit(harpoon_direction)
+		var rotation = harpoon_direction
+		if rotation < 0:
+			rotation = TAU + rotation
+		rotation = fmod(rotation + (PI/2),TAU)
+		rotation = deg_to_rad(round(rad_to_deg(rotation)))
+		var transition := Vector2(cos(rotation), sin(rotation))
+		transition *= Vector2(get_parent().tile_set.tile_size)
+		while_harpoon_out(to_global(chain.points[0]) + transition)
 		animator.play("Pull")
 
 func add_hit_fx():
@@ -73,6 +81,8 @@ func add_hit_fx():
 	harpoon_hit.emitting = true
 
 func while_harpoon_out(target):
+	if harpoon_tween:
+		harpoon_tween.kill()
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_callback(func(): rotation = target.angle_to_point(global_position) - PI/2)
 	harpoon_tween.tween_callback(func(): chain.points[0] = to_local(target))
