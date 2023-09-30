@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1riy46aqmn18"
-path="res://.godot/imported/grid_edges.png-8cf9a89bf0fa5d802632fe9740681273.ctex"
+uid="uid://bq4w6aoshfec0"
+path="res://.godot/imported/ParticleLine.png-aade5f681e554fc7d25d20d3348677e3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://grid_edges.png"
-dest_files=["res://.godot/imported/grid_edges.png-8cf9a89bf0fa5d802632fe9740681273.ctex"]
+source_file="res://assets/ParticleLine.png"
+dest_files=["res://.godot/imported/ParticleLine.png-aade5f681e554fc7d25d20d3348677e3.ctex"]
 
 [params]
 

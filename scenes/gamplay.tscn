@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://t8h2a41u1nip"]
 
-[ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://grid_edges.png" id="1_nc2dp"]
+[ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqq07"]
-texture = ExtResource("1_nc2dp")
+texture = ExtResource("1_2tgxe")
 texture_region_size = Vector2i(64, 64)
 1:0/animation_columns = 4
 1:0/animation_separation = Vector2i(11, 0)

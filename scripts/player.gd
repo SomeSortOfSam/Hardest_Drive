@@ -4,6 +4,7 @@ const SPEED = 300.0
 
 @onready var chain : Line2D = $Line2D
 @onready var ray_cast : RayCast2D = $RayCast2D
+@onready var walk_dust : GPUParticles2D = $WalkDust
 
 var harpoon_tween : Tween
 
@@ -20,6 +21,7 @@ func _physics_process(delta):
 		velocity.y = vertical_input * SPEED
 	else:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
+	walk_dust.emitting = velocity.length() > 0
 	
 
 	move_and_slide()
@@ -42,12 +44,12 @@ func try_fire_harpoon():
 	if !harpoon_tween:
 		harpoon_tween = create_tween()
 		var target = ray_cast.get_collision_point()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[1] = vec,chain.points[1],to_local(target),.2)
+		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],to_local(target),.2)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func while_harpoon_out(target):
 	harpoon_tween = create_tween()
-	harpoon_tween.tween_callback(func(): chain.points[1] = to_local(target))
+	harpoon_tween.tween_callback(func(): chain.points[0] = to_local(target))
 	harpoon_tween.tween_interval(.01)
 	harpoon_tween.set_loops()
 
@@ -55,5 +57,5 @@ func stop_harpoon():
 	if harpoon_tween:
 		harpoon_tween.kill()
 		harpoon_tween = create_tween()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[1] = vec,chain.points[1],Vector2.ZERO,.1)
+		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
 		harpoon_tween.tween_callback(func(): harpoon_tween = null)
