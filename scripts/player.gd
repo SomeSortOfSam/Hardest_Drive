@@ -42,7 +42,8 @@ func try_fire_harpoon():
 	if !harpoon_tween:
 		harpoon_tween = create_tween()
 		var target = ray_cast.get_collision_point()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[1] = vec,chain.points[1],to_local(target),.2)
+		harpoon_tween.tween_method(func(percent : float): chain.points[1] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
+		harpoon_tween.set_ease(Tween.EASE_IN)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func while_harpoon_out(target):
