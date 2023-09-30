@@ -16,3 +16,9 @@ texture = ExtResource("1_igepg")
 shape = SubResource("RectangleShape2D_ja4he")
 
 [node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, -5000)
+collide_with_areas = true
+collide_with_bodies = false
