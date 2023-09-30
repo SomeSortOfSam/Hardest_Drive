@@ -4,6 +4,7 @@ var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
 @export var nav_enabled := false
+@export var death_sounds : Array[AudioStream]
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var player = $"../TileMap/Player"
@@ -64,6 +65,7 @@ func die():
 	call_deferred("disable_hitbox")
 	nav_enabled = false
 	animator.play("Destroy")
+	death_sound.stream = death_sounds.pick_random()
 	death_sound.play()
 	await animator.animation_finished
 	if death_sound.playing:
@@ -78,7 +80,6 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 
 func _on_hurt_box_area_entered(area : Area2D):
 	if area.collision_layer == 1 and nav_enabled:
-		print(sprite.is_visible_in_tree())
 		die()
 		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
