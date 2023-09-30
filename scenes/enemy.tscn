@@ -129,7 +129,6 @@ script = ExtResource("1_qmkjd")
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
-emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_cdaia")
 texture = ExtResource("2_enmir")
@@ -143,8 +142,8 @@ texture = ExtResource("2_7qneq")
 hframes = 6
 
 [node name="Destroy" type="GPUParticles2D" parent="Sprite2D"]
-visible = false
 modulate = Color(1, 0, 0, 1)
+emitting = false
 amount = 6
 process_material = SubResource("ParticleProcessMaterial_qf8dk")
 texture = ExtResource("4_150kn")
@@ -167,7 +166,7 @@ libraries = {
 }
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.01
+wait_time = 0.1
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_vsbux")
