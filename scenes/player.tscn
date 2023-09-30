@@ -200,7 +200,17 @@ target_position = Vector2(0, -5000)
 collide_with_areas = true
 collide_with_bodies = false
 
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_66jn2")
 }
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("RectangleShape2D_oeuq2")
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

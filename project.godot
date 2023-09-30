@@ -46,6 +46,12 @@ player_down={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="LetterBoxes"
+2d_physics/layer_3="HurtBoxes"
+2d_physics/layer_4="HitBoxes"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
