@@ -57,7 +57,8 @@ scale_max = 0.3
 scale_curve = SubResource("CurveTexture_cannv")
 color_ramp = SubResource("GradientTexture1D_ywmk6")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ja4he"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqpb6"]
+height = 44.0
 
 [sub_resource type="Animation" id="Animation_yqpbn"]
 resource_name = "HarpoonIn"
@@ -164,8 +165,9 @@ _data = {
 "RESET": SubResource("Animation_eg1da")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cotre"]
-size = Vector2(27, 46)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fxfg3"]
+radius = 14.5
+height = 56.0
 
 [sub_resource type="Gradient" id="Gradient_dek1m"]
 offsets = PackedFloat32Array(0.822222, 1)
@@ -218,7 +220,7 @@ hframes = 5
 frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_ja4he")
+shape = SubResource("CapsuleShape2D_dqpb6")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, -5000)
@@ -236,7 +238,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(0.5, 0)
-shape = SubResource("RectangleShape2D_cotre")
+shape = SubResource("CapsuleShape2D_fxfg3")
 
 [node name="HarpoonHit" type="GPUParticles2D" parent="."]
 emitting = false

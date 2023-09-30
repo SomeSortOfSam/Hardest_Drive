@@ -17,6 +17,11 @@ func _ready():
 	get_viewport().size_changed.connect(recalculate_offsets)
 	get_viewport().size_changed.connect(recalculate_border)
 
+func _unhandled_input(event):
+	if event.is_action_pressed("reset_screen"):
+		recalculate_offsets()
+		recalculate_border()
+
 func recalculate_border():
 	var polygon_rect := get_viewport_rect()
 	polygon_rect.size *= get_viewport_transform().get_scale()

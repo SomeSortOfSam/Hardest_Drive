@@ -94,4 +94,4 @@ func stop_harpoon():
 
 
 func _on_hit_box_area_entered(area : Area2D):
-	velocity += (area.global_position - global_position).normalized() * SPEED
+	velocity += (global_position - area.global_position).normalized() * SPEED * 10
