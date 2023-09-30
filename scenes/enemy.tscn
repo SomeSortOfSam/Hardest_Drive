@@ -1,27 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cs6q1kfpyk763"]
+[gd_scene load_steps=5 format=3 uid="uid://c0bavsp5m5qge"]
 
+[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="1_nod8v"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
-[ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
-[ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
-
-[sub_resource type="Gradient" id="Gradient_ol4ab"]
-offsets = PackedFloat32Array(0.792593, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_u2gqp"]
-gradient = SubResource("Gradient_ol4ab")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cdaia"]
-particle_flag_disable_z = true
-direction = Vector3(0, 0, 0)
-gravity = Vector3(0, -80, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-angle_min = -720.0
-angle_max = 720.0
-scale_min = 0.2
-scale_max = 0.4
-color_ramp = SubResource("GradientTexture1D_u2gqp")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qmfi"]
 radius = 13.0
@@ -29,45 +9,16 @@ radius = 13.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2678v"]
 size = Vector2(32, 32)
 
-[sub_resource type="Animation" id="Animation_202rd"]
-resource_name = "Run"
-length = 0.6
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 5]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_tcx8n"]
-_data = {
-"Run": SubResource("Animation_202rd")
-}
-
 [node name="Enemy" type="CharacterBody2D"]
-modulate = Color(1, 0.682353, 0, 1)
-texture_filter = 1
+collision_layer = 2
 script = ExtResource("1_qmkjd")
-
-[node name="WalkDust" type="GPUParticles2D" parent="."]
-position = Vector2(0, 9)
-amount = 10
-process_material = SubResource("ParticleProcessMaterial_cdaia")
-texture = ExtResource("2_enmir")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5qmfi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_7qneq")
-hframes = 6
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_nod8v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
@@ -78,13 +29,6 @@ collision_mask = 9
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_2678v")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Run"
-speed_scale = 1.2
-libraries = {
-"": SubResource("AnimationLibrary_tcx8n")
-}
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
