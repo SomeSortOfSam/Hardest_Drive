@@ -918,19 +918,19 @@ layer_0/tile_data = PackedInt32Array(196615, 589825, 1, 131079, 589825, 1, 65543
 [node name="Enemy" parent="." instance=ExtResource("5_l7srj")]
 position = Vector2(131, 85)
 
-[node name="Enemy2" parent="TileMap" instance=ExtResource("5_l7srj")]
-position = Vector2(419, -243)
+[node name="Enemy2" parent="." instance=ExtResource("5_l7srj")]
+position = Vector2(948, 85)
 
-[node name="Enemy3" parent="TileMap" instance=ExtResource("5_l7srj")]
-position = Vector2(-398, 225)
+[node name="Enemy3" parent="." instance=ExtResource("5_l7srj")]
+position = Vector2(131, 553)
 
-[node name="Enemy4" parent="TileMap" instance=ExtResource("5_l7srj")]
-position = Vector2(-11, -243)
+[node name="Enemy4" parent="." instance=ExtResource("5_l7srj")]
+position = Vector2(518, 85)
 
-[node name="Enemy5" parent="TileMap" instance=ExtResource("5_l7srj")]
-position = Vector2(-398, 23)
+[node name="Enemy5" parent="." instance=ExtResource("5_l7srj")]
+position = Vector2(131, 351)
 
-[node name="Enemy6" parent="TileMap" instance=ExtResource("5_l7srj")]
-position = Vector2(426, 236)
+[node name="Enemy6" parent="." instance=ExtResource("5_l7srj")]
+position = Vector2(955, 564)
 
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]

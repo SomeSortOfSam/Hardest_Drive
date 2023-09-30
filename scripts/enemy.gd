@@ -9,6 +9,8 @@ var nav_enabled := true
 @onready var sprite :Sprite2D = $Sprite2D
 @onready var timer : Timer = $Timer
 @onready var tilemap :TileMap = $"../TileMap"
+@onready var animator :AnimationPlayer = $"AnimationPlayer"
+@onready var hurtbox_shape :CollisionShape2D = $"HurtBox/CollisionShape2D"
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
@@ -51,8 +53,16 @@ func face_target():
 		sprite.scale = Vector2(-1,1)
 	else:
 		sprite.scale = Vector2(1,1)
+
 func die():
+	call_deferred("disable_hitbox")
+	nav_enabled = false
+	animator.play("Destroy")
+	await animator.animation_finished
 	queue_free()
+
+func disable_hitbox():
+	hurtbox_shape.disabled = true
 
 func _on_navigation_agent_2d_waypoint_reached(details):
 	set_movement_target(player.global_position)

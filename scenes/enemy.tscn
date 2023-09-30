@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cs6q1kfpyk763"]
+[gd_scene load_steps=18 format=3 uid="uid://cs6q1kfpyk763"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
+[ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="4_150kn"]
 
 [sub_resource type="Gradient" id="Gradient_ol4ab"]
 offsets = PackedFloat32Array(0.792593, 1)
@@ -26,6 +27,34 @@ color_ramp = SubResource("GradientTexture1D_u2gqp")
 [sub_resource type="CircleShape2D" id="CircleShape2D_5qmfi"]
 radius = 13.0
 
+[sub_resource type="Gradient" id="Gradient_5cb7j"]
+offsets = PackedFloat32Array(0.814815, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q38xq"]
+gradient = SubResource("Gradient_5cb7j")
+
+[sub_resource type="Curve" id="Curve_1ir4h"]
+_data = [Vector2(0, 0), 0.0, 3.74436, 0, 0, Vector2(0.144578, 1), 0.582456, 0.582456, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_61myw"]
+curve = SubResource("Curve_1ir4h")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qf8dk"]
+lifetime_randomness = 0.5
+emission_shape = 3
+emission_box_extents = Vector3(32, 32, 1)
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -30.0
+angle_max = 30.0
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_61myw")
+color_ramp = SubResource("GradientTexture1D_q38xq")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2678v"]
 size = Vector2(32, 32)
 
@@ -46,14 +75,55 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 5]
 }
 
+[sub_resource type="Animation" id="Animation_lpiui"]
+resource_name = "Destroy"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/Destroy:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WalkDust:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tcx8n"]
 _data = {
+"Destroy": SubResource("Animation_lpiui"),
 "Run": SubResource("Animation_202rd")
 }
 
 [node name="Enemy" type="CharacterBody2D"]
 modulate = Color(1, 0.682353, 0, 1)
 texture_filter = 1
+collision_mask = 0
 script = ExtResource("1_qmkjd")
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
@@ -68,6 +138,13 @@ shape = SubResource("CircleShape2D_5qmfi")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7qneq")
 hframes = 6
+
+[node name="Destroy" type="GPUParticles2D" parent="Sprite2D"]
+modulate = Color(1, 0, 0, 1)
+emitting = false
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_qf8dk")
+texture = ExtResource("4_150kn")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
