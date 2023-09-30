@@ -22,13 +22,17 @@ func _ready():
 
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
+	
+	if nav_enabled:
+		sprite.show()
 
 func actor_setup():
 	# Wait for the first physics frame so the NavigationServer can sync.
 	await get_tree().physics_frame
 
 	# Now that the navigation map is no longer empty, set the movement target.
-	set_movement_target(player.global_position)
+	if nav_enabled:
+		set_movement_target(player.global_position)
 
 func set_movement_target(movement_target: Vector2):
 	navigation_agent.target_position = movement_target
@@ -74,6 +78,7 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 
 func _on_hurt_box_area_entered(area : Area2D):
 	if area.collision_layer == 1 and nav_enabled:
+		print(sprite.is_visible_in_tree())
 		die()
 		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
@@ -84,3 +89,9 @@ func _on_hurt_box_area_entered(area : Area2D):
 	timer.start()
 	await timer.timeout
 	nav_enabled = true
+
+func _on_hurt_box_area_exited(area):
+	if area.collision_layer == 1:
+		nav_enabled = true
+		sprite.show()
+		set_movement_target(player.global_position)

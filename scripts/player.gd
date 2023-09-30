@@ -48,6 +48,8 @@ func _unhandled_input(event):
 			try_fire_harpoon()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			stop_harpoon()
+	if event.is_action("reset_screen"):
+		stop_harpoon()
 
 func start_rotation_tween(target_rotation : float):
 	rotate_tween = create_tween()

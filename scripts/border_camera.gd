@@ -27,7 +27,6 @@ func recalculate_border():
 	var polygon_rect := get_viewport_rect()
 	polygon_rect.size *= get_viewport_transform().get_scale()
 	
-	
 	assert(polygon_rect.encloses(inner_rect))
 	
 	var polygon := get_points_from_rect(polygon_rect)
