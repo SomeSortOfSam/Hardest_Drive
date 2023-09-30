@@ -94,8 +94,6 @@ func add_hit_fx():
 	harpoon_hit.emitting = true
 
 func while_harpoon_out(target):
-	if harpoon_tween:
-		harpoon_tween.kill()
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_callback(func(): rotation = target.angle_to_point(global_position) - PI/2)
 	harpoon_tween.tween_callback(func(): chain.points[0] = to_local(target))

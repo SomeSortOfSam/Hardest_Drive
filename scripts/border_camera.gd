@@ -2,8 +2,7 @@ extends CanvasItem
 
 const minimum_border_distance = 5.0
 
-@onready var area_collision_polygon : CollisionPolygon2D = $Camera2D/LetterboxCollider/CollisionPolygon2D
-@onready var body_collision_polygon : CollisionPolygon2D = $Camera2D/StaticBody2D/CollisionPolygon2D
+@onready var collision_polygon : CollisionPolygon2D = $Camera2D/LetterboxCollider/CollisionPolygon2D
 @onready var render_polygon : Polygon2D = $Camera2D/LetterboxCollider/Polygon2D
 @onready var border_line : Line2D = $Camera2D/LetterboxCollider/Line2D
 @onready var ray_cast : RayCast2D = $RayCast2D
@@ -37,8 +36,7 @@ func recalculate_border():
 	polygon.append(Vector2.ZERO)
 	
 	render_polygon.polygon = polygon
-	area_collision_polygon.polygon = polygon
-	body_collision_polygon.polygon = polygon
+	collision_polygon.polygon = polygon
 	border_line.points = inner_line
 
 func get_points_from_rect(rect : Rect2) -> PackedVector2Array:
