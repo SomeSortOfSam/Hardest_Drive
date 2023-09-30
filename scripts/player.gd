@@ -9,7 +9,7 @@ const SPEED = 300.0
 var harpoon_tween : Tween
 var rotate_tween :Tween
 
-signal pull_requested(direction : Vector2)
+signal pull_requested(direction : float)
 
 func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
@@ -26,19 +26,18 @@ func _physics_process(delta):
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 	walk_dust.emitting = velocity.length() > 0
 	
-
 	move_and_slide()
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
-		var target_rotation = abs(snapped(angle_to_mouse,PI/2))
+		var target_rotation = snapped(angle_to_mouse,PI/2)
 		if !is_equal_approx(rotation,target_rotation) and !rotate_tween and !harpoon_tween:
 			rotate_tween = create_tween()
 			var old_rotation = rotation
-			rotate_tween.tween_method(func(percent):rotation = lerp_angle(old_rotation,target_rotation,percent),0,1,0.1)
+			rotate_tween.tween_method(func(percent : float):rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
 			rotate_tween.tween_callback(func():rotate_tween = null)
-			#rotate_tween.set_trans(Tween.TRANS_BOUNCE)
+			rotate_tween.set_trans(Tween.TRANS_BOUNCE)
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			try_fire_harpoon()
@@ -52,7 +51,7 @@ func try_fire_harpoon():
 		harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 	else:
-		pull_requested.emit(Vector2(cos(rotation), sin(rotation)))
+		pull_requested.emit(rotation)
 		
 
 func while_harpoon_out(target):
