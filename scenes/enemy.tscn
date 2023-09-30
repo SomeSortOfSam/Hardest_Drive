@@ -17,6 +17,7 @@ script = ExtResource("1_qmkjd")
 shape = SubResource("CircleShape2D_5qmfi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_nod8v")
 
@@ -34,3 +35,4 @@ shape = SubResource("RectangleShape2D_2678v")
 wait_time = 0.01
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]

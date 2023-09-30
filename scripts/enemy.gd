@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0,180.0)
-var nav_enabled := true
+var nav_enabled := false
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var player = $"../TileMap/Player"
@@ -51,7 +51,9 @@ func face_target():
 		sprite.scale = Vector2(-1,1)
 	else:
 		sprite.scale = Vector2(1,1)
+
 func die():
+	print("bye world")
 	queue_free()
 
 func _on_navigation_agent_2d_waypoint_reached(details):
@@ -59,7 +61,8 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 
 func _on_hurt_box_area_entered(area : Area2D):
 	if area.collision_layer == 1:
-		die()
+		if nav_enabled:
+			die()
 		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
 	var cell = tilemap.local_to_map(position)
@@ -69,3 +72,10 @@ func _on_hurt_box_area_entered(area : Area2D):
 	timer.start()
 	await timer.timeout
 	nav_enabled = true
+
+
+func _on_hurt_box_area_exited(area):
+	if area.collision_layer == 1:
+		print("world")
+		nav_enabled = true
+		sprite.show()
