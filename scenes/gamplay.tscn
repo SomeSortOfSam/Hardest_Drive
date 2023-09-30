@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
-[ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemy.tscn" id="5_l7srj"]
+[ext_resource type="PackedScene" uid="uid://cs6q1kfpyk763" path="res://scenes/enemy.tscn" id="5_l7srj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)

@@ -8,6 +8,7 @@ var nav_enabled := true
 @onready var player = $"../TileMap/Player"
 @onready var sprite :Sprite2D = $Sprite2D
 @onready var timer : Timer = $Timer
+@onready var tilemap :TileMap = $"../TileMap"
 
 func _ready():
 	# These values need to be adjusted for the actor's speed

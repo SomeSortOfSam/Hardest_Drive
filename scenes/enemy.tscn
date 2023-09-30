@@ -86,7 +86,6 @@ libraries = {
 "": SubResource("AnimationLibrary_tcx8n")
 }
 
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
 
