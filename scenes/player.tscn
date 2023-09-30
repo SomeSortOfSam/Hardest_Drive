@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
-[ext_resource type="AudioStream" path="res://assets/Alli....wav" id="2_nppxa"]
-[ext_resource type="AudioStream" path="res://assets/Alli without drone.wav" id="3_6a6uj"]
+[ext_resource type="AudioStream" uid="uid://e6pw0xo31kbm" path="res://assets/Alli....wav" id="2_nppxa"]
+[ext_resource type="AudioStream" uid="uid://cb7f7f0bgsr1p" path="res://assets/Alli without drone.wav" id="3_6a6uj"]
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]

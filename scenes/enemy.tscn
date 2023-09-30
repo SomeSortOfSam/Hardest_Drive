@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cs6q1kfpyk763"]
+[gd_scene load_steps=19 format=3 uid="uid://c0bavsp5m5qge"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="4_150kn"]
+[ext_resource type="AudioStream" uid="uid://cayshnd7c32ky" path="res://assets/Death sound effect.mp3" id="5_vsbux"]
 
 [sub_resource type="Gradient" id="Gradient_ol4ab"]
 offsets = PackedFloat32Array(0.792593, 1)
@@ -166,5 +167,8 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.01
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_vsbux")
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0,180.0)
-var nav_enabled := true
+
+@export var nav_enabled := false
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var player = $"../TileMap/Player"
@@ -11,6 +12,7 @@ var nav_enabled := true
 @onready var tilemap :TileMap = $"../TileMap"
 @onready var animator :AnimationPlayer = $"AnimationPlayer"
 @onready var hurtbox_shape :CollisionShape2D = $"HurtBox/CollisionShape2D"
+@onready var death_sound : AudioStreamPlayer2D = $DeathSound
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
@@ -58,7 +60,10 @@ func die():
 	call_deferred("disable_hitbox")
 	nav_enabled = false
 	animator.play("Destroy")
+	death_sound.play()
 	await animator.animation_finished
+	if death_sound.playing:
+		await death_sound.finished
 	queue_free()
 
 func disable_hitbox():
@@ -68,7 +73,7 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 	set_movement_target(player.global_position)
 
 func _on_hurt_box_area_entered(area : Area2D):
-	if area.collision_layer == 1:
+	if area.collision_layer == 1 and nav_enabled:
 		die()
 		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
