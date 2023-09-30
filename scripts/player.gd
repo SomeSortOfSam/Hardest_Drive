@@ -50,6 +50,7 @@ func _unhandled_input(event):
 			stop_harpoon()
 	if event.is_action("reset_screen"):
 		stop_harpoon()
+		animator.play("SpaceHit")
 
 func start_rotation_tween(target_rotation : float):
 	rotate_tween = create_tween()

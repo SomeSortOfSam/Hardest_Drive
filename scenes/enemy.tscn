@@ -1,10 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://c0bavsp5m5qge"]
+[gd_scene load_steps=19 format=3 uid="uid://cs6q1kfpyk763"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="4_150kn"]
-[ext_resource type="AudioStream" uid="uid://cayshnd7c32ky" path="res://assets/Death sound effect.mp3" id="5_vsbux"]
+[ext_resource type="AudioStream" path="res://assets/Death sound effect.mp3" id="5_vsbux"]
 
 [sub_resource type="Gradient" id="Gradient_ol4ab"]
 offsets = PackedFloat32Array(0.792593, 1)
@@ -138,13 +138,12 @@ texture = ExtResource("2_enmir")
 shape = SubResource("CircleShape2D_5qmfi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
 texture = ExtResource("2_7qneq")
 hframes = 6
 
 [node name="Destroy" type="GPUParticles2D" parent="Sprite2D"]
-visible = false
 modulate = Color(1, 0, 0, 1)
+emitting = false
 amount = 6
 process_material = SubResource("ParticleProcessMaterial_qf8dk")
 texture = ExtResource("4_150kn")

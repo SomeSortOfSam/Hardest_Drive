@@ -1,0 +1,109 @@
+[gd_scene load_steps=10 format=3 uid="uid://4akj01upj2rh"]
+
+[ext_resource type="Material" uid="uid://cjd4wttdrgth8" path="res://assets/scroller.tres" id="1_2dviw"]
+[ext_resource type="Texture2D" uid="uid://mc61l5s0qbkp" path="res://assets/title_background_row.png" id="1_ow7ib"]
+[ext_resource type="Texture2D" uid="uid://d0yqoq2achtoy" path="res://assets/title_edges_row.png" id="2_fctjt"]
+[ext_resource type="Texture2D" uid="uid://bbdgew5rfi7fi" path="res://assets/title_text_row.png" id="2_piyd5"]
+
+[sub_resource type="Shader" id="Shader_kgt2b"]
+code = "shader_type canvas_item;
+
+uniform vec2 motion = vec2(0.0);
+uniform float scale = 1.0;
+uniform vec2 offset = vec2(0.0);
+
+void vertex(){
+	UV = (VERTEX + offset + TIME * motion) * TEXTURE_PIXEL_SIZE * (1.0/scale);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6nss6"]
+shader = SubResource("Shader_kgt2b")
+shader_parameter/motion = Vector2(-20, 0)
+shader_parameter/scale = 3.0
+shader_parameter/offset = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d6rmt"]
+shader = SubResource("Shader_kgt2b")
+shader_parameter/motion = Vector2(40, 0)
+shader_parameter/scale = 3.0
+shader_parameter/offset = Vector2(0, 0)
+
+[sub_resource type="Animation" id="Animation_k7r2u"]
+resource_name = "HideTitle"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TitleBG:anchor_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.2, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TitleBG:anchor_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pu3nc"]
+_data = {
+"HideTitle": SubResource("Animation_k7r2u")
+}
+
+[node name="GUI" type="Control"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleBG" type="TextureRect" parent="."]
+material = ExtResource("1_2dviw")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ow7ib")
+stretch_mode = 1
+
+[node name="TitleEdges" type="TextureRect" parent="TitleBG"]
+modulate = Color(1, 0.682353, 0, 1)
+material = SubResource("ShaderMaterial_6nss6")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fctjt")
+stretch_mode = 1
+
+[node name="TitleText" type="TextureRect" parent="TitleBG"]
+material = SubResource("ShaderMaterial_d6rmt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_piyd5")
+stretch_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pu3nc")
+}
