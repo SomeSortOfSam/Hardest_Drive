@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=7 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
+[ext_resource type="Texture2D" uid="uid://cwpk1fihvdp2a" path="res://assets/hazard_border.png" id="4_jwjjt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqq07"]
 texture = ExtResource("1_2tgxe")
@@ -624,7 +625,10 @@ color = Color(0, 0, 0, 1)
 uv = PackedVector2Array(0, 0, 1920, 0, 1920, 1017, 0, 1017, 0, 0, 17, 0, 17, 584, 1058, 584, 1058, 0, 17, 0, 0, 0)
 
 [node name="Line2D" type="Line2D" parent="Camera2D/LetterboxCollider"]
+texture_repeat = 2
 points = PackedVector2Array(197, 5, 197, 417.305, 1339, 451, 1339, 5, 197, 5)
-default_color = Color(0, 0, 0, 1)
+width = 20.0
+texture = ExtResource("4_jwjjt")
+texture_mode = 1
 
 [connection signal="pull_requested" from="TileMap/Player" to="." method="_on_player_pull_requested"]

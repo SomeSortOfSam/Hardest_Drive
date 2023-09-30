@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=19 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
-[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="1_igepg"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
+[ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 
 [sub_resource type="Gradient" id="Gradient_qpnwp"]
 offsets = PackedFloat32Array(0.792593, 1)
@@ -24,7 +24,144 @@ scale_min = 0.2
 scale_max = 0.4
 color_ramp = SubResource("GradientTexture1D_u2gqp")
 
+[sub_resource type="Gradient" id="Gradient_02cua"]
+offsets = PackedFloat32Array(0.851852, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ywmk6"]
+gradient = SubResource("Gradient_02cua")
+
+[sub_resource type="Curve" id="Curve_oydya"]
+_data = [Vector2(0, 0.842105), 0.0, 2.87802, 0, 0, Vector2(1, 0.515789), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cannv"]
+curve = SubResource("Curve_oydya")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kxi20"]
+lifetime_randomness = 0.3
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 39.58
+initial_velocity_max = 102.88
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 50.0
+damping_max = 100.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.1
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_cannv")
+color_ramp = SubResource("GradientTexture1D_ywmk6")
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ja4he"]
+
+[sub_resource type="Animation" id="Animation_7bi6j"]
+resource_name = "Pull"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(10, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Line2D:points")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [PackedVector2Array(0, 0, 0, 10), PackedVector2Array(0, 0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PullDust:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_eg1da"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Line2D:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tavd4"]
+resource_name = "HarpoonOut"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_yqpbn"]
+resource_name = "HarpoonIn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [2, 4, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_66jn2"]
+_data = {
+"HarpoonIn": SubResource("Animation_yqpbn"),
+"HarpoonOut": SubResource("Animation_tavd4"),
+"Pull": SubResource("Animation_7bi6j"),
+"RESET": SubResource("Animation_eg1da")
+}
 
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
@@ -32,9 +169,17 @@ script = ExtResource("1_0okmc")
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
+emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_hwil0")
 texture = ExtResource("2_7mr5a")
+
+[node name="PullDust" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_kxi20")
+texture = ExtResource("2_7mr5a")
+speed_scale = 1.5
 
 [node name="Line2D" type="Line2D" parent="."]
 texture_repeat = 2
@@ -43,8 +188,9 @@ texture = ExtResource("3_6sanu")
 texture_mode = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_igepg")
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_up6xg")
+hframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ja4he")
@@ -53,3 +199,8 @@ shape = SubResource("RectangleShape2D_ja4he")
 target_position = Vector2(0, -5000)
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_66jn2")
+}
