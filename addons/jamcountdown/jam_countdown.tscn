@@ -23,18 +23,17 @@ size_flags_vertical = 4
 theme = SubResource("Theme_hj160")
 script = ExtResource("1_n7ugf")
 jam_title = "Ludum Dare"
-month = 1
+month = 9
 day = 11
 hour = 17
 minute = 0
-show_time_units = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
-text = "Gamejam"
+text = "Ludum Dare"
 
 [node name="CountdownLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
