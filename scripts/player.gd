@@ -7,7 +7,10 @@ const SPEED = 300.0
 @onready var walk_dust : GPUParticles2D = $WalkDust
 
 var harpoon_tween : Tween
-var rotate_tween :Tween
+var rotate_tween : Tween
+var harpoon_direction : float
+var harpoon_target : CollisionObject2D
+
 
 signal pull_requested(direction : float)
 
@@ -31,38 +34,50 @@ func _physics_process(delta):
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
-		var target_rotation = snapped(angle_to_mouse,PI/2)
+		var target_rotation : float = snapped(angle_to_mouse,PI/2)
 		if !is_equal_approx(rotation,target_rotation) and !rotate_tween and !harpoon_tween:
-			rotate_tween = create_tween()
-			var old_rotation = rotation
-			rotate_tween.tween_method(func(percent : float):rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
-			rotate_tween.tween_callback(func():rotate_tween = null)
-			rotate_tween.set_trans(Tween.TRANS_BOUNCE)
+			start_rotation_tween(target_rotation)
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			try_fire_harpoon()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			stop_harpoon()
 
+func start_rotation_tween(target_rotation : float):
+	rotate_tween = create_tween()
+	var old_rotation = rotation
+	rotate_tween.tween_method(func(percent : float): rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
+	rotate_tween.tween_callback(func():rotate_tween = null)
+	rotate_tween.set_trans(Tween.TRANS_BOUNCE)
+
 func try_fire_harpoon():
 	if !harpoon_tween:
-		harpoon_tween = create_tween()
 		var target = ray_cast.get_collision_point()
+		harpoon_tween = create_tween()
 		harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
+		harpoon_direction = rotation
+		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
+			harpoon_target = ray_cast.get_collider()
+			pull_requested.connect(harpoon_target._on_player_pull_requested)
 	else:
-		pull_requested.emit(rotation)
+		pull_requested.emit(harpoon_direction)
 		
-
 func while_harpoon_out(target):
 	harpoon_tween = create_tween()
+	harpoon_tween.tween_callback(func(): rotation = target.angle_to_point(global_position) - PI/2)
 	harpoon_tween.tween_callback(func(): chain.points[0] = to_local(target))
 	harpoon_tween.tween_interval(.01)
 	harpoon_tween.set_loops()
 
 func stop_harpoon():
 	if harpoon_tween:
+		if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+			pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 		harpoon_tween.kill()
 		harpoon_tween = create_tween()
 		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
 		harpoon_tween.tween_callback(func(): harpoon_tween = null)
+		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
+		var target_rotation : float = snapped(angle_to_mouse,PI/2)
+		harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
