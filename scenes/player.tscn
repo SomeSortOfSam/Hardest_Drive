@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=20 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -163,6 +163,9 @@ _data = {
 "RESET": SubResource("Animation_eg1da")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cotre"]
+size = Vector2(27, 46)
+
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 script = ExtResource("1_0okmc")
@@ -200,7 +203,6 @@ target_position = Vector2(0, -5000)
 collide_with_areas = true
 collide_with_bodies = false
 
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_66jn2")
@@ -211,6 +213,7 @@ collision_layer = 8
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-shape = SubResource("RectangleShape2D_oeuq2")
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_cotre")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
