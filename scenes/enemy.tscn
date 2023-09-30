@@ -1,8 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://cs6q1kfpyk763"]
+[gd_scene load_steps=21 format=3 uid="uid://c0bavsp5m5qge"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_enmir"]
+[ext_resource type="AudioStream" uid="uid://dqewh7kih778h" path="res://assets/File death part 2.wav" id="3_dd0ee"]
+[ext_resource type="AudioStream" uid="uid://ckn1wvc1tiuvb" path="res://assets/File death V1.wav.wav" id="4_3ixgn"]
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="4_150kn"]
 [ext_resource type="AudioStream" path="res://assets/Death sound effect.mp3" id="5_vsbux"]
 
@@ -126,16 +128,18 @@ modulate = Color(1, 0.682353, 0, 1)
 texture_filter = 1
 collision_mask = 0
 script = ExtResource("1_qmkjd")
+death_sounds = Array[AudioStream]([ExtResource("3_dd0ee"), ExtResource("4_3ixgn")])
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
+z_index = -1
 position = Vector2(0, 9)
-emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_cdaia")
 texture = ExtResource("2_enmir")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5qmfi")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7qneq")
@@ -166,10 +170,10 @@ libraries = {
 }
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.01
+wait_time = 0.1
+autostart = true
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_vsbux")
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
-[connection signal="area_exited" from="HurtBox" to="." method="_on_hurt_box_area_exited"]

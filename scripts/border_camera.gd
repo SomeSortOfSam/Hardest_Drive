@@ -12,6 +12,7 @@ const minimum_border_distance = 5.0
 var minimum_inner_rect : Rect2
 var inner_rect : Rect2
 
+
 func _ready():
 	call_deferred("call_deferred","recalculate_offsets")
 	call_deferred("call_deferred","recalculate_border")
@@ -35,8 +36,23 @@ func recalculate_border():
 	polygon.append_array(inner_line)
 	polygon.append(Vector2.ZERO)
 	
-	render_polygon.polygon = polygon
+	var old_polygon = render_polygon.polygon
+	var old_points = border_line.points
+	
 	area_collision_polygon.polygon = polygon
+	
+	create_tween().tween_method(func(percent : float): set_polygon(lerp_packed_vector_2_array(old_polygon,polygon,percent),lerp_packed_vector_2_array(old_points,inner_line,percent)),0.0,1.0,.2)
+
+func lerp_packed_vector_2_array(start : PackedVector2Array, end : PackedVector2Array, percent : float) -> PackedVector2Array:
+	if start.size() != end.size():
+		return end
+	var output := PackedVector2Array()
+	for index in start.size():
+		output.append(lerp(start[index],end[index],percent))
+	return output
+
+func set_polygon(polygon : PackedVector2Array, inner_line : PackedVector2Array):
+	render_polygon.polygon = polygon
 	body_collision_polygon.polygon = polygon
 	border_line.points = inner_line
 

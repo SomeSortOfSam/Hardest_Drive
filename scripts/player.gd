@@ -89,7 +89,12 @@ func pull_harpoon():
 	rotation = deg_to_rad(round(rad_to_deg(rotation)))
 	var transition := Vector2(cos(rotation), sin(rotation))
 	transition *= Vector2(get_parent().tile_set.tile_size)
-	while_harpoon_out(to_global(chain.points[0]) + transition)
+	var current = to_global(chain.points[0])
+	var target = to_global(chain.points[0]) + transition
+	harpoon_tween.kill()
+	harpoon_tween = create_tween()
+	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(to_local(current),to_local(target),percent),0.0,1.0,.2)
+	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 	animator.play("Pull")
 
 func add_hit_fx():

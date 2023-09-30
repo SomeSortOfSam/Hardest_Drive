@@ -938,7 +938,8 @@ texture_mode = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 self_modulate = Color(0.462745, 0.756863, 0.811765, 1)
-z_index = -1
+z_index = -2
+z_as_relative = false
 position = Vector2(529, 328)
 tile_set = SubResource("TileSet_w00hl")
 format = 2
@@ -969,8 +970,6 @@ nav_enabled = true
 [node name="Enemy6" parent="." instance=ExtResource("5_l7srj")]
 position = Vector2(955, 564)
 nav_enabled = true
-
-[node name="EnemySpawner" parent="." instance=ExtResource("6_yhgw7")]
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(892, 271)
