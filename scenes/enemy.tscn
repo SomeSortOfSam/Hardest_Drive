@@ -21,8 +21,6 @@ texture = ExtResource("1_nod8v")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 8
@@ -31,4 +29,7 @@ collision_mask = 8
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_2678v")
 
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.01
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
