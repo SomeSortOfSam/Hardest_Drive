@@ -925,15 +925,27 @@ layer_0/tile_data = PackedInt32Array(196615, 589825, 1, 131079, 589825, 1, 65543
 position = Vector2(131, 85)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("6_yhgw7")]
-position = Vector2(1032, 577)
+position = Vector2(803, 557)
+
+[node name="EnemySpawner6" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(983, 390)
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
-position = Vector2(1059, 72)
+position = Vector2(782, 83)
+
+[node name="EnemySpawner7" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(972, 219)
+
+[node name="EnemySpawner8" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(361, 78)
 
 [node name="EnemySpawner3" parent="." instance=ExtResource("6_yhgw7")]
-position = Vector2(126, 79)
+position = Vector2(154, 254)
 
 [node name="EnemySpawner4" parent="." instance=ExtResource("6_yhgw7")]
-position = Vector2(144, 556)
+position = Vector2(328, 562)
+
+[node name="EnemySpawner5" parent="." instance=ExtResource("6_yhgw7")]
+position = Vector2(146, 439)
 
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
