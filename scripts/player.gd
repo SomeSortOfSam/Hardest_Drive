@@ -7,6 +7,7 @@ const SPEED = 300.0
 @onready var walk_dust : GPUParticles2D = $WalkDust
 
 var harpoon_tween : Tween
+var rotate_tween :Tween
 
 func _physics_process(delta):
 	# Get the input direction and handle the movement/deceleration.
@@ -28,12 +29,14 @@ func _physics_process(delta):
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		var angle_to_mouse = up_direction.angle_to(get_global_mouse_position()) 
-		var target_rotation = snapped(angle_to_mouse,PI/2)
-		if !is_equal_approx(rotation,target_rotation) and !harpoon_tween:
-			var tween = create_tween()
-			tween.tween_property(self,"rotation",target_rotation,.1)
-			tween.set_trans(Tween.TRANS_BOUNCE)
+		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
+		var target_rotation = abs(snapped(angle_to_mouse,PI/2))
+		if !is_equal_approx(rotation,target_rotation) and !rotate_tween and !harpoon_tween:
+			rotate_tween = create_tween()
+			var old_rotation = rotation
+			rotate_tween.tween_method(func(percent):rotation = lerp_angle(old_rotation,target_rotation,percent),0,1,0.1)
+			rotate_tween.tween_callback(func():rotate_tween = null)
+			#rotate_tween.set_trans(Tween.TRANS_BOUNCE)
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			try_fire_harpoon()
@@ -44,7 +47,7 @@ func try_fire_harpoon():
 	if !harpoon_tween:
 		harpoon_tween = create_tween()
 		var target = ray_cast.get_collision_point()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],to_local(target),.2)
+		harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func while_harpoon_out(target):

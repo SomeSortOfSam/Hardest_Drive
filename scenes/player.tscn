@@ -38,7 +38,6 @@ texture = ExtResource("2_7mr5a")
 
 [node name="Line2D" type="Line2D" parent="."]
 texture_repeat = 2
-scale = Vector2(1, 1)
 points = PackedVector2Array(0, 0, 0, 0)
 texture = ExtResource("3_6sanu")
 texture_mode = 1
