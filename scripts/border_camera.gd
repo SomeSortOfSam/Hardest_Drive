@@ -62,7 +62,7 @@ func recalculate_offsets():
 	assert(rect.size.x - inner_rect.size.x == minimum_border_distance * 2)
 	assert(rect.size.y - inner_rect.size.y == minimum_border_distance * 2)
 
-func _on_player_pull_requested(direction : float):
+func _on_letterbox_collider_player_pull_requested(direction : float):
 	var rect := get_viewport_rect()
 	rect.size *= get_viewport_transform().get_scale()
 	
@@ -71,7 +71,6 @@ func _on_player_pull_requested(direction : float):
 	direction = fmod(direction + 3*(PI/2),TAU)
 	direction = deg_to_rad(round(rad_to_deg(direction)))
 	var side_index : int = direction/(PI/2)
-	print(rad_to_deg(direction),"/",rad_to_deg((PI/2)),"=",side_index)
 	
 	inner_rect = inner_rect.grow_side(side_index,-tile_map.tile_set.tile_size.x)
 	inner_rect = inner_rect.grow_side((side_index + 2) % 4,-tile_map.tile_set.tile_size.x)
@@ -83,4 +82,4 @@ func _on_player_pull_requested(direction : float):
 	
 	assert(rect.encloses(inner_rect))
 	recalculate_border()
-		
+
