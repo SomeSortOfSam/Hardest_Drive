@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://4akj01upj2rh"]
+[gd_scene load_steps=10 format=3 uid="uid://6kjvu1k0t34i"]
 
-[ext_resource type="Material" uid="uid://cjd4wttdrgth8" path="res://assets/scroller.tres" id="1_2dviw"]
-[ext_resource type="Texture2D" uid="uid://mc61l5s0qbkp" path="res://assets/title_background_row.png" id="1_ow7ib"]
-[ext_resource type="Texture2D" uid="uid://d0yqoq2achtoy" path="res://assets/title_edges_row.png" id="2_fctjt"]
-[ext_resource type="Texture2D" uid="uid://bbdgew5rfi7fi" path="res://assets/title_text_row.png" id="2_piyd5"]
+[ext_resource type="Material" path="res://assets/scroller.tres" id="1_2dviw"]
+[ext_resource type="Texture2D" path="res://assets/title_background_row.png" id="1_ow7ib"]
+[ext_resource type="Texture2D" path="res://assets/title_edges_row.png" id="2_fctjt"]
+[ext_resource type="Texture2D" path="res://assets/title_text_row.png" id="2_piyd5"]
 
 [sub_resource type="Shader" id="Shader_kgt2b"]
 code = "shader_type canvas_item;
@@ -39,7 +39,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0.2, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.4, 1)
+"times": PackedFloat32Array(0.5, 0.7, 1)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -50,7 +50,7 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.4, 1)
+"times": PackedFloat32Array(0.5, 0.7, 1)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pu3nc"]
@@ -104,6 +104,7 @@ texture = ExtResource("2_piyd5")
 stretch_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "HideTitle"
 libraries = {
 "": SubResource("AnimationLibrary_pu3nc")
 }

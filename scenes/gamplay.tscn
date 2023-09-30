@@ -6,8 +6,8 @@
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
 [ext_resource type="PackedScene" uid="uid://cs6q1kfpyk763" path="res://scenes/enemy.tscn" id="5_l7srj"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
-[ext_resource type="PackedScene" uid="uid://4akj01upj2rh" path="res://scenes/gui.tscn" id="7_xd0wi"]
-[ext_resource type="Texture2D" uid="uid://bigkg0awe2t56" path="res://assets/angle_grid.png" id="8_f1au5"]
+[ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
+[ext_resource type="Texture2D" path="res://assets/angle_grid.png" id="8_f1au5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1003,6 +1003,14 @@ mouse_filter = 2
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="Control" type="TextureRect" parent="Background"]
 modulate = Color(0.478431, 0, 0.439216, 1)
