@@ -51,11 +51,16 @@ func face_target():
 		sprite.scale = Vector2(-1,1)
 	else:
 		sprite.scale = Vector2(1,1)
+func die():
+	queue_free()
 
 func _on_navigation_agent_2d_waypoint_reached(details):
 	set_movement_target(player.global_position)
 
-func _on_hurt_box_area_entered(area):
+func _on_hurt_box_area_entered(area : Area2D):
+	if area.collision_layer == 1:
+		die()
+		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
 	var cell = tilemap.local_to_map(position)
 	tilemap.erase_cell(0,cell)
