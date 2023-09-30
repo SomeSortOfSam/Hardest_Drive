@@ -72,7 +72,7 @@ func _on_hurt_box_area_entered(area : Area2D):
 		die()
 		return
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
-	var cell = tilemap.local_to_map(position)
+	var cell = tilemap.local_to_map(tilemap.to_local(global_position))
 	tilemap.erase_cell(0,cell)
 	tilemap.force_update()
 	nav_enabled = false
