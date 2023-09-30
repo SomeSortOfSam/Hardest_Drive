@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=32 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -7,6 +7,39 @@
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]
+
+[sub_resource type="Gradient" id="Gradient_e2cr0"]
+offsets = PackedFloat32Array(0.814815, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_e56rp"]
+gradient = SubResource("Gradient_e2cr0")
+
+[sub_resource type="Curve" id="Curve_rpkox"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_5n1g4"]
+curve = SubResource("Curve_rpkox")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c3hay"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 900.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 100.0
+damping_max = 100.0
+scale_min = 0.2
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_e56rp")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+hue_variation_curve = SubResource("CurveTexture_5n1g4")
 
 [sub_resource type="Gradient" id="Gradient_qpnwp"]
 offsets = PackedFloat32Array(0.792593, 1)
@@ -159,12 +192,28 @@ tracks/0/keys = {
 "values": [PackedVector2Array(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_qncsk"]
+resource_name = "SpaceHit"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpaceHit:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_66jn2"]
 _data = {
 "HarpoonIn": SubResource("Animation_yqpbn"),
 "HarpoonOut": SubResource("Animation_tavd4"),
 "Pull": SubResource("Animation_7bi6j"),
-"RESET": SubResource("Animation_eg1da")
+"RESET": SubResource("Animation_eg1da"),
+"SpaceHit": SubResource("Animation_qncsk")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fxfg3"]
@@ -196,6 +245,14 @@ texture_filter = 1
 script = ExtResource("1_0okmc")
 drone_track = ExtResource("2_nppxa")
 droneless_track = ExtResource("3_6a6uj")
+
+[node name="SpaceHit" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_c3hay")
+texture = ExtResource("5_srnni")
+one_shot = true
+explosiveness = 0.75
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
 position = Vector2(0, 9)
