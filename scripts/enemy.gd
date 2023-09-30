@@ -1,29 +1,49 @@
 extends CharacterBody2D
 
+var movement_speed: float = 200.0
+var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
-const SPEED = 300.0
-
-@onready var a_start := AStar2D.new()
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var player = $"../Player"
 
 func _ready():
-	var tilemap : TileMap = get_parent()
-	assert(tilemap)
+	# These values need to be adjusted for the actor's speed
+	# and the navigation layout.
+	navigation_agent.path_desired_distance = 4.0
+	navigation_agent.target_desired_distance = 4.0
 
+	# Make sure to not await during _ready.
+	call_deferred("actor_setup")
+
+func actor_setup():
+	# Wait for the first physics frame so the NavigationServer can sync.
+	await get_tree().physics_frame
+
+	# Now that the navigation map is no longer empty, set the movement target.
+	set_movement_target(player.global_position)
+
+func set_movement_target(movement_target: Vector2):
+	navigation_agent.target_position = movement_target
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
+	if navigation_agent.is_navigation_finished():
+		set_movement_target(player.global_position)
+		return
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	var current_agent_position: Vector2 = global_position
+	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
 
+	var new_velocity: Vector2 = next_path_position - current_agent_position
+	new_velocity = new_velocity.normalized()
+	new_velocity = new_velocity * movement_speed
+
+	velocity = new_velocity
 	move_and_slide()
+
+
+func _on_navigation_agent_2d_waypoint_reached(details):
+	set_movement_target(player.global_position)
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	print("offscreen")
