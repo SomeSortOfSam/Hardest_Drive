@@ -59,7 +59,7 @@ func try_fire_harpoon():
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 		harpoon_direction = rotation
 		animator.play("HarpoonOut")
-		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
+		if ray_cast.get_collider() and ray_cast.get_collider().has_method("_on_player_pull_requested"):
 			harpoon_target = ray_cast.get_collider()
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
 	else:
@@ -85,3 +85,7 @@ func stop_harpoon():
 		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
 		var target_rotation : float = snapped(angle_to_mouse,PI/2)
 		harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
+
+
+func _on_hit_box_area_entered(area : Area2D):
+	velocity += (area.global_position - global_position).normalized() * SPEED
