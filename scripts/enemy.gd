@@ -53,7 +53,6 @@ func face_target():
 		sprite.scale = Vector2(1,1)
 
 func die():
-	print("bye world")
 	queue_free()
 
 func _on_navigation_agent_2d_waypoint_reached(details):
@@ -76,6 +75,5 @@ func _on_hurt_box_area_entered(area : Area2D):
 
 func _on_hurt_box_area_exited(area):
 	if area.collision_layer == 1:
-		print("world")
 		nav_enabled = true
 		sprite.show()
