@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemy.tscn" id="2_vsluo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tjaah"]
-radius = 64.0
+radius = 32.0
 
 [node name="EnemySpawner" type="Area2D"]
 collision_layer = 0
@@ -14,5 +14,7 @@ enemy_scene = ExtResource("2_vsluo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tjaah")
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
