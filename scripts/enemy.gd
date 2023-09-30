@@ -4,7 +4,8 @@ var movement_speed: float = 200.0
 var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var player = $"../Player"
+@onready var player = $"../TileMap/Player"
+@onready var sprite :Sprite2D = $Sprite2D
 
 func _ready():
 	# These values need to be adjusted for the actor's speed
@@ -39,7 +40,13 @@ func _physics_process(delta):
 
 	velocity = new_velocity
 	move_and_slide()
+	face_target()
 
+func face_target():
+	if navigation_agent.target_position.x > global_position.x:
+		sprite.scale = Vector2(-1,1)
+	else:
+		sprite.scale = Vector2(1,1)
 
 func _on_navigation_agent_2d_waypoint_reached(details):
 	set_movement_target(player.global_position)

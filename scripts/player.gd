@@ -6,6 +6,7 @@ const SPEED = 300.0
 @onready var ray_cast : RayCast2D = $RayCast2D
 @onready var walk_dust : GPUParticles2D = $WalkDust
 @onready var animator :AnimationPlayer = $AnimationPlayer
+@onready var harpoon_hit :GPUParticles2D = $HarpoonHit
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
@@ -57,6 +58,7 @@ func try_fire_harpoon():
 		harpoon_tween = create_tween()
 		harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 		harpoon_tween.tween_callback(while_harpoon_out.bind(target))
+		harpoon_tween.tween_callback(add_hit_fx)
 		harpoon_direction = rotation
 		animator.play("HarpoonOut")
 		if ray_cast.get_collider() and ray_cast.get_collider().has_method("_on_player_pull_requested"):
@@ -65,7 +67,11 @@ func try_fire_harpoon():
 	else:
 		pull_requested.emit(harpoon_direction)
 		animator.play("Pull")
-		
+
+func add_hit_fx():
+	harpoon_hit.position = chain.points[0]
+	harpoon_hit.emitting = true
+
 func while_harpoon_out(target):
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_callback(func(): rotation = target.angle_to_point(global_position) - PI/2)

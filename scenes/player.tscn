@@ -1,15 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=24 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
+[ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]
 
 [sub_resource type="Gradient" id="Gradient_qpnwp"]
 offsets = PackedFloat32Array(0.792593, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_u2gqp"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_he4x6"]
 gradient = SubResource("Gradient_qpnwp")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hwil0"]
@@ -22,7 +23,7 @@ angle_min = -720.0
 angle_max = 720.0
 scale_min = 0.2
 scale_max = 0.4
-color_ramp = SubResource("GradientTexture1D_u2gqp")
+color_ramp = SubResource("GradientTexture1D_he4x6")
 
 [sub_resource type="Gradient" id="Gradient_02cua"]
 offsets = PackedFloat32Array(0.851852, 1)
@@ -166,6 +167,26 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cotre"]
 size = Vector2(27, 46)
 
+[sub_resource type="Gradient" id="Gradient_dek1m"]
+offsets = PackedFloat32Array(0.822222, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t3yx8"]
+gradient = SubResource("Gradient_dek1m")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jxnx8"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.5
+color_ramp = SubResource("GradientTexture1D_t3yx8")
+
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 script = ExtResource("1_0okmc")
@@ -194,6 +215,7 @@ texture_mode = 1
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("4_up6xg")
 hframes = 5
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ja4he")
@@ -215,5 +237,15 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_cotre")
+
+[node name="HarpoonHit" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_jxnx8")
+texture = ExtResource("5_srnni")
+lifetime = 0.5
+one_shot = true
+preprocess = 0.15
+explosiveness = 1.0
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
