@@ -1,4 +1,2 @@
 res://scenes/player.tscn
-res://scripts/player.gd
-res://scenes/node_2d.tscn
 res://scenes/gamplay.tscn
