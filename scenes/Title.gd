@@ -4,6 +4,6 @@ extends TextureRect
 
 var triggered := false
 func _unhandled_input(event):
-	if !triggered and not event is InputEventMouseMotion:
+	if !triggered and event is InputEventMouseButton:
 		animator.play("HideTitle")
 		triggered = true
