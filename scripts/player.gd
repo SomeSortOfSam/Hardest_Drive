@@ -18,6 +18,7 @@ const SPEED = 300.0
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 @onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
+@onready var timer :Timer = $Timer
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
@@ -27,6 +28,7 @@ var is_overlaping_tilemap := false
 var can_reset_screen := false
 var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var moving_enabled := true
 var last_safe_position : Vector2
 
 signal pull_requested(direction : float)
@@ -40,7 +42,7 @@ func get_movement_input():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
-	elif is_overlaping_tilemap:
+	elif is_overlaping_tilemap && moving_enabled:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 func _physics_process(delta):
@@ -154,7 +156,11 @@ func create_pull_harpoon_tween():
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func create_pulled_by_harpoon_tween():
-	velocity += to_local( ray_cast.get_collision_point()) * SPEED
+	moving_enabled = false
+	timer.start(0.3)
+	velocity += to_local( ray_cast.get_collision_point()) * 4
+	await timer.timeout
+	moving_enabled = true
 	stop_harpoon()
 
 func pull_harpoon():

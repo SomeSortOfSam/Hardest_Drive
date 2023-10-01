@@ -551,6 +551,8 @@ stream = ExtResource("11_cd6dj")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]
 [connection signal="body_exited" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_exited"]
