@@ -92,7 +92,6 @@ func fire_harpoon():
 		pull_requested.connect(harpoon_target._on_player_pull_requested)
 
 func pull_harpoon():
-	pull_requested.emit(harpoon_direction)
 	var rotation = harpoon_direction
 	if rotation < 0:
 		rotation = TAU + rotation
@@ -107,6 +106,7 @@ func pull_harpoon():
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(to_local(current),to_local(target),percent),0.0,1.0,.2)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 	animator.play("Pull")
+	pull_requested.emit(harpoon_direction)
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
@@ -122,20 +122,24 @@ func while_harpoon_out(target):
 	harpoon_tween.set_loops()
 
 func stop_harpoon():
-	if harpoon_tween:
-		var playback_position = audio.get_playback_position()
-		audio.stream = droneless_track
-		audio.play(playback_position)
-		if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
-			pull_requested.disconnect(harpoon_target._on_player_pull_requested)
-		harpoon_tween.kill()
-		harpoon_tween = create_tween()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
-		harpoon_tween.tween_callback(func(): harpoon_tween = null)
-		animator.play("HarpoonIn")
-		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
-		var target_rotation : float = snapped(angle_to_mouse,PI/2)
-		harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
+	if !harpoon_tween:
+		print("Ha ha!")
+		return
+
+	var playback_position = audio.get_playback_position()
+	audio.stream = droneless_track
+	audio.play(playback_position)
+	if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
+	harpoon_tween.kill()
+	harpoon_tween = create_tween()
+	harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
+	harpoon_tween.tween_callback(func(): harpoon_tween = null)
+	animator.play("HarpoonIn")
+	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
+	var target_rotation : float = snapped(angle_to_mouse,PI/2)
+	harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
+
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10

@@ -12,6 +12,7 @@ const minimum_border_distance = 5.0
 var minimum_inner_rect : Rect2
 var inner_rect : Rect2
 
+signal pull_failed
 
 func _ready():
 	call_deferred("call_deferred","recalculate_offsets")
@@ -94,14 +95,25 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 	direction = deg_to_rad(round(rad_to_deg(direction)))
 	var side_index : int = direction/(PI/2)
 	
-	inner_rect = inner_rect.grow_side(side_index,-tile_map.tile_set.tile_size.x)
-	inner_rect = inner_rect.grow_side((side_index + 2) % 4,-tile_map.tile_set.tile_size.x)
+	var proposed_inner_rect = inner_rect
 	
-	inner_rect = inner_rect.grow_side((side_index + 1) % 4,tile_map.tile_set.tile_size.x)
-	inner_rect = inner_rect.grow_side((side_index + 3) % 4,tile_map.tile_set.tile_size.x)
+	proposed_inner_rect = proposed_inner_rect.grow_side(side_index,-tile_map.tile_set.tile_size.x)
+	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 2) % 4,-tile_map.tile_set.tile_size.x)
 	
-	inner_rect = minimum_inner_rect.intersection(inner_rect)
+	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 1) % 4,tile_map.tile_set.tile_size.x)
+	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 3) % 4,tile_map.tile_set.tile_size.x)
 	
-	assert(rect.encloses(inner_rect))
+	if proposed_inner_rect.size.x <= 0 or proposed_inner_rect.size.y <= 0:
+		print(pull_failed.get_connections())
+		pull_failed.emit()
+		return
+	
+	proposed_inner_rect = minimum_inner_rect.intersection(proposed_inner_rect)
+	
+	assert(rect.encloses(proposed_inner_rect))
+	
+	inner_rect = proposed_inner_rect
+	
 	recalculate_border()
+
 

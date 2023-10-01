@@ -1113,4 +1113,5 @@ position = Vector2(137, 212)
 [node name="EnemySpawner9" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(291, 93)
 
+[connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
