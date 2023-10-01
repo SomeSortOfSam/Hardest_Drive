@@ -7,6 +7,7 @@ var triggered_count := 0
 
 signal player_movement_enabled
 signal player_reset_screen_enabled
+signal done
 
 func _unhandled_input(event):
 	if ((triggered_count < 2 or (triggered_count > 2 and triggered_count <= 4))
@@ -35,6 +36,7 @@ func _unhandled_input(event):
 			player_reset_screen_enabled.emit()
 		if triggered_count >= 7:
 			animator.hide()
+			done.emit()
 
 func swap_sprite_to(name :String):
 	mover.play("SpriteChange")

@@ -26,9 +26,11 @@ var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
 var can_reset_screen := false
+var pullable := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var moving_enabled := false
 var last_safe_position : Vector2
+var pull_succsedded := true
 
 signal pull_requested(direction : float)
 
@@ -37,32 +39,20 @@ func get_movement_input():
 	var vertical_input = Input.get_axis("player_up", "player_down")
 	if horizontal_input:
 		velocity.x = horizontal_input * SPEED
-	else:
+	elif moving_enabled:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
-	elif is_overlaping_tilemap && moving_enabled:
+	elif moving_enabled:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 func _physics_process(delta):
 	if moving_enabled:
 		get_movement_input()
-	
-	tile_map_checker.position = velocity*delta
-	if moving_enabled and !is_overlaping_tilemap:
-		if position == last_safe_position:
-			velocity.y += gravity * delta
-			move_and_slide()
-			last_safe_position = position
-		else:
-			velocity = Vector2.ZERO
-			position = last_safe_position
-	else:
-		last_safe_position = position
-		move_and_slide()
-		animate_movement()
-	
-func animate_movement():
+	animate_character()
+	move_and_slide()
+
+func animate_character():
 	if velocity.length() > 0:
 		walk_dust.emitting = true
 		move_animator.play("WalkBounce")
@@ -72,7 +62,7 @@ func animate_movement():
 	
 	if velocity.x > 0:
 		anim_sprite.scale = Vector2(-1,1)
-	else:
+	elif velocity.length() > 0:
 		anim_sprite.scale = Vector2(1,1)
 
 func get_target_rotation() -> float:
@@ -128,7 +118,7 @@ func fire_harpoon():
 	shoot_animator.play("HarpoonOut")
 	if ray_cast.get_collider():
 		harpoon_target = null
-		print(ray_cast.get_collider())
+		pullable = false
 		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
 			harpoon_target = ray_cast.get_collider()
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
@@ -159,12 +149,14 @@ func create_pulled_by_harpoon_tween():
 	stop_harpoon()
 
 func pull_harpoon():
-	if harpoon_target:
-		create_pull_harpoon_tween()
-	else:
-		create_pulled_by_harpoon_tween()
-	shoot_animator.play("Pull")
 	pull_requested.emit(harpoon_direction)
+	if pull_succsedded:
+		if pullable:
+			create_pull_harpoon_tween()
+		else:
+			create_pulled_by_harpoon_tween()
+		shoot_animator.play("Pull")
+	pull_succsedded = true
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
@@ -191,11 +183,12 @@ func stop_harpoon():
 		return
 
 	switch_track(droneless_track)
-	if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
-		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 	create_stop_harpoon_tween()
 	shoot_animator.play("HarpoonIn")
 	harpoon_tween.tween_callback(start_rotation_tween.bind(get_target_rotation()))
+	if harpoon_target != null and not harpoon_target.is_queued_for_deletion() and\
+	pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
@@ -219,10 +212,16 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
-	moving_enabled = true
 	await timer.timeout
 	ray_cast.set_collision_mask_value(1,true)
 	set_collision_mask_value(2,true)
 
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
+
+func _on_letterbox_collider_player_pull_requested(direction):
+	pullable = true
+
+func _on_gamplay_pull_failed():
+	pull_succsedded = false
+	stop_harpoon()

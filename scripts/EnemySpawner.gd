@@ -4,10 +4,13 @@ extends Area2D
 
 @onready var timer : Timer = $Timer
 
+
+
 func _on_area_exited(_area):
-	timer.start()
-	if !timer.timeout.is_connected(spawn_enemy):
-		timer.timeout.connect(spawn_enemy,CONNECT_ONE_SHOT)
+	if visible:
+		timer.start()
+		if !timer.timeout.is_connected(spawn_enemy):
+			timer.timeout.connect(spawn_enemy,CONNECT_ONE_SHOT)
 
 func spawn_enemy():
 	if !has_overlapping_areas():
