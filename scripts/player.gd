@@ -16,6 +16,7 @@ const SPEED = 300.0
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
 @onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+@onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 
 var harpoon_tween : Tween
@@ -162,6 +163,7 @@ func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
 	hurt_warn.emitting = true
 	hurt_hit.emitting = true
+	hurt_audio.play()
 
 func _on_tile_map_check_body_entered(body):
 	is_overlaping_tilemap = true
