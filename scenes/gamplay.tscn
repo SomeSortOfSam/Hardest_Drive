@@ -1,13 +1,14 @@
-[gd_scene load_steps=62 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=59 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
+[ext_resource type="PackedScene" uid="uid://bvgvlx34lnx5l" path="res://scenes/box.tscn" id="5_f7nl1"]
 [ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
+[ext_resource type="PackedScene" uid="uid://v1qg51y85aih" path="res://scenes/background.tscn" id="7_5cllo"]
 [ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
-[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="8_0o7v7"]
-[ext_resource type="Texture2D" uid="uid://bigkg0awe2t56" path="res://assets/angle_grid.png" id="8_f1au5"]
+[ext_resource type="PackedScene" uid="uid://csigbjrhsggkf" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1024,38 +1025,8 @@ terrain_set_0/terrain_0/color = Color(1, 1, 1, 1)
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_yqq07")
 
-[sub_resource type="Shader" id="Shader_kgt2b"]
-code = "shader_type canvas_item;
-
-uniform vec2 motion = vec2(0.0);
-uniform float scale = 1.0;
-uniform vec2 offset = vec2(0.0);
-
-void vertex(){
-	UV = (VERTEX + offset + TIME * motion) * TEXTURE_PIXEL_SIZE * (1.0/scale);
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fxu00"]
-shader = SubResource("Shader_kgt2b")
-shader_parameter/motion = Vector2(0, -60)
-shader_parameter/scale = 3.0
-shader_parameter/offset = Vector2(0, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pdd4i"]
-shader = SubResource("Shader_kgt2b")
-shader_parameter/motion = Vector2(0, 60)
-shader_parameter/scale = 3.0
-shader_parameter/offset = Vector2(0, 0)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_po2po"]
-size = Vector2(125, 125)
-
 [node name="Gamplay" type="Node2D"]
 script = ExtResource("3_i8wvo")
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2(-563, -330)
-collision_mask = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -1088,12 +1059,17 @@ collision_mask = 0
 self_modulate = Color(0.462745, 0.756863, 0.811765, 1)
 z_index = -2
 z_as_relative = false
+y_sort_enabled = true
 position = Vector2(529, 326)
 tile_set = SubResource("TileSet_w00hl")
 format = 2
-layer_0/tile_data = PackedInt32Array(196615, 655361, 3, 131079, 589825, 1, 65543, 589825, 1, 7, 589825, 1, -65529, 589825, 1, -131065, 589825, 1, -196601, 589825, 1, -262137, 589825, 0, 196614, 655361, 3, 131078, 589825, 1, 65542, 589825, 1, 6, 589825, 1, -65530, 589825, 1, -131066, 589825, 1, -196602, 589825, 1, -262138, 589825, 0, 196613, 655361, 3, 131077, 589825, 1, -65531, 589825, 1, -131067, 589825, 1, -196603, 589825, 1, -262139, 589825, 0, 196612, 655361, 3, 131076, 589825, 1, -131068, 589825, 1, -196604, 589825, 1, -262140, 589825, 0, 196611, 655361, 3, 131075, 589825, 1, 65539, 589825, 1, -65533, 589825, 1, -131069, 589825, 1, -196605, 589825, 1, -262141, 589825, 0, 196610, 655361, 3, 131074, 589825, 1, 65538, 589825, 1, 2, 589825, 1, -65534, 589825, 1, -131070, 589825, 1, -196606, 589825, 1, -262142, 589825, 0, 196609, 655361, 3, 131073, 589825, 1, 65537, 589825, 1, 1, 589825, 1, -65535, 589825, 1, -131071, 589825, 1, -196607, 589825, 1, -262143, 589825, 0, 196608, 655361, 3, 131072, 589825, 1, 65536, 589825, 1, 0, 589825, 1, -65536, 589825, 1, -131072, 589825, 1, -196608, 589825, 1, -262144, 589825, 0, 262143, 655361, 3, 196607, 589825, 1, 131071, 589825, 1, 65535, 589825, 1, -1, 589825, 1, -65537, 589825, 1, -131073, 589825, 1, -196609, 589825, 0, 262142, 655361, 3, 196606, 589825, 1, 131070, 589825, 1, 65534, 589825, 1, -2, 589825, 1, -65538, 589825, 1, -131074, 589825, 1, -196610, 589825, 0, 262141, 655361, 3, 196605, 589825, 1, 131069, 589825, 1, 65533, 589825, 1, -65539, 589825, 1, -131075, 589825, 1, -196611, 589825, 0, 262140, 655361, 3, 196604, 589825, 1, 131068, 589825, 1, 65532, 589825, 1, -4, 589825, 1, -65540, 589825, 1, -131076, 589825, 1, -196612, 589825, 0, 262139, 655361, 3, 196603, 589825, 1, 131067, 589825, 1, 65531, 589825, 1, -5, 589825, 1, -65541, 589825, 1, -131077, 589825, 1, -196613, 589825, 0, 262138, 655361, 3, 196602, 589825, 1, 131066, 589825, 1, 65530, 589825, 1, -6, 589825, 1, -65542, 589825, 1, -131078, 589825, 1, -196614, 589825, 0, 262137, 655361, 3, 196601, 589825, 1, 131065, 589825, 1, 65529, 589825, 1, -7, 589825, 1, -65543, 589825, 1, -131079, 589825, 1, -196615, 589825, 0, 262136, 524289, 3, 196600, 524289, 2, 131064, 524289, 2, 65528, 524289, 2, -8, 524289, 2, -65544, 524289, 2, -131080, 524289, 2, -196616, 524289, 0, 5, 589825, 1, -262136, 720897, 0, -196600, 720897, 1, -131064, 720897, 1, -65528, 720897, 1, 8, 720897, 1, 65544, 720897, 1, 131080, 720897, 1, 196616, 720897, 3, -3, 589825, 1, 65541, 589825, 1, 65540, 589825, 1, 4, 589825, 1, -65532, 589825, 1, 3, 589825, 1)
+layer_0/tile_data = PackedInt32Array(196615, 655361, 3, 131079, 589825, 1, 65543, 589825, 1, 7, 589825, 1, -65529, 589825, 1, -131065, 589825, 1, -196601, 589825, 1, -262137, 589825, 0, 196614, 655361, 3, 131078, 589825, 1, 65542, 589825, 1, 6, 589825, 1, -65530, 589825, 1, -131066, 589825, 1, -196602, 589825, 1, -262138, 589825, 0, 196613, 655361, 3, 131077, 589825, 1, -65531, 589825, 1, -131067, 589825, 1, -196603, 589825, 1, -262139, 589825, 0, 196612, 655361, 3, 131076, 589825, 1, -131068, 589825, 1, -196604, 589825, 1, -262140, 589825, 0, 196611, 655361, 3, 131075, 589825, 1, 65539, 589825, 1, -65533, 589825, 1, -131069, 589825, 1, -196605, 589825, 1, -262141, 589825, 0, 196610, 393217, 2, 131074, 589825, 1, 65538, 589825, 1, 2, 589825, 1, -65534, 589825, 1, -131070, 589825, 1, -196606, 589825, 1, -262142, 589825, 0, 196609, 589825, 1, 131073, 589825, 1, 65537, 589825, 1, 1, 589825, 1, -65535, 589825, 1, -131071, 589825, 1, -196607, 589825, 1, -262143, 589825, 0, 196608, 589825, 1, 131072, 589825, 1, 65536, 589825, 1, 0, 589825, 1, -65536, 589825, 1, -131072, 589825, 1, -196608, 589825, 1, -262144, 589825, 0, 262143, 327681, 2, 196607, 589825, 1, 131071, 589825, 1, 65535, 589825, 1, -1, 589825, 1, -65537, 589825, 1, -131073, 589825, 1, -196609, 589825, 0, 262142, 655361, 3, 196606, 589825, 1, 131070, 589825, 1, 65534, 589825, 1, -2, 589825, 1, -65538, 589825, 1, -131074, 589825, 1, -196610, 589825, 0, 262141, 655361, 3, 196605, 589825, 1, 131069, 589825, 1, 65533, 589825, 1, -65539, 589825, 1, -131075, 589825, 1, -196611, 589825, 0, 262140, 655361, 3, 196604, 589825, 1, 131068, 589825, 1, 65532, 589825, 1, -4, 589825, 1, -65540, 589825, 1, -131076, 589825, 1, -196612, 589825, 0, 262139, 655361, 3, 196603, 589825, 1, 131067, 589825, 1, 65531, 589825, 1, -5, 589825, 1, -65541, 589825, 1, -131077, 589825, 1, -196613, 589825, 0, 262138, 655361, 3, 196602, 589825, 1, 131066, 589825, 1, 65530, 589825, 1, -6, 589825, 1, -65542, 589825, 1, -131078, 589825, 1, -196614, 589825, 0, 262137, 655361, 3, 196601, 589825, 1, 131065, 589825, 1, 65529, 589825, 1, -7, 589825, 1, -65543, 589825, 1, -131079, 589825, 1, -196615, 589825, 0, 262136, 524289, 3, 196600, 524289, 2, 131064, 524289, 2, 65528, 524289, 2, -8, 524289, 2, -65544, 524289, 2, -131080, 524289, 2, -196616, 524289, 0, 5, 589825, 1, -262136, 720897, 0, -196600, 720897, 1, -131064, 720897, 1, -65528, 720897, 1, 8, 720897, 1, 65544, 720897, 1, 131080, 720897, 1, 196616, 720897, 3, -3, 589825, 1, 65541, 589825, 1, 65540, 589825, 1, 4, 589825, 1, -65532, 589825, 1, 3, 589825, 1, 327679, 524289, 2, 393215, 524289, 3, 327680, 655361, 3, 327681, 720897, 3, 262145, 393217, 2, 262146, 720897, 3, 262144, 589825, 1)
 
 [node name="Player" parent="TileMap" instance=ExtResource("2_7pc31")]
+y_sort_enabled = true
+position = Vector2(26, 279)
+
+[node name="Box" parent="TileMap" instance=ExtResource("5_f7nl1")]
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(892, 271)
@@ -1123,58 +1099,11 @@ position = Vector2(291, 93)
 
 [node name="GUI" parent="Foreground" instance=ExtResource("7_xd0wi")]
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
+[node name="Background" parent="." instance=ExtResource("7_5cllo")]
 
-[node name="ColorRect" type="ColorRect" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Control" type="TextureRect" parent="Background"]
-modulate = Color(0.478431, 0, 0.439216, 1)
-texture_filter = 1
-texture_repeat = 2
-material = SubResource("ShaderMaterial_fxu00")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("8_f1au5")
-stretch_mode = 1
-
-[node name="Control2" type="TextureRect" parent="Background"]
-modulate = Color(0.635294, 0, 0.823529, 1)
-texture_filter = 1
-texture_repeat = 2
-material = SubResource("ShaderMaterial_pdd4i")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("8_f1au5")
-stretch_mode = 1
-flip_h = true
-
-[node name="Box" type="StaticBody2D" parent="."]
-position = Vector2(947, 450)
-collision_layer = 32
-collision_mask = 0
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Box"]
-position = Vector2(-1.5, 0)
-shape = SubResource("RectangleShape2D_po2po")
-
-[node name="Sprite2D" type="Sprite2D" parent="Box"]
-z_index = -1
-texture = ExtResource("8_0o7v7")
+[node name="Tutorial" parent="." instance=ExtResource("9_1m4g8")]
 
 [connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]

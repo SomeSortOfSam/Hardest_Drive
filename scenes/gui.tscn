@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://6kjvu1k0t34i"]
 
-[ext_resource type="Material" uid="uid://dbsqm5kcadmgw" path="res://assets/scroller.tres" id="1_2dviw"]
+[ext_resource type="Material" uid="uid://4wigvjdskioi" path="res://assets/scroller.tres" id="1_2dviw"]
 [ext_resource type="Texture2D" uid="uid://mc61l5s0qbkp" path="res://assets/title_background_row.png" id="1_ow7ib"]
 [ext_resource type="Texture2D" uid="uid://d0yqoq2achtoy" path="res://assets/title_edges_row.png" id="2_fctjt"]
 [ext_resource type="Texture2D" uid="uid://bbdgew5rfi7fi" path="res://assets/title_text_row.png" id="2_piyd5"]
-[ext_resource type="Script" path="res://scenes/Title.gd" id="3_ewc0m"]
+[ext_resource type="Script" path="res://scripts/Title.gd" id="3_3mp6o"]
 [ext_resource type="Texture2D" uid="uid://cwpk1fihvdp2a" path="res://assets/hazard_border.png" id="5_e3kbn"]
 
 [sub_resource type="Shader" id="Shader_kgt2b"]
@@ -158,7 +158,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ow7ib")
 stretch_mode = 1
-script = ExtResource("3_ewc0m")
+script = ExtResource("3_3mp6o")
 
 [node name="TitleEdges" type="TextureRect" parent="TitleBG"]
 modulate = Color(1, 0.682353, 0, 1)

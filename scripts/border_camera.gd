@@ -6,7 +6,6 @@ const minimum_border_distance = 5.0
 @onready var body_collision_polygon : CollisionPolygon2D = $Camera2D/StaticBody2D/CollisionPolygon2D
 @onready var render_polygon : Polygon2D = $Camera2D/LetterboxCollider/Polygon2D
 @onready var border_line : Line2D = $Camera2D/LetterboxCollider/Line2D
-@onready var ray_cast : RayCast2D = $RayCast2D
 @onready var tile_map : TileMap = $TileMap
 
 var minimum_inner_rect : Rect2
@@ -15,15 +14,19 @@ var inner_rect : Rect2
 signal pull_failed
 
 func _ready():
-	call_deferred("call_deferred","recalculate_offsets")
-	call_deferred("call_deferred","recalculate_border")
 	get_viewport().size_changed.connect(recalculate_offsets)
 	get_viewport().size_changed.connect(recalculate_border)
+	start_tutorial()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("reset_screen"):
 		recalculate_offsets()
 		recalculate_border(Tween.EASE_OUT_IN)
+
+func start_tutorial():
+	recalculate_offsets()
+	inner_rect = inner_rect.grow_side(SIDE_BOTTOM,-64)
+	recalculate_border()
 
 func recalculate_border(ease = Tween.EASE_OUT):
 	var polygon_rect := get_viewport_rect()
@@ -119,5 +122,3 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 	inner_rect = proposed_inner_rect
 	
 	recalculate_border()
-
-

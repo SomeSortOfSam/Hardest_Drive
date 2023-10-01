@@ -59,7 +59,9 @@ func _physics_process(delta):
 	if !is_overlaping_tilemap:
 		velocity.y += gravity * delta
 
-	move_and_slide()
+	if move_and_slide():
+		ray_cast.collision_mask += 1
+		collision_mask += 2 # don't collide with the letterbox until after the tutorial
 
 func get_target_rotation() -> float:
 	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
