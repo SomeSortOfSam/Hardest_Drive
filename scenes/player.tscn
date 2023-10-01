@@ -435,6 +435,7 @@ one_shot = true
 explosiveness = 0.75
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
+z_index = 1
 position = Vector2(0, 9)
 emitting = false
 amount = 10

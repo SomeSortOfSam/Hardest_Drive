@@ -1,7 +1,7 @@
-[gd_scene load_steps=40 format=3 uid="uid://csigbjrhsggkf"]
+[gd_scene load_steps=40 format=3 uid="uid://dmy4xk5gh5y3"]
 
 [ext_resource type="Script" path="res://scripts/tutorial.gd" id="1_of50h"]
-[ext_resource type="Texture2D" uid="uid://bre22mhhk4pgd" path="res://assets/tutor_screen2.png" id="2_g70r7"]
+[ext_resource type="Texture2D" uid="uid://b8umbvrw43ip7" path="res://assets/tutor_screen2.png" id="2_g70r7"]
 [ext_resource type="Texture2D" uid="uid://e67b0a27cnyy" path="res://assets/tutor_screen3.png" id="3_460du"]
 [ext_resource type="Texture2D" uid="uid://bdv2f0u300al7" path="res://assets/tutor_screen5.png" id="4_dxpbm"]
 [ext_resource type="Texture2D" uid="uid://32qt7kwgs8qn" path="res://assets/tutor_screen4.png" id="5_kekos"]
