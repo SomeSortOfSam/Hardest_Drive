@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=39 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -254,7 +254,6 @@ orbit_velocity_max = 0.0
 scale_min = 0.5
 color_ramp = SubResource("GradientTexture1D_t3yx8")
 
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcu1o"]
 
 [sub_resource type="Gradient" id="Gradient_a827l"]
@@ -285,7 +284,6 @@ scale_min = 0.2
 scale_max = 1.5
 scale_curve = SubResource("CurveTexture_txrmk")
 color_ramp = SubResource("GradientTexture1D_f0hob")
-
 
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1

@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
-[ext_resource type="PackedScene" uid="uid://cs6q1kfpyk763" path="res://scenes/enemy.tscn" id="5_l7srj"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
-[ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
-[ext_resource type="Texture2D" path="res://assets/angle_grid.png" id="8_f1au5"]
+[ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemy.tscn" id="5_l7srj"]
+[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
+[ext_resource type="PackedScene" path="res://scenes/gui.tscn" id="7_xd0wi"]
+[ext_resource type="Texture2D" uid="uid://bigkg0awe2t56" path="res://assets/angle_grid.png" id="8_f1au5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1180,7 +1180,6 @@ grow_vertical = 2
 texture = ExtResource("8_f1au5")
 stretch_mode = 1
 flip_h = true
-
 
 [connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
