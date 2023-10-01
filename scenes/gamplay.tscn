@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=62 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
 [ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
 [ext_resource type="PackedScene" path="res://scenes/gui.tscn" id="7_xd0wi"]
+[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="8_0o7v7"]
 [ext_resource type="Texture2D" uid="uid://bigkg0awe2t56" path="res://assets/angle_grid.png" id="8_f1au5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
@@ -1046,6 +1047,9 @@ shader_parameter/motion = Vector2(0, 60)
 shader_parameter/scale = 3.0
 shader_parameter/offset = Vector2(0, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_po2po"]
+size = Vector2(125, 125)
+
 [node name="Gamplay" type="Node2D"]
 script = ExtResource("3_i8wvo")
 
@@ -1155,6 +1159,19 @@ grow_vertical = 2
 texture = ExtResource("8_f1au5")
 stretch_mode = 1
 flip_h = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(947, 450)
+collision_mask = 0
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_po2po")
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+z_index = -1
+texture = ExtResource("8_0o7v7")
 
 [connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
