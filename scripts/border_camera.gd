@@ -22,14 +22,14 @@ func _ready():
 func _unhandled_input(event):
 	if can_reset_screen and event.is_action_pressed("reset_screen"):
 		recalculate_offsets()
-		recalculate_border(Tween.EASE_OUT_IN)
+		recalculate_border()
 
 func start_tutorial():
 	recalculate_offsets()
 	inner_rect = inner_rect.grow_side(SIDE_BOTTOM,-64)
 	recalculate_border()
 
-func recalculate_border(ease_type = Tween.EASE_OUT):
+func recalculate_border():
 	var polygon_rect := get_viewport_rect()
 	polygon_rect.size *= get_viewport_transform().get_scale()
 	
@@ -50,7 +50,7 @@ func recalculate_border(ease_type = Tween.EASE_OUT):
 	pull_tween.tween_method(func(percent : float): set_polygon(\
 	lerp_packed_vector_2_array(old_polygon,polygon,percent),\
 	lerp_packed_vector_2_array(old_points,inner_line,percent)),0.0,1.0,0.5)\
-	.set_trans(Tween.TRANS_ELASTIC).set_ease(ease_type)
+	.set_trans(Tween.TRANS_ELASTIC)
 	
 func lerp_packed_vector_2_array(start : PackedVector2Array, end : PackedVector2Array, percent : float) -> PackedVector2Array:
 	if start.size() != end.size():

@@ -26,7 +26,6 @@ var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
 var can_reset_screen := false
-var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var moving_enabled := false
 var last_safe_position : Vector2
