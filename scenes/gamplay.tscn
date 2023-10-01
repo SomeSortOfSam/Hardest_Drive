@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
 [ext_resource type="PackedScene" path="res://scenes/background.tscn" id="7_5cllo"]
 [ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
-[ext_resource type="PackedScene" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
+[ext_resource type="PackedScene" uid="uid://dmy4xk5gh5y3" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1044,7 +1044,7 @@ uv = PackedVector2Array(0, 0, 1920, 0, 1920, 1017, 0, 1017, 0, 0, 17, 0, 17, 584
 
 [node name="Line2D" type="Line2D" parent="Camera2D/LetterboxCollider"]
 texture_repeat = 2
-points = PackedVector2Array(197, 5, 197, 417.305, 1339, 451, 1339, 5, 197, 5)
+points = PackedVector2Array(13, 13, 5, 655, 1151, 649, 1141, 9, 197, 5)
 width = 20.0
 default_color = Color(0, 0, 0, 1)
 texture_mode = 1

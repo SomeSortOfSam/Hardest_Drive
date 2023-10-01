@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://6kjvu1k0t34i"]
+[gd_scene load_steps=15 format=3 uid="uid://6kjvu1k0t34i"]
 
 [ext_resource type="Material" uid="uid://4wigvjdskioi" path="res://assets/scroller.tres" id="1_2dviw"]
 [ext_resource type="Texture2D" uid="uid://mc61l5s0qbkp" path="res://assets/title_background_row.png" id="1_ow7ib"]
@@ -24,8 +24,19 @@ shader_parameter/motion = Vector2(-20, 0)
 shader_parameter/scale = 3.0
 shader_parameter/offset = Vector2(0, 0)
 
+[sub_resource type="Shader" id="Shader_te3nf"]
+code = "shader_type canvas_item;
+
+uniform vec2 motion = vec2(0.0);
+uniform float scale = 1.0;
+uniform vec2 offset = vec2(0.0);
+
+void vertex(){
+	UV = (VERTEX + offset + TIME * motion) * TEXTURE_PIXEL_SIZE * (1.0/scale);
+}"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d6rmt"]
-shader = SubResource("Shader_kgt2b")
+shader = SubResource("Shader_te3nf")
 shader_parameter/motion = Vector2(40, 0)
 shader_parameter/scale = 3.0
 shader_parameter/offset = Vector2(0, 0)
@@ -181,7 +192,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_piyd5")
-stretch_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"

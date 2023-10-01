@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var animator : AnimatedSprite2D = $Control/AnimatedSprite2D
+@onready var mover : AnimationPlayer = $AnimationPlayer
 
 var triggered_count := 0
 
@@ -22,15 +23,21 @@ func _unhandled_input(event):
 			animator.play("pull")
 			player_movement_enabled.emit()
 		if triggered_count == 2:
-			animator.play("walk")
+			swap_sprite_to("walk")
 		if triggered_count == 3:
-			animator.play("harpoon")
+			swap_sprite_to("harpoon")
 		if triggered_count == 4:
 			animator.play("pull")
 		if triggered_count == 5:
-			animator.play("unhook")
+			swap_sprite_to("unhook")
 		if triggered_count == 6:
-			animator.play("space")
+			swap_sprite_to("space")
 			player_reset_screen_enabled.emit()
 		if triggered_count >= 7:
 			animator.hide()
+
+func swap_sprite_to(name :String):
+	mover.play("SpriteChange")
+	await mover.animation_finished
+	animator.play(name)
+	mover.play_backwards("SpriteChange")

@@ -48,6 +48,21 @@ func _physics_process(delta):
 	if moving_enabled:
 		get_movement_input()
 	
+	tile_map_checker.position = velocity*delta
+	if moving_enabled and !is_overlaping_tilemap:
+		if position == last_safe_position:
+			velocity.y += gravity * delta
+			move_and_slide()
+			last_safe_position = position
+		else:
+			velocity = Vector2.ZERO
+			position = last_safe_position
+	else:
+		last_safe_position = position
+		move_and_slide()
+		animate_movement()
+	
+func animate_movement():
 	if velocity.length() > 0:
 		walk_dust.emitting = true
 		move_animator.play("WalkBounce")
@@ -59,22 +74,6 @@ func _physics_process(delta):
 		anim_sprite.scale = Vector2(-1,1)
 	else:
 		anim_sprite.scale = Vector2(1,1)
-	
-	
-	tile_map_checker.position = velocity*delta
-	if moving_enabled and !is_overlaping_tilemap:
-		if position == last_safe_position:
-			velocity.y += gravity * delta
-			move_and_slide()
-			last_safe_position = position
-		else:
-			velocity = Vector2.ZERO
-			position = last_safe_position
-	else:
-		move_and_slide()
-	
-	if is_overlaping_tilemap:
-		last_safe_position = position
 
 func get_target_rotation() -> float:
 	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
@@ -184,7 +183,7 @@ func while_harpoon_out(target):
 func create_stop_harpoon_tween():
 	harpoon_tween.kill()
 	harpoon_tween = create_tween()
-	harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
+	harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2(0,10),.1)
 	harpoon_tween.tween_callback(func(): harpoon_tween = null)
 
 func stop_harpoon():
