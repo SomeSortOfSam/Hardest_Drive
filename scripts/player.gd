@@ -42,7 +42,7 @@ func get_movement_input():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
-	elif is_overlaping_tilemap && moving_enabled:
+	elif moving_enabled:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 func _physics_process(delta):
@@ -61,7 +61,7 @@ func animate_character():
 	
 	if velocity.x > 0:
 		anim_sprite.scale = Vector2(-1,1)
-	else:
+	elif velocity.length() > 0:
 		anim_sprite.scale = Vector2(1,1)
 
 func get_target_rotation() -> float:
