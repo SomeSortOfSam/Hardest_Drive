@@ -360,8 +360,10 @@ volume_db = -80.0
 autoplay = true
 
 [node name="HurtWarn" type="GPUParticles2D" parent="."]
+emitting = false
 process_material = SubResource("ParticleProcessMaterial_xldir")
 texture = ExtResource("8_cc14j")
+one_shot = true
 explosiveness = 0.75
 local_coords = true
 

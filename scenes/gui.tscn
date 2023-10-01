@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://6kjvu1k0t34i"]
+[gd_scene load_steps=12 format=3 uid="uid://6kjvu1k0t34i"]
 
 [ext_resource type="Material" path="res://assets/scroller.tres" id="1_2dviw"]
 [ext_resource type="Texture2D" path="res://assets/title_background_row.png" id="1_ow7ib"]
 [ext_resource type="Texture2D" path="res://assets/title_edges_row.png" id="2_fctjt"]
 [ext_resource type="Texture2D" path="res://assets/title_text_row.png" id="2_piyd5"]
+[ext_resource type="Texture2D" uid="uid://cwpk1fihvdp2a" path="res://assets/hazard_border.png" id="5_e3kbn"]
 
 [sub_resource type="Shader" id="Shader_kgt2b"]
 code = "shader_type canvas_item;
@@ -39,7 +40,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0.2, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0.5, 0.7, 1)
+"times": PackedFloat32Array(0.4, 0.7, 1)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -50,13 +51,41 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.05, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0.5, 0.7, 1)
+"times": PackedFloat32Array(0.4, 0.7, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LowerBorder:anchor_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.1, -0.25, 0, 0.25, 0, 0.8, -0.25, 0, 0.25, 0, 0.9, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.4, 0.7, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("LowerBorder:anchor_bottom")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.1, -0.25, 0, 0.25, 0, 0.85, -0.25, 0, 0.25, 0, 0.95, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.4, 0.7, 1)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pu3nc"]
 _data = {
 "HideTitle": SubResource("Animation_k7r2u")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvcp8"]
+shader = SubResource("Shader_kgt2b")
+shader_parameter/motion = Vector2(-20, 0)
+shader_parameter/scale = 2.0
+shader_parameter/offset = Vector2(0, 0)
 
 [node name="GUI" type="Control"]
 texture_filter = 1
@@ -72,9 +101,9 @@ grow_vertical = 2
 material = ExtResource("1_2dviw")
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.2
+anchor_top = 0.05
 anchor_right = 1.0
-anchor_bottom = 0.5
+anchor_bottom = 0.05
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ow7ib")
@@ -108,3 +137,16 @@ autoplay = "HideTitle"
 libraries = {
 "": SubResource("AnimationLibrary_pu3nc")
 }
+
+[node name="LowerBorder" type="TextureRect" parent="."]
+modulate = Color(1, 0.682353, 0, 1)
+material = SubResource("ShaderMaterial_tvcp8")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.9
+anchor_right = 1.0
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_e3kbn")
+stretch_mode = 1

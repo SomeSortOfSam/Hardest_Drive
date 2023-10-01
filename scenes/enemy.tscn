@@ -133,6 +133,7 @@ death_sounds = Array[AudioStream]([ExtResource("3_dd0ee"), ExtResource("4_3ixgn"
 [node name="WalkDust" type="GPUParticles2D" parent="."]
 z_index = -1
 position = Vector2(0, 9)
+emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_cdaia")
 texture = ExtResource("2_enmir")
