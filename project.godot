@@ -54,8 +54,11 @@ reset_screen={
 [layer_names]
 
 2d_physics/layer_1="LetterBoxes"
+2d_physics/layer_2="Barriers"
 2d_physics/layer_3="HurtBoxes"
 2d_physics/layer_4="HitBoxes"
+2d_physics/layer_5="TileMap"
+2d_physics/layer_6="SceneObjects"
 
 [rendering]
 

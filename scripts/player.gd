@@ -16,11 +16,15 @@ const SPEED = 300.0
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
 @onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+@onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
+@onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
+var is_overlaping_tilemap := false
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 signal pull_requested(direction : float)
 
@@ -35,7 +39,7 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
-	else:
+	elif is_overlaping_tilemap:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 	
 	if velocity.length() > 0:
@@ -51,14 +55,20 @@ func _physics_process(delta):
 		anim_sprite.scale = Vector2(1,1)
 	
 	
+	tile_map_checker.position = velocity*delta
+	if !is_overlaping_tilemap:
+		velocity.y += gravity * delta
+
 	move_and_slide()
+
+func get_target_rotation() -> float:
+	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
+	return snapped(angle_to_mouse,PI/2)
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
-		var target_rotation : float = snapped(angle_to_mouse,PI/2)
-		if !is_equal_approx(sprite.rotation,target_rotation) and !rotate_tween and !harpoon_tween:
-			start_rotation_tween(target_rotation)
+		if !is_equal_approx(sprite.rotation,get_target_rotation()) and !rotate_tween and !harpoon_tween:
+			start_rotation_tween(get_target_rotation())
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			try_fire_harpoon()
@@ -85,30 +95,39 @@ func try_fire_harpoon():
 	else:
 		pull_harpoon()
 
-func fire_harpoon():
-	var playback_position = audio.get_playback_position()
-	audio.stream = drone_track
-	audio.play(playback_position)
+func create_fire_harpoon_tween():
 	var target = ray_cast.get_collision_point()
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 	harpoon_tween.tween_callback(add_hit_fx)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
+
+func switch_track(new_track : AudioStream):
+	var playback_position = audio.get_playback_position()
+	audio.stream = new_track
+	audio.play(playback_position)
+
+func fire_harpoon():
+	switch_track(drone_track)
+	create_fire_harpoon_tween()
 	harpoon_direction = sprite.rotation
 	shoot_animator.play("HarpoonOut")
-	if ray_cast.get_collider() and ray_cast.get_collider().has_method("_on_player_pull_requested"):
-		harpoon_target = ray_cast.get_collider()
-		pull_requested.connect(harpoon_target._on_player_pull_requested)
+	if ray_cast.get_collider():
+		harpoon_target = null
+		print(ray_cast.get_collider())
+		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
+			harpoon_target = ray_cast.get_collider()
+			pull_requested.connect(harpoon_target._on_player_pull_requested)
 
-func pull_harpoon():
-	pull_requested.emit(harpoon_direction)
-	var rotation = harpoon_direction
-	if rotation < 0:
-		rotation = TAU + rotation
-	rotation = fmod(rotation + (PI/2),TAU)
-	rotation = deg_to_rad(round(rad_to_deg(rotation)))
-	var transition := Vector2(cos(rotation), sin(rotation))
-	transition *= Vector2(get_parent().tile_set.tile_size)
+func rotation_to_direction(the_roatation : float) -> Vector2:
+	if the_roatation < 0:
+		the_roatation = TAU + the_roatation
+	the_roatation = fmod(the_roatation + (PI/2),TAU)
+	the_roatation = deg_to_rad(round(rad_to_deg(the_roatation)))
+	return Vector2(cos(the_roatation), sin(the_roatation))
+
+func create_pull_harpoon_tween():
+	var transition = rotation_to_direction(harpoon_direction) * Vector2(get_parent().tile_set.tile_size)
 	var current = to_global(chain.points[0])
 	var target = to_global(chain.points[0]) + transition
 	harpoon_tween.kill()
@@ -116,7 +135,18 @@ func pull_harpoon():
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = \
 	lerp(to_local(current),to_local(target),percent),0.0,1.0,.5).set_trans(Tween.TRANS_ELASTIC)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
+
+func create_pulled_by_harpoon_tween():
+	velocity += to_local( ray_cast.get_collision_point()) * SPEED
+	stop_harpoon()
+
+func pull_harpoon():
+	if harpoon_target:
+		create_pull_harpoon_tween()
+	else:
+		create_pulled_by_harpoon_tween()
 	shoot_animator.play("Pull")
+	pull_requested.emit(harpoon_direction)
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
@@ -132,23 +162,34 @@ func while_harpoon_out(target):
 	harpoon_tween.tween_interval(.01)
 	harpoon_tween.set_loops()
 
+func create_stop_harpoon_tween():
+	harpoon_tween.kill()
+	harpoon_tween = create_tween()
+	harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
+	harpoon_tween.tween_callback(func(): harpoon_tween = null)
+
 func stop_harpoon():
-	if harpoon_tween:
-		var playback_position = audio.get_playback_position()
-		audio.stream = droneless_track
-		audio.play(playback_position)
-		if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
-			pull_requested.disconnect(harpoon_target._on_player_pull_requested)
-		harpoon_tween.kill()
-		harpoon_tween = create_tween()
-		harpoon_tween.tween_method(func(vec : Vector2): chain.points[0] = vec,chain.points[1],Vector2.ZERO,.1)
-		harpoon_tween.tween_callback(func(): harpoon_tween = null)
-		shoot_animator.play("HarpoonIn")
-		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
-		var target_rotation : float = snapped(angle_to_mouse,PI/2)
-		harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
+	if !harpoon_tween:
+		print("Ha ha!")
+		return
+
+	switch_track(droneless_track)
+	if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
+	create_stop_harpoon_tween()
+	shoot_animator.play("HarpoonIn")
+	harpoon_tween.tween_callback(start_rotation_tween.bind(get_target_rotation()))
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
 	hurt_warn.emitting = true
 	hurt_hit.emitting = true
+	hurt_audio.play()
+
+func _on_tile_map_check_body_entered(body):
+	is_overlaping_tilemap = true
+	velocity.y = 0
+
+func _on_tile_map_check_body_exited(body):
+	is_overlaping_tilemap = false
+
