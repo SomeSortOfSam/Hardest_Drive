@@ -26,10 +26,9 @@ var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
 var can_reset_screen := false
-var can_move := false
 var pullable := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var moving_enabled := true
+var moving_enabled := false
 var last_safe_position : Vector2
 var pull_succsedded := true
 
@@ -48,7 +47,7 @@ func get_movement_input():
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 func _physics_process(delta):
-	if can_move:
+	if moving_enabled:
 		get_movement_input()
 	animate_character()
 	move_and_slide()
@@ -184,12 +183,12 @@ func stop_harpoon():
 		return
 
 	switch_track(droneless_track)
-	if harpoon_target and not harpoon_target.is_queued_for_deletion() and\
-	pull_requested.is_connected(harpoon_target._on_player_pull_requested):
-		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 	create_stop_harpoon_tween()
 	shoot_animator.play("HarpoonIn")
 	harpoon_tween.tween_callback(start_rotation_tween.bind(get_target_rotation()))
+	if harpoon_target != null and not harpoon_target.is_queued_for_deletion() and\
+	pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
@@ -205,7 +204,7 @@ func _on_tile_map_check_body_exited(_body):
 	is_overlaping_tilemap = false
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	if can_move:
+	if moving_enabled:
 		global_position = get_viewport().get_camera_2d().global_position
 		printerr("Player out of bounds - reseting")
 		var camera = get_viewport().get_camera_2d()
@@ -213,7 +212,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
-	can_move = true
 	await timer.timeout
 	ray_cast.set_collision_mask_value(1,true)
 	set_collision_mask_value(2,true)
