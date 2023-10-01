@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
-[ext_resource type="PackedScene" path="res://scenes/box.tscn" id="5_f7nl1"]
-[ext_resource type="PackedScene" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
-[ext_resource type="PackedScene" path="res://scenes/background.tscn" id="7_5cllo"]
+[ext_resource type="PackedScene" uid="uid://bvgvlx34lnx5l" path="res://scenes/box.tscn" id="5_f7nl1"]
+[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
+[ext_resource type="PackedScene" uid="uid://v1qg51y85aih" path="res://scenes/background.tscn" id="7_5cllo"]
 [ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
-[ext_resource type="PackedScene" uid="uid://dmy4xk5gh5y3" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
+[ext_resource type="PackedScene" uid="uid://csigbjrhsggkf" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1145,7 +1145,7 @@ metadata/_edit_lock_ = true
 
 [node name="Tutorial" parent="." instance=ExtResource("9_1m4g8")]
 
-[connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
+[connection signal="pull_failed" from="." to="TileMap/Player" method="_on_gamplay_pull_failed"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="TileMap/Player" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]

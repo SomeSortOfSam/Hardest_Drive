@@ -31,6 +31,7 @@ var pullable := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var moving_enabled := true
 var last_safe_position : Vector2
+var pull_succsedded := true
 
 signal pull_requested(direction : float)
 
@@ -150,11 +151,13 @@ func create_pulled_by_harpoon_tween():
 
 func pull_harpoon():
 	pull_requested.emit(harpoon_direction)
-	if pullable:
-		create_pull_harpoon_tween()
-	else:
-		create_pulled_by_harpoon_tween()
-	shoot_animator.play("Pull")
+	if pull_succsedded:
+		if pullable:
+			create_pull_harpoon_tween()
+		else:
+			create_pulled_by_harpoon_tween()
+		shoot_animator.play("Pull")
+	pull_succsedded = true
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
@@ -219,3 +222,7 @@ func _on_tutorial_player_reset_screen_enabled():
 
 func _on_letterbox_collider_player_pull_requested(direction):
 	pullable = true
+
+func _on_gamplay_pull_failed():
+	pull_succsedded = false
+	stop_harpoon()
