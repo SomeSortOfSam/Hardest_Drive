@@ -80,7 +80,7 @@ func _on_hurt_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
 	var cell = tilemap.local_to_map(tilemap.to_local(global_position))
 	tilemap.erase_cell(0,cell)
-	tilemap.force_update()
+	tilemap.set_cells_terrain_connect(0,[cell],0,-1)
 	nav_enabled = false
 	timer.start()
 	await timer.timeout
