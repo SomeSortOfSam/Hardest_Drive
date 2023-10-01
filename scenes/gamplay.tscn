@@ -1112,3 +1112,5 @@ metadata/_edit_lock_ = true
 [connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]
 [connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_movement_enabled"]
 [connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Timer" method="start"]
+[connection signal="player_reset_screen_enabled" from="Tutorial" to="." method="_on_tutorial_player_reset_screen_enabled"]
+[connection signal="player_reset_screen_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_reset_screen_enabled"]

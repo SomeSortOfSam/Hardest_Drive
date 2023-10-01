@@ -24,6 +24,7 @@ var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
+var can_reset_screen := false
 var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var last_safe_position : Vector2
@@ -90,7 +91,7 @@ func _unhandled_input(event):
 			try_fire_harpoon()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			stop_harpoon()
-	if event.is_action("reset_screen"):
+	if can_reset_screen and event.is_action("reset_screen"):
 		stop_harpoon()
 		shoot_animator.play("SpaceHit")
 
@@ -218,3 +219,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 func _on_tutorial_player_movement_enabled():
 	can_move = true
+
+func _on_tutorial_player_reset_screen_enabled():
+	can_reset_screen = true

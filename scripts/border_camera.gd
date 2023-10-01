@@ -10,6 +10,7 @@ const minimum_border_distance = 5.0
 
 var minimum_inner_rect : Rect2
 var inner_rect : Rect2
+var can_reset_screen := false
 
 signal pull_failed
 
@@ -19,7 +20,7 @@ func _ready():
 	start_tutorial()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("reset_screen"):
+	if can_reset_screen and event.is_action_pressed("reset_screen"):
 		recalculate_offsets()
 		recalculate_border(Tween.EASE_OUT_IN)
 
@@ -123,3 +124,6 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 	inner_rect = proposed_inner_rect
 	
 	recalculate_border()
+
+func _on_tutorial_player_reset_screen_enabled():
+	can_reset_screen = true
