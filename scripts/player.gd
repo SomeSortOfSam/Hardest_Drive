@@ -6,6 +6,7 @@ const SPEED = 300.0
 @export var droneless_track : AudioStream
 
 @onready var chain : Line2D = $Line2D
+@onready var sprite : Sprite2D = $Sprite2D
 @onready var ray_cast : RayCast2D = $RayCast2D
 @onready var walk_dust : GPUParticles2D = $WalkDust
 @onready var animator :AnimationPlayer = $AnimationPlayer
@@ -16,7 +17,6 @@ var harpoon_tween : Tween
 var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
-
 
 signal pull_requested(direction : float)
 
@@ -41,7 +41,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
 		var target_rotation : float = snapped(angle_to_mouse,PI/2)
-		if !is_equal_approx(rotation,target_rotation) and !rotate_tween and !harpoon_tween:
+		if !is_equal_approx(sprite.rotation,target_rotation) and !rotate_tween and !harpoon_tween:
 			start_rotation_tween(target_rotation)
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT:
@@ -53,9 +53,13 @@ func _unhandled_input(event):
 		animator.play("SpaceHit")
 
 func start_rotation_tween(target_rotation : float):
+	if rotate_tween:
+		rotate_tween.quit()
 	rotate_tween = create_tween()
-	var old_rotation = rotation
-	rotate_tween.tween_method(func(percent : float): rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
+	var old_rotation = sprite.rotation
+	rotate_tween.tween_method(func(percent : float): sprite.rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
+	rotate_tween.parallel()
+	rotate_tween.tween_method(func(percent : float): ray_cast.rotation = lerp_angle(old_rotation,target_rotation,percent),0.0,1.0,0.1)
 	rotate_tween.tween_callback(func():rotate_tween = null)
 	rotate_tween.set_trans(Tween.TRANS_BOUNCE)
 
@@ -74,7 +78,7 @@ func fire_harpoon():
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 	harpoon_tween.tween_callback(add_hit_fx)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
-	harpoon_direction = rotation
+	harpoon_direction = sprite.rotation
 	animator.play("HarpoonOut")
 	if ray_cast.get_collider() and ray_cast.get_collider().has_method("_on_player_pull_requested"):
 		harpoon_target = ray_cast.get_collider()
@@ -106,7 +110,7 @@ func while_harpoon_out(target):
 	if harpoon_tween:
 		harpoon_tween.kill()
 	harpoon_tween = create_tween()
-	harpoon_tween.tween_callback(func(): rotation = target.angle_to_point(global_position) - PI/2)
+	harpoon_tween.tween_callback(func(): sprite.rotation = target.angle_to_point(global_position) - PI/2)
 	harpoon_tween.tween_callback(func(): chain.points[0] = to_local(target))
 	harpoon_tween.tween_interval(.01)
 	harpoon_tween.set_loops()
@@ -126,7 +130,6 @@ func stop_harpoon():
 		var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
 		var target_rotation : float = snapped(angle_to_mouse,PI/2)
 		harpoon_tween.tween_callback(start_rotation_tween.bind(target_rotation))
-
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
