@@ -25,9 +25,8 @@ var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
-var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var moving_enabled := true
+var moving_enabled := false
 var last_safe_position : Vector2
 
 signal pull_requested(direction : float)
@@ -45,7 +44,7 @@ func get_movement_input():
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 func _physics_process(delta):
-	if can_move:
+	if moving_enabled:
 		get_movement_input()
 	
 	if velocity.length() > 0:
@@ -62,7 +61,7 @@ func _physics_process(delta):
 	
 	
 	tile_map_checker.position = velocity*delta
-	if can_move and !is_overlaping_tilemap:
+	if moving_enabled and !is_overlaping_tilemap:
 		if position == last_safe_position:
 			velocity.y += gravity * delta
 			move_and_slide()
@@ -215,7 +214,7 @@ func _on_tile_map_check_body_exited(_body):
 	is_overlaping_tilemap = false
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	if can_move:
+	if moving_enabled:
 		global_position = get_viewport().get_camera_2d().global_position
 		printerr("Player out of bounds - reseting")
 		var camera = get_viewport().get_camera_2d()
@@ -223,4 +222,4 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
-	can_move = true
+	moving_enabled = true
