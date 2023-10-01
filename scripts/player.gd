@@ -27,6 +27,7 @@ var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
 var can_reset_screen := false
 var can_move := false
+var pullable := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var moving_enabled := true
 var last_safe_position : Vector2
@@ -117,7 +118,7 @@ func fire_harpoon():
 	shoot_animator.play("HarpoonOut")
 	if ray_cast.get_collider():
 		harpoon_target = null
-		print(ray_cast.get_collider())
+		pullable = false
 		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
 			harpoon_target = ray_cast.get_collider()
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
@@ -148,12 +149,12 @@ func create_pulled_by_harpoon_tween():
 	stop_harpoon()
 
 func pull_harpoon():
-	if harpoon_target:
+	pull_requested.emit(harpoon_direction)
+	if pullable:
 		create_pull_harpoon_tween()
 	else:
 		create_pulled_by_harpoon_tween()
 	shoot_animator.play("Pull")
-	pull_requested.emit(harpoon_direction)
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
@@ -215,3 +216,6 @@ func _on_tutorial_player_movement_enabled():
 
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
+
+func _on_letterbox_collider_player_pull_requested(direction):
+	pullable = true
