@@ -40,7 +40,7 @@ func get_movement_input():
 	var vertical_input = Input.get_axis("player_up", "player_down")
 	if horizontal_input:
 		velocity.x = horizontal_input * SPEED
-	else:
+	elif moving_enabled:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
@@ -184,7 +184,8 @@ func stop_harpoon():
 		return
 
 	switch_track(droneless_track)
-	if harpoon_target and pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+	if harpoon_target and not harpoon_target.is_queued_for_deletion() and\
+	pull_requested.is_connected(harpoon_target._on_player_pull_requested):
 		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 	create_stop_harpoon_tween()
 	shoot_animator.play("HarpoonIn")

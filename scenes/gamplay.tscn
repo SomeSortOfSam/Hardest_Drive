@@ -1111,6 +1111,9 @@ position = Vector2(28, 287)
 
 [node name="Timer" type="Timer" parent="TileMap"]
 
+[node name="Box2" parent="TileMap" instance=ExtResource("5_f7nl1")]
+position = Vector2(-450, 191)
+
 [node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(892, 271)
 
