@@ -34,7 +34,7 @@ func recalculate_border(ease = Tween.EASE_OUT):
 	
 	assert(polygon_rect.encloses(inner_rect))
 	
-	var polygon := get_points_from_rect(polygon_rect)
+	var polygon := get_points_from_rect(polygon_rect.grow(100))
 	var inner_line := get_points_from_rect_counter_clock(inner_rect)
 	
 	polygon.append_array(inner_line)

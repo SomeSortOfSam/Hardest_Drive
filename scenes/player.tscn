@@ -549,6 +549,9 @@ shape = SubResource("CircleShape2D_hcu1o")
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_cd6dj")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]
 [connection signal="body_exited" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

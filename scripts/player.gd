@@ -193,3 +193,5 @@ func _on_tile_map_check_body_entered(body):
 func _on_tile_map_check_body_exited(body):
 	is_overlaping_tilemap = false
 
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	global_position = get_viewport().get_camera_2d().global_position
