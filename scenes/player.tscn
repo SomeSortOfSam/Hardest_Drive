@@ -427,6 +427,7 @@ drone_track = ExtResource("2_nppxa")
 droneless_track = ExtResource("3_6a6uj")
 
 [node name="SpaceHit" type="GPUParticles2D" parent="."]
+z_index = 1
 emitting = false
 amount = 24
 process_material = SubResource("ParticleProcessMaterial_c3hay")
@@ -435,6 +436,7 @@ one_shot = true
 explosiveness = 0.75
 
 [node name="WalkDust" type="GPUParticles2D" parent="."]
+show_behind_parent = true
 z_index = 1
 position = Vector2(0, 9)
 emitting = false
@@ -472,6 +474,7 @@ frame = 2
 
 [node name="PullDust" type="GPUParticles2D" parent="Rotor/Sprite2D"]
 show_behind_parent = true
+z_index = 1
 position = Vector2(0, -15)
 scale = Vector2(1.42857, 1.42857)
 emitting = false

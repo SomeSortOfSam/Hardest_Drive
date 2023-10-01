@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://dmy4xk5gh5y3"]
+[gd_scene load_steps=60 format=3 uid="uid://dmy4xk5gh5y3"]
 
 [ext_resource type="Script" path="res://scripts/tutorial.gd" id="1_of50h"]
 [ext_resource type="Texture2D" uid="uid://b8umbvrw43ip7" path="res://assets/tutor_screen2.png" id="2_g70r7"]
@@ -6,15 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://bdv2f0u300al7" path="res://assets/tutor_screen5.png" id="4_dxpbm"]
 [ext_resource type="Texture2D" uid="uid://32qt7kwgs8qn" path="res://assets/tutor_screen4.png" id="5_kekos"]
 [ext_resource type="Texture2D" uid="uid://dhn2ispwb2qy8" path="res://assets/tutor_screen1.png" id="6_wo6wc"]
-[ext_resource type="Texture2D" uid="uid://7v1oxrq84hbs" path="res://assets/message_ribbon_background.png" id="7_o3spa"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon_background.png" id="7_o3spa"]
 [ext_resource type="Shader" path="res://scenes/shader_no_tile.gdshader" id="7_s8d1d"]
-[ext_resource type="Texture2D" uid="uid://4o6ify3ufh8o" path="res://assets/message_ribbon_edge.png" id="8_sls7r"]
-[ext_resource type="Texture2D" uid="uid://b5kxlgegus4pu" path="res://assets/message_ribbon1.png" id="9_xa87i"]
-[ext_resource type="Texture2D" uid="uid://cwukj0etelooj" path="res://assets/message_ribbon2.png" id="11_4qtub"]
-[ext_resource type="Texture2D" uid="uid://jo4fsi6ghw8e" path="res://assets/message_ribbon3.png" id="12_de7s6"]
-[ext_resource type="Texture2D" uid="uid://c1eihqnnbkdi5" path="res://assets/message_ribbon4.png" id="13_jgwwb"]
-[ext_resource type="Texture2D" uid="uid://bvx76k3rijqrb" path="res://assets/message_ribbon5.png" id="14_bflph"]
-[ext_resource type="Texture2D" uid="uid://cpnx81rqltqax" path="res://assets/message_ribbon6.png" id="15_rdvc7"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon_edge.png" id="8_sls7r"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon1.png" id="9_xa87i"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon2.png" id="11_4qtub"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon3.png" id="12_de7s6"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon4.png" id="13_jgwwb"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon5.png" id="14_bflph"]
+[ext_resource type="Texture2D" path="res://assets/message_ribbon6.png" id="15_rdvc7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1aj7"]
 atlas = ExtResource("2_g70r7")
@@ -277,76 +277,6 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="Animation" id="Animation_u0o12"]
-resource_name = "SpriteChange"
-length = 0.6
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/AnimatedSprite2D:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Control/AnimatedSprite2D:scale:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.8, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.3, 0.5)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Control/AnimatedSprite2D:scale:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.3, 0.5)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Control3:anchor_top")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.8, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 0.85, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.5)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Control3:anchor_bottom")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.9, -0.25, 0, 0.25, 0, 0.95, -0.25, 0, 0.25, 0, 0.85, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.2, 0.5)
-}
-tracks/5/type = "bezier"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("Control3:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.3, 0.5)
-}
-
 [sub_resource type="Animation" id="Animation_324n4"]
 resource_name = "SpriteOut"
 tracks/0/type = "bezier"
@@ -383,6 +313,43 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.5, 1)
 }
 
+[sub_resource type="Animation" id="Animation_u0o12"]
+resource_name = "SpriteChange"
+length = 0.6
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/AnimatedSprite2D:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/AnimatedSprite2D:scale:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.8, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/AnimatedSprite2D:scale:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.5)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_elob8"]
 _data = {
 "SpriteChange": SubResource("Animation_u0o12"),
@@ -406,6 +373,142 @@ shader = ExtResource("7_s8d1d")
 shader_parameter/motion = Vector2(-80, 0)
 shader_parameter/scale = 2.0
 shader_parameter/offset = Vector2(0, 0)
+
+[sub_resource type="Animation" id="Animation_dmwns"]
+resource_name = "Warn"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_d3x2j"]
+resource_name = "ChangeBanner"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_top")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.8, -0.25, 0, 0.25, 0, 0.78, -0.25, 0, 0.25, 0, 0.85, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.4)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:anchor_bottom")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.9, -0.25, 0, 0.25, 0, 0.92, -0.25, 0, 0.25, 0, 0.85, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.4)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.2, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_gskhv"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_42bwr"]
+resource_name = "BannerOut"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchor_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.8, -0.25, 0, 0.25, 0, 0.7, -0.5, 0, 0.25, 0, 1.2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.7)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_bottom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.9, -0.25, 0, 0.25, 0, 0.85, -0.5, 0, 0.25, 0, 1.3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.7)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Messages:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.7, 0.9)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3aahy"]
+_data = {
+"BannerOut": SubResource("Animation_42bwr"),
+"ChangeBanner": SubResource("Animation_d3x2j"),
+"RESET": SubResource("Animation_gskhv"),
+"Warn": SubResource("Animation_dmwns")
+}
 
 [node name="Tutorial" type="CanvasLayer"]
 layer = 2
@@ -436,7 +539,7 @@ libraries = {
 "": SubResource("AnimationLibrary_elob8")
 }
 
-[node name="Control3" type="Control" parent="."]
+[node name="BannerHolder" type="Control" parent="."]
 texture_filter = 1
 texture_repeat = 2
 layout_mode = 3
@@ -446,7 +549,7 @@ anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="BannerBG" type="TextureRect" parent="Control3"]
+[node name="BannerBG" type="TextureRect" parent="BannerHolder"]
 material = SubResource("ShaderMaterial_kaviu")
 layout_mode = 1
 anchors_preset = 15
@@ -456,7 +559,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_o3spa")
 
-[node name="BannerEdge" type="TextureRect" parent="Control3"]
+[node name="BannerEdge" type="TextureRect" parent="BannerHolder"]
 modulate = Color(1, 0.682353, 0, 1)
 material = SubResource("ShaderMaterial_34jcp")
 layout_mode = 1
@@ -467,7 +570,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_sls7r")
 
-[node name="StartBanner" type="TextureRect" parent="Control3"]
+[node name="Messages" type="Control" parent="BannerHolder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartBanner" type="TextureRect" parent="BannerHolder/Messages"]
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
 anchors_preset = 15
@@ -477,7 +588,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_xa87i")
 
-[node name="ShootBanner" type="TextureRect" parent="Control3"]
+[node name="ShootBanner" type="TextureRect" parent="BannerHolder/Messages"]
 visible = false
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
@@ -488,7 +599,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_4qtub")
 
-[node name="PullBanner" type="TextureRect" parent="Control3"]
+[node name="PullBanner" type="TextureRect" parent="BannerHolder/Messages"]
 visible = false
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
@@ -499,7 +610,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("12_de7s6")
 
-[node name="CutBanner" type="TextureRect" parent="Control3"]
+[node name="CutBanner" type="TextureRect" parent="BannerHolder/Messages"]
 visible = false
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
@@ -510,7 +621,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_jgwwb")
 
-[node name="ResetBanner" type="TextureRect" parent="Control3"]
+[node name="ResetBanner" type="TextureRect" parent="BannerHolder/Messages"]
 visible = false
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
@@ -521,7 +632,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("14_bflph")
 
-[node name="DisabledBanner" type="TextureRect" parent="Control3"]
+[node name="DisabledBanner" type="TextureRect" parent="BannerHolder/Messages"]
 visible = false
 material = SubResource("ShaderMaterial_vo41o")
 layout_mode = 1
@@ -531,3 +642,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("15_rdvc7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BannerHolder"]
+libraries = {
+"": SubResource("AnimationLibrary_3aahy")
+}
