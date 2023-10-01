@@ -42,8 +42,12 @@ func recalculate_border():
 	
 	area_collision_polygon.polygon = polygon
 	
-	create_tween().tween_method(func(percent : float): set_polygon(lerp_packed_vector_2_array(old_polygon,polygon,percent),lerp_packed_vector_2_array(old_points,inner_line,percent)),0.0,1.0,.2)
-
+	var pull_tween = create_tween() #oh dios mio
+	pull_tween.tween_method(func(percent : float): set_polygon(\
+	lerp_packed_vector_2_array(old_polygon,polygon,percent),\
+	lerp_packed_vector_2_array(old_points,inner_line,percent)),0.0,1.0,0.5)\
+	.set_trans(Tween.TRANS_ELASTIC)
+	
 func lerp_packed_vector_2_array(start : PackedVector2Array, end : PackedVector2Array, percent : float) -> PackedVector2Array:
 	if start.size() != end.size():
 		return end

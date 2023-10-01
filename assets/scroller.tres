@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cjd4wttdrgth8"]
+
+[sub_resource type="Shader" id="Shader_kgt2b"]
+code = "shader_type canvas_item;
+
+uniform vec2 motion = vec2(0.0);
+uniform float scale = 1.0;
+uniform vec2 offset = vec2(0.0);
+
+void vertex(){
+	UV = (VERTEX + offset + TIME * motion) * TEXTURE_PIXEL_SIZE * (1.0/scale);
+}"
+
+[resource]
+shader = SubResource("Shader_kgt2b")
+shader_parameter/motion = Vector2(-80, 0)
+shader_parameter/scale = 3.0
+shader_parameter/offset = Vector2(0, 0)

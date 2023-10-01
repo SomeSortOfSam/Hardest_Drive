@@ -11,6 +11,7 @@ const SPEED = 300.0
 @onready var walk_dust : GPUParticles2D = $WalkDust
 @onready var animator :AnimationPlayer = $AnimationPlayer
 @onready var harpoon_hit :GPUParticles2D = $HarpoonHit
+@onready var hurt_warn :GPUParticles2D = $HurtWarn
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 @onready var tile_map_checker : Area2D = $TileMapCheck
 
@@ -103,7 +104,8 @@ func pull_harpoon():
 	var target = to_global(chain.points[0]) + transition
 	harpoon_tween.kill()
 	harpoon_tween = create_tween()
-	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(to_local(current),to_local(target),percent),0.0,1.0,.2)
+	harpoon_tween.tween_method(func(percent : float): chain.points[0] = \
+	lerp(to_local(current),to_local(target),percent),0.0,1.0,.5).set_trans(Tween.TRANS_ELASTIC)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 	animator.play("Pull")
 	pull_requested.emit(harpoon_direction)
@@ -143,7 +145,7 @@ func stop_harpoon():
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
-
+	hurt_warn.emitting = true
 
 func _on_tile_map_check_body_entered(body):
 	is_overlaping_tilemap = true
