@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=50 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]
+[ext_resource type="Texture2D" uid="uid://b3dbddwkhehpg" path="res://assets/user_stand.png" id="7_piuu2"]
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="8_cc14j"]
+[ext_resource type="Texture2D" uid="uid://cjf253s3138lt" path="res://assets/user_walk.png" id="8_ckoa3"]
 
 [sub_resource type="Gradient" id="Gradient_e2cr0"]
 offsets = PackedFloat32Array(0.814815, 1)
@@ -61,6 +63,139 @@ scale_min = 0.2
 scale_max = 0.4
 color_ramp = SubResource("GradientTexture1D_he4x6")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2563a"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7lcdo"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_da2ry"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xajvc"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18qh5"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxa7g"]
+atlas = ExtResource("8_ckoa3")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_761ax"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_piuu2")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2563a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7lcdo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_da2ry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xajvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18qh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxa7g")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_4aixl"]
+resource_name = "WalkBounce"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Walk"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Rotor:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 10), Vector2(0, 0), Vector2(0, 5), Vector2(0, 10), Vector2(0, 0), Vector2(0, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_g0xkw"]
+resource_name = "Idle"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rotor:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fqrr2"]
+_data = {
+"Idle": SubResource("Animation_g0xkw"),
+"WalkBounce": SubResource("Animation_4aixl")
+}
+
 [sub_resource type="Gradient" id="Gradient_02cua"]
 offsets = PackedFloat32Array(0.851852, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -102,7 +237,7 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Rotor/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -118,7 +253,7 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Rotor/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -134,7 +269,7 @@ length = 0.3
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position:x")
+tracks/0/path = NodePath("Rotor/Sprite2D:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -145,7 +280,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:position:y")
+tracks/1/path = NodePath("Rotor/Sprite2D:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -156,22 +291,10 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Line2D:points")
+tracks/2/path = NodePath("Rotor/Sprite2D/PullDust:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [PackedVector2Array(0, 0, 0, 10), PackedVector2Array(0, 0, 0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PullDust:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -180,18 +303,6 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_eg1da"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Line2D:points")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [PackedVector2Array(0, 0, 0, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_k4h7x"]
 resource_name = "SpaceHit"
@@ -199,7 +310,7 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Rotor/Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -304,24 +415,39 @@ amount = 10
 process_material = SubResource("ParticleProcessMaterial_hwil0")
 texture = ExtResource("2_7mr5a")
 
-[node name="PullDust" type="GPUParticles2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_761ax")
+animation = &"Idle"
+
+[node name="MoveAnimator" type="AnimationPlayer" parent="."]
+speed_scale = 2.0
+libraries = {
+"": SubResource("AnimationLibrary_fqrr2")
+}
+
+[node name="Line2D" type="Line2D" parent="."]
+texture_repeat = 2
+points = PackedVector2Array(0, 0, 0, 10)
+texture = ExtResource("3_6sanu")
+texture_mode = 1
+
+[node name="Rotor" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rotor"]
+position = Vector2(0, -10)
+texture = ExtResource("4_up6xg")
+hframes = 5
+frame = 2
+
+[node name="PullDust" type="GPUParticles2D" parent="Rotor/Sprite2D"]
+show_behind_parent = true
+scale = Vector2(1.42857, 1.42857)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_kxi20")
 texture = ExtResource("2_7mr5a")
 speed_scale = 1.5
-
-[node name="Line2D" type="Line2D" parent="."]
-texture_repeat = 2
-points = PackedVector2Array(0, 0, 0, 0)
-texture = ExtResource("3_6sanu")
-texture_mode = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("4_up6xg")
-hframes = 5
-frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dqpb6")
@@ -331,7 +457,7 @@ target_position = Vector2(0, -5000)
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="ShootAnimator" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_66jn2")
 }

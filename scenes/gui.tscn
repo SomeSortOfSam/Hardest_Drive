@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://6kjvu1k0t34i"]
 
-[ext_resource type="Material" path="res://assets/scroller.tres" id="1_2dviw"]
+[ext_resource type="Material" uid="uid://dbsqm5kcadmgw" path="res://assets/scroller.tres" id="1_2dviw"]
 [ext_resource type="Texture2D" path="res://assets/title_background_row.png" id="1_ow7ib"]
 [ext_resource type="Texture2D" path="res://assets/title_edges_row.png" id="2_fctjt"]
 [ext_resource type="Texture2D" path="res://assets/title_text_row.png" id="2_piyd5"]
@@ -101,9 +101,9 @@ grow_vertical = 2
 material = ExtResource("1_2dviw")
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.05
+anchor_top = 0.2
 anchor_right = 1.0
-anchor_bottom = 0.05
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ow7ib")
@@ -143,9 +143,9 @@ modulate = Color(1, 0.682353, 0, 1)
 material = SubResource("ShaderMaterial_tvcp8")
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.9
+anchor_top = 1.1
 anchor_right = 1.0
-anchor_bottom = 0.95
+anchor_bottom = 1.1
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("5_e3kbn")
