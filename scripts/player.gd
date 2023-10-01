@@ -182,7 +182,7 @@ func stop_harpoon():
 
 	switch_track(droneless_track)
 	if harpoon_target and not harpoon_target.is_queued_for_deletion() and\
-	 pull_requested.is_connected(harpoon_target._on_player_pull_requested):
+	pull_requested.is_connected(harpoon_target._on_player_pull_requested):
 		pull_requested.disconnect(harpoon_target._on_player_pull_requested)
 	create_stop_harpoon_tween()
 	shoot_animator.play("HarpoonIn")
