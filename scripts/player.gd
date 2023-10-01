@@ -119,6 +119,7 @@ func pull_harpoon():
 
 func add_hit_fx():
 	harpoon_hit.position = chain.points[0]
+	harpoon_hit.rotation = sprite.rotation
 	harpoon_hit.emitting = true
 
 func while_harpoon_out(target):
