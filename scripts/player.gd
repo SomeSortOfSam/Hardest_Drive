@@ -12,11 +12,14 @@ const SPEED = 300.0
 @onready var animator :AnimationPlayer = $AnimationPlayer
 @onready var harpoon_hit :GPUParticles2D = $HarpoonHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+@onready var tile_map_checker : Area2D = $TileMapCheck
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
+var is_overlaping_tilemap := false
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 signal pull_requested(direction : float)
 
@@ -31,10 +34,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	if vertical_input:
 		velocity.y = vertical_input * SPEED
-	else:
+	elif is_overlaping_tilemap:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 	walk_dust.emitting = velocity.length() > 0
 	
+	tile_map_checker.position = velocity*delta
+	if !is_overlaping_tilemap:
+		velocity.y += gravity * delta
+
 	move_and_slide()
 
 func _unhandled_input(event):
@@ -132,3 +139,13 @@ func stop_harpoon():
 
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
+
+
+func _on_tile_map_check_body_entered(body):
+	is_overlaping_tilemap = true
+	tile_map_checker.modulate = Color.REBECCA_PURPLE
+	velocity.y = 0
+
+func _on_tile_map_check_body_exited(body):
+	is_overlaping_tilemap = false
+	tile_map_checker.modulate = Color.BISQUE

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=34 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]
+[ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="8_1yueg"]
 
 [sub_resource type="Gradient" id="Gradient_e2cr0"]
 offsets = PackedFloat32Array(0.814815, 1)
@@ -253,6 +254,8 @@ orbit_velocity_max = 0.0
 scale_min = 0.5
 color_ramp = SubResource("GradientTexture1D_t3yx8")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hcu1o"]
+
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 script = ExtResource("1_0okmc")
@@ -328,4 +331,19 @@ explosiveness = 1.0
 stream = ExtResource("3_6a6uj")
 autoplay = true
 
+[node name="TileMapCheck" type="Area2D" parent="."]
+position = Vector2(-33.205, 0)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMapCheck"]
+shape = SubResource("CircleShape2D_hcu1o")
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMapCheck"]
+position = Vector2(-3.8147e-06, 0.999996)
+scale = Vector2(0.15625, 0.15625)
+texture = ExtResource("8_1yueg")
+
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="TileMapCheck" to="." method="_on_tile_map_check_body_entered"]
+[connection signal="body_exited" from="TileMapCheck" to="." method="_on_tile_map_check_body_exited"]
