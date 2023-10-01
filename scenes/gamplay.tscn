@@ -1071,6 +1071,8 @@ position = Vector2(26, 279)
 
 [node name="Box" parent="TileMap" instance=ExtResource("5_f7nl1")]
 
+[node name="Timer" type="Timer" parent="TileMap"]
+
 [node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
 position = Vector2(892, 271)
 
@@ -1107,3 +1109,6 @@ metadata/_edit_lock_ = true
 
 [connection signal="pull_failed" from="." to="TileMap/Player" method="stop_harpoon"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
+[connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]
+[connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_movement_enabled"]
+[connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Timer" method="start"]

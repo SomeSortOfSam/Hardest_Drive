@@ -4,7 +4,7 @@ extends Area2D
 
 @onready var timer : Timer = $Timer
 
-func _on_area_exited(area):
+func _on_area_exited(_area):
 	timer.start()
 	if !timer.timeout.is_connected(spawn_enemy):
 		timer.timeout.connect(spawn_enemy,CONNECT_ONE_SHOT)

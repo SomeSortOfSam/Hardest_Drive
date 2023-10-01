@@ -28,13 +28,13 @@ func start_tutorial():
 	inner_rect = inner_rect.grow_side(SIDE_BOTTOM,-64)
 	recalculate_border()
 
-func recalculate_border(ease = Tween.EASE_OUT):
+func recalculate_border(ease_type = Tween.EASE_OUT):
 	var polygon_rect := get_viewport_rect()
 	polygon_rect.size *= get_viewport_transform().get_scale()
 	
 	assert(polygon_rect.encloses(inner_rect))
 	
-	var polygon := get_points_from_rect(polygon_rect.grow(100))
+	var polygon := get_points_from_rect(polygon_rect)
 	var inner_line := get_points_from_rect_counter_clock(inner_rect)
 	
 	polygon.append_array(inner_line)
@@ -49,7 +49,7 @@ func recalculate_border(ease = Tween.EASE_OUT):
 	pull_tween.tween_method(func(percent : float): set_polygon(\
 	lerp_packed_vector_2_array(old_polygon,polygon,percent),\
 	lerp_packed_vector_2_array(old_points,inner_line,percent)),0.0,1.0,0.5)\
-	.set_trans(Tween.TRANS_ELASTIC).set_ease(ease)
+	.set_trans(Tween.TRANS_ELASTIC).set_ease(ease_type)
 	
 func lerp_packed_vector_2_array(start : PackedVector2Array, end : PackedVector2Array, percent : float) -> PackedVector2Array:
 	if start.size() != end.size():
@@ -100,6 +100,7 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 		direction = TAU + direction
 	direction = fmod(direction + 3*(PI/2),TAU)
 	direction = deg_to_rad(round(rad_to_deg(direction)))
+	@warning_ignore("narrowing_conversion")
 	var side_index : int = direction/(PI/2)
 	
 	var proposed_inner_rect = inner_rect
