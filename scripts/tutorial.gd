@@ -4,6 +4,8 @@ extends CanvasLayer
 
 var triggered_count := 0
 
+signal player_movement_enabled
+
 func _unhandled_input(event):
 	if ((triggered_count < 2 or (triggered_count > 2 and triggered_count <= 4))
 	 and event is InputEventMouseButton and\
@@ -15,6 +17,7 @@ func _unhandled_input(event):
 		triggered_count += 1
 		if triggered_count == 1:
 			animator.play("pull")
+			player_movement_enabled.emit()
 		if triggered_count == 2:
 			animator.play("walk")
 		if triggered_count == 3:

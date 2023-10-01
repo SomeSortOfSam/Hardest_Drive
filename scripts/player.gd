@@ -25,14 +25,14 @@ var rotate_tween : Tween
 var harpoon_direction : float
 var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
+var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var moving_enabled := true
+var last_safe_position : Vector2
 
 signal pull_requested(direction : float)
 
-func _physics_process(delta):
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
+func get_movement_input():
 	var horizontal_input = Input.get_axis("player_left", "player_right")
 	var vertical_input = Input.get_axis("player_up", "player_down")
 	if horizontal_input:
@@ -43,6 +43,10 @@ func _physics_process(delta):
 		velocity.y = vertical_input * SPEED
 	elif is_overlaping_tilemap && moving_enabled:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
+
+func _physics_process(delta):
+	if can_move:
+		get_movement_input()
 	
 	if velocity.length() > 0:
 		walk_dust.emitting = true
@@ -58,12 +62,22 @@ func _physics_process(delta):
 	
 	
 	tile_map_checker.position = velocity*delta
-	if !is_overlaping_tilemap:
-		velocity.y += gravity * delta
+	if can_move and !is_overlaping_tilemap:
+		if position == last_safe_position:
+			velocity.y += gravity * delta
+			move_and_slide()
+			last_safe_position = position
+		else:
+			velocity = Vector2.ZERO
+			position = last_safe_position
+	elif move_and_slide():
+		ray_cast.set_collision_mask_value(1,true)
+		set_collision_mask_value(2,true)
 
-	if move_and_slide():
-		ray_cast.collision_mask += 1
-		collision_mask += 2 # don't collide with the letterbox until after the tutorial
+	
+	
+	if is_overlaping_tilemap:
+		last_safe_position = position
 
 func get_target_rotation() -> float:
 	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
@@ -118,6 +132,7 @@ func fire_harpoon():
 	shoot_animator.play("HarpoonOut")
 	if ray_cast.get_collider():
 		harpoon_target = null
+		print(ray_cast.get_collider())
 		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
 			harpoon_target = ray_cast.get_collider()
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
@@ -192,12 +207,20 @@ func _on_hit_box_area_entered(area : Area2D):
 	hurt_hit.emitting = true
 	hurt_audio.play()
 
-func _on_tile_map_check_body_entered(body):
+func _on_tile_map_check_body_entered(_body):
 	is_overlaping_tilemap = true
 	velocity.y = 0
 
-func _on_tile_map_check_body_exited(body):
+func _on_tile_map_check_body_exited(_body):
 	is_overlaping_tilemap = false
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	global_position = get_viewport().get_camera_2d().global_position
+	if can_move:
+		global_position = get_viewport().get_camera_2d().global_position
+		printerr("Player out of bounds - reseting")
+		var camera = get_viewport().get_camera_2d()
+		global_position = camera.global_position + (get_viewport_rect().size * get_viewport_transform().get_scale())/2
+		velocity = Vector2.ZERO
+
+func _on_tutorial_player_movement_enabled():
+	can_move = true
