@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=51 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -346,7 +346,7 @@ radius = 14.5
 height = 56.0
 
 [sub_resource type="Gradient" id="Gradient_a827l"]
-offsets = PackedFloat32Array(0, 0.125926, 0.244444, 0.392593, 0.8, 1)
+offsets = PackedFloat32Array(0, 0.125926, 0.244444, 0.392593, 0.562963, 1)
 colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_f0hob"]
@@ -373,6 +373,26 @@ scale_min = 0.2
 scale_max = 1.5
 scale_curve = SubResource("CurveTexture_txrmk")
 color_ramp = SubResource("GradientTexture1D_f0hob")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0t0n3"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 500.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -20.0
+angle_max = 20.0
+scale_min = 0.2
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_txrmk")
+color_ramp = SubResource("GradientTexture1D_f0hob")
+turbulence_noise_strength = 20.0
+turbulence_noise_speed = Vector3(1, 1, 0)
+turbulence_influence_max = 1.0
+turbulence_initial_displacement_max = 100.0
 
 [sub_resource type="Gradient" id="Gradient_dek1m"]
 offsets = PackedFloat32Array(0.822222, 1)
@@ -483,6 +503,15 @@ texture = ExtResource("8_cc14j")
 one_shot = true
 explosiveness = 0.75
 local_coords = true
+
+[node name="HurtHit" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_0t0n3")
+texture = ExtResource("5_srnni")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
 
 [node name="HarpoonHit" type="GPUParticles2D" parent="."]
 emitting = false

@@ -14,6 +14,7 @@ const SPEED = 300.0
 @onready var shoot_animator :AnimationPlayer = $ShootAnimator
 @onready var harpoon_hit :GPUParticles2D = $HarpoonHit
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
+@onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 
 var harpoon_tween : Tween
@@ -150,3 +151,4 @@ func stop_harpoon():
 func _on_hit_box_area_entered(area : Area2D):
 	velocity += (global_position - area.global_position).normalized() * SPEED * 10
 	hurt_warn.emitting = true
+	hurt_hit.emitting = true
