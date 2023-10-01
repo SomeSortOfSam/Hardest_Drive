@@ -114,7 +114,6 @@ func fire_harpoon():
 	shoot_animator.play("HarpoonOut")
 	if ray_cast.get_collider():
 		harpoon_target = null
-		print(ray_cast.get_collider())
 		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
 			harpoon_target = ray_cast.get_collider()
 			pull_requested.connect(harpoon_target._on_player_pull_requested)
@@ -170,7 +169,6 @@ func create_stop_harpoon_tween():
 
 func stop_harpoon():
 	if !harpoon_tween:
-		print("Ha ha!")
 		return
 
 	switch_track(droneless_track)
