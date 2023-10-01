@@ -48,7 +48,10 @@ func get_movement_input():
 func _physics_process(delta):
 	if can_move:
 		get_movement_input()
-	
+	animate_character()
+	move_and_slide()
+
+func animate_character():
 	if velocity.length() > 0:
 		walk_dust.emitting = true
 		move_animator.play("WalkBounce")
@@ -60,22 +63,6 @@ func _physics_process(delta):
 		anim_sprite.scale = Vector2(-1,1)
 	else:
 		anim_sprite.scale = Vector2(1,1)
-	
-	
-	tile_map_checker.position = velocity*delta
-	if can_move and !is_overlaping_tilemap:
-		if position == last_safe_position:
-			velocity.y += gravity * delta
-			move_and_slide()
-			last_safe_position = position
-		else:
-			velocity = Vector2.ZERO
-			position = last_safe_position
-	else:
-		move_and_slide()
-	
-	if is_overlaping_tilemap:
-		last_safe_position = position
 
 func get_target_rotation() -> float:
 	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
