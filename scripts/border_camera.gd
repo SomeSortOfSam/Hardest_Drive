@@ -102,15 +102,19 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 	direction = fmod(direction + 3*(PI/2),TAU)
 	direction = deg_to_rad(round(rad_to_deg(direction)))
 	@warning_ignore("narrowing_conversion")
-	var side_index : int = direction/(PI/2)
+	var side_index : int = int(direction/(PI/2)) % 4
 	
 	var proposed_inner_rect = inner_rect
 	
 	proposed_inner_rect = proposed_inner_rect.grow_side(side_index,-tile_map.tile_set.tile_size.x)
+	print(side_index,":",proposed_inner_rect)
 	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 2) % 4,-tile_map.tile_set.tile_size.x)
+	print((side_index + 2) % 4,":",proposed_inner_rect)
 	
 	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 1) % 4,tile_map.tile_set.tile_size.x)
+	print((side_index + 1) % 4,":",proposed_inner_rect)
 	proposed_inner_rect = proposed_inner_rect.grow_side((side_index + 3) % 4,tile_map.tile_set.tile_size.x)
+	print((side_index + 3) % 4,":",proposed_inner_rect)
 	
 	if proposed_inner_rect.size.x <= 0 or proposed_inner_rect.size.y <= 0:
 		print(pull_failed.get_connections())
