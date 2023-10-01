@@ -93,7 +93,8 @@ func pull_harpoon():
 	var target = to_global(chain.points[0]) + transition
 	harpoon_tween.kill()
 	harpoon_tween = create_tween()
-	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(to_local(current),to_local(target),percent),0.0,1.0,.2)
+	harpoon_tween.tween_method(func(percent : float): chain.points[0] = \
+	lerp(to_local(current),to_local(target),percent),0.0,1.0,.5).set_trans(Tween.TRANS_ELASTIC)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 	animator.play("Pull")
 
