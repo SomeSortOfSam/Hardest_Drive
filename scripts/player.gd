@@ -71,11 +71,8 @@ func _physics_process(delta):
 		else:
 			velocity = Vector2.ZERO
 			position = last_safe_position
-	elif move_and_slide():
-		ray_cast.set_collision_mask_value(1,true)
-		set_collision_mask_value(2,true)
-
-	
+	else:
+		move_and_slide()
 	
 	if is_overlaping_tilemap:
 		last_safe_position = position
@@ -225,6 +222,9 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 func _on_tutorial_player_movement_enabled():
 	can_move = true
+	await timer.timeout
+	ray_cast.set_collision_mask_value(1,true)
+	set_collision_mask_value(2,true)
 
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
