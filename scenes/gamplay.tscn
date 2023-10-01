@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
 [ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
-[ext_resource type="PackedScene" path="res://scenes/gui.tscn" id="7_xd0wi"]
+[ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
 [ext_resource type="Texture2D" uid="uid://bakv4suv6mptr" path="res://icon.svg" id="8_0o7v7"]
 [ext_resource type="Texture2D" uid="uid://bigkg0awe2t56" path="res://assets/angle_grid.png" id="8_f1au5"]
 
@@ -1079,6 +1079,8 @@ default_color = Color(0, 0, 0, 1)
 texture_mode = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Camera2D"]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Camera2D/StaticBody2D"]
 
@@ -1160,16 +1162,17 @@ texture = ExtResource("8_f1au5")
 stretch_mode = 1
 flip_h = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Box" type="StaticBody2D" parent="."]
 position = Vector2(947, 450)
+collision_layer = 32
 collision_mask = 0
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box"]
 position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_po2po")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Box"]
 z_index = -1
 texture = ExtResource("8_0o7v7")
 

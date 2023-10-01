@@ -112,9 +112,12 @@ func fire_harpoon():
 	create_fire_harpoon_tween()
 	harpoon_direction = sprite.rotation
 	shoot_animator.play("HarpoonOut")
-	if ray_cast.get_collider() and ray_cast.get_collider().has_method("_on_player_pull_requested"):
-		harpoon_target = ray_cast.get_collider()
-		pull_requested.connect(harpoon_target._on_player_pull_requested)
+	if ray_cast.get_collider():
+		harpoon_target = null
+		print(ray_cast.get_collider())
+		if ray_cast.get_collider().has_method("_on_player_pull_requested"):
+			harpoon_target = ray_cast.get_collider()
+			pull_requested.connect(harpoon_target._on_player_pull_requested)
 
 func rotation_to_direction(the_roatation : float) -> Vector2:
 	if the_roatation < 0:
