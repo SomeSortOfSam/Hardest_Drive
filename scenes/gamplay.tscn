@@ -1067,7 +1067,7 @@ layer_0/tile_data = PackedInt32Array(196615, 655361, 3, 131079, 589825, 1, 65543
 
 [node name="Player" parent="TileMap" instance=ExtResource("2_7pc31")]
 y_sort_enabled = true
-position = Vector2(26, 279)
+position = Vector2(28, 287)
 
 [node name="Box" parent="TileMap" instance=ExtResource("5_f7nl1")]
 

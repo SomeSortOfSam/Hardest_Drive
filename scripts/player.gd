@@ -26,6 +26,7 @@ var harpoon_target : CollisionObject2D
 var is_overlaping_tilemap := false
 var can_move := false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var last_safe_position : Vector2
 
 signal pull_requested(direction : float)
 
@@ -59,12 +60,22 @@ func _physics_process(delta):
 	
 	
 	tile_map_checker.position = velocity*delta
-	if !is_overlaping_tilemap:
-		velocity.y += gravity * delta
-
-	if move_and_slide():
+	if can_move and !is_overlaping_tilemap:
+		if position == last_safe_position:
+			velocity.y += gravity * delta
+			move_and_slide()
+			last_safe_position = position
+		else:
+			velocity = Vector2.ZERO
+			position = last_safe_position
+	elif move_and_slide():
 		ray_cast.set_collision_mask_value(1,true)
-		set_collision_mask_value(2,true) # don't collide with the letterbox until after the tutorial
+		set_collision_mask_value(2,true)
+
+	
+	
+	if is_overlaping_tilemap:
+		last_safe_position = position
 
 func get_target_rotation() -> float:
 	var angle_to_mouse = get_global_mouse_position().angle_to_point(global_position) - PI/2
@@ -198,7 +209,12 @@ func _on_tile_map_check_body_exited(_body):
 	is_overlaping_tilemap = false
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
-	global_position = get_viewport().get_camera_2d().global_position
+	if can_move:
+		global_position = get_viewport().get_camera_2d().global_position
+		printerr("Player out of bounds - reseting")
+		var camera = get_viewport().get_camera_2d()
+		global_position = camera.global_position + (get_viewport_rect().size * get_viewport_transform().get_scale())/2
+		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
 	can_move = true
