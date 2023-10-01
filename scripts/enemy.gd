@@ -47,7 +47,8 @@ func _physics_process(delta):
 	new_velocity = new_velocity * movement_speed
 	velocity = new_velocity
 
-	move_and_slide()
+	if move_and_slide():
+		set_movement_target(player.global_position)
 	face_target()
 
 func face_target():
