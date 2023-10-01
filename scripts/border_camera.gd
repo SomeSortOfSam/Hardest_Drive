@@ -35,14 +35,15 @@ func recalculate_border(inner_rect : Rect2):
 	polygon.append_array(line)
 	area_collision_polygon.polygon = polygon
 	
-	var pull_tween = create_tween() #oh dios mio
-	pull_tween.tween_method(recalculate_border_step.bind(polygon_rect,inner_rect),0.0,1.0,0.5)\
-	.set_trans(Tween.TRANS_ELASTIC)
-	pull_tween.tween_callback(func(): last_inner_rect = inner_rect)
+	var prev_inner_rect = last_inner_rect
+	last_inner_rect = inner_rect
+	
+	create_tween().tween_method(recalculate_border_step.bind(polygon_rect,inner_rect,prev_inner_rect),0.0,1.0,0.5)\
+	.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
-func recalculate_border_step(percent : float, polygon_rect : Rect2, inner_rect : Rect2):
+func recalculate_border_step(percent : float, polygon_rect : Rect2, inner_rect : Rect2, prev_inner_rect : Rect2):
 	var polygon = get_points_from_rect(polygon_rect)
-	var line_rect = lerp_rect_2(last_inner_rect,inner_rect,percent)
+	var line_rect = lerp_rect_2(prev_inner_rect,inner_rect,percent)
 	line_rect = minimum_inner_rect.intersection(line_rect)
 	var line = get_points_from_rect_counter_clock(line_rect)
 	polygon.append_array(line)
