@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c0bavsp5m5qge"]
+[gd_scene load_steps=22 format=3 uid="uid://c0bavsp5m5qge"]
 
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_qmkjd"]
 [ext_resource type="Texture2D" uid="uid://dt4j3ychg873b" path="res://assets/file_run.png" id="2_7qneq"]
@@ -61,6 +61,9 @@ color_ramp = SubResource("GradientTexture1D_q38xq")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2678v"]
 size = Vector2(32, 32)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pq1wp"]
+radius = 22.5222
+
 [sub_resource type="Animation" id="Animation_lpiui"]
 resource_name = "Destroy"
 tracks/0/type = "value"
@@ -116,30 +119,6 @@ tracks/0/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 5]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WalkDust:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D/Destroy:emitting")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tcx8n"]
 _data = {
@@ -174,6 +153,7 @@ hframes = 6
 
 [node name="Destroy" type="GPUParticles2D" parent="Sprite2D"]
 modulate = Color(1, 0, 0, 1)
+emitting = false
 amount = 6
 process_material = SubResource("ParticleProcessMaterial_qf8dk")
 texture = ExtResource("4_150kn")
@@ -182,11 +162,19 @@ texture = ExtResource("4_150kn")
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 9
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_2678v")
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0.5, 0)
+shape = SubResource("CircleShape2D_pq1wp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Run"
@@ -203,3 +191,4 @@ autostart = true
 stream = ExtResource("5_vsbux")
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

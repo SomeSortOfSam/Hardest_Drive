@@ -20,6 +20,7 @@ const SPEED = 300.0
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 @onready var timer :Timer = $Timer
 @onready var hurt_timer : Timer = $Node2D/HurtTimer
+@onready var hit_box : Area2D = $HitBox
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
@@ -34,6 +35,7 @@ var last_safe_position : Vector2
 var pull_succsedded := true
 
 signal pull_requested(direction : float)
+signal reset_position_requested
 
 func get_movement_input():
 	var horizontal_input = Input.get_axis("player_left", "player_right")
@@ -145,10 +147,16 @@ func create_pulled_by_harpoon_tween():
 	moving_enabled = false
 	timer.start(0.3)
 	set_collision_mask_value(2,false)
+	hit_box.set_collision_mask_value(3,false)
+	hit_box.set_collision_layer_value(4,false)
+	hit_box.set_collision_layer_value(3,true)
 	velocity += to_local( ray_cast.get_collision_point()) * 4
 	await timer.timeout
 	moving_enabled = true
 	set_collision_mask_value(2,true)
+	hit_box.set_collision_mask_value(3,true)
+	hit_box.set_collision_layer_value(4,true)
+	hit_box.set_collision_layer_value(3,false)
 	stop_harpoon()
 
 func pull_harpoon():
@@ -202,25 +210,18 @@ func _on_hit_box_area_entered(area : Area2D):
 func _on_tile_map_check_body_entered(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,true)
-		hurt_timer.stop()
+	hurt_timer.stop()
 
 func _on_tile_map_check_body_exited(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,false)
-		hurt_timer.start()
+	hurt_timer.start()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	if moving_enabled:
-		global_position = get_viewport().get_camera_2d().global_position
 		printerr("Player out of bounds - reseting")
-		var camera = get_viewport().get_camera_2d()
-		moving_enabled = false
-		print("anim_name_before ",move_animator.current_animation)
 		move_animator.play("Respawn",-1,1,true)
-		print("anim_name_after ",move_animator.current_animation)
-		await move_animator.animation_finished
-		moving_enabled = true
-		global_position = camera.global_position + (get_viewport_rect().size * get_viewport_transform().get_scale())/2
+		reset_position_requested.emit()
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
