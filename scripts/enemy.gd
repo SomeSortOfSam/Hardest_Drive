@@ -29,15 +29,14 @@ func actor_setup():
 	await get_tree().physics_frame
 
 	# Now that the navigation map is no longer empty, set the movement target.
-	set_movement_target(player.global_position)
+	set_movement_target(get_target())
 
 func set_movement_target(movement_target: Vector2):
 	navigation_agent.target_position = movement_target
 
 func _physics_process(delta):
 	if navigation_agent.is_navigation_finished():
-		set_movement_target(player.global_position)
-		return
+		on_navigation_finished()
 
 	var current_agent_position: Vector2 = global_position
 	var next_path_position: Vector2 = navigation_agent.get_next_path_position()
@@ -50,6 +49,13 @@ func _physics_process(delta):
 	if move_and_slide():
 		set_movement_target(player.global_position)
 	face_target()
+
+func get_target() -> Vector2:
+	return player.global_position
+
+# called every physics frame
+func on_navigation_finished():
+	set_movement_target(get_target())
 
 func face_target():
 	if navigation_agent.target_position.x > global_position.x:
@@ -70,9 +76,6 @@ func die():
 
 func disable_hitbox():
 	hurtbox_shape.disabled = true
-
-func _on_navigation_agent_2d_waypoint_reached(details):
-	set_movement_target(player.global_position)
 
 func _on_hurt_box_area_entered(area : Area2D):
 	if area.get_parent().get_script() != get_script():
