@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://csup02ayx0psy"]
+[gd_scene load_steps=4 format=3 uid="uid://bwdutwl4s14vy"]
 
-[ext_resource type="PackedScene" uid="uid://bvgvlx34lnx5l" path="res://scenes/box.tscn" id="1_eynvn"]
-[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="2_wdhan"]
+[ext_resource type="PackedScene" uid="uid://bkrf8g5mfr2am" path="res://scenes/box.tscn" id="1_eynvn"]
+[ext_resource type="PackedScene" uid="uid://by0lpoywb56mx" path="res://scenes/enemy_spawner.tscn" id="2_wdhan"]
+[ext_resource type="PackedScene" uid="uid://di5sngvkb16tw" path="res://scenes/box_dud.tscn" id="3_00ogs"]
 
 [node name="Level1" type="Node2D"]
 
@@ -22,3 +23,6 @@ position = Vector2(222, 472)
 
 [node name="EnemySpawner4" parent="." instance=ExtResource("2_wdhan")]
 position = Vector2(916, 148)
+
+[node name="Box3" parent="." instance=ExtResource("3_00ogs")]
+position = Vector2(111, 147)

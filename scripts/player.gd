@@ -34,7 +34,7 @@ var moving_enabled := false
 var last_safe_position : Vector2
 var pull_succsedded := true
 
-signal pull_requested(direction : float)
+signal pull_requested(direction : float, player)
 signal reset_position_requested
 signal screen_reset
 
@@ -109,6 +109,8 @@ func create_fire_harpoon_tween():
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 	harpoon_tween.tween_callback(add_hit_fx)
+	if ray_cast.get_collider().has_method("_on_player_harpoon_hit"):
+		harpoon_tween.tween_callback(ray_cast.get_collider()._on_player_harpoon_hit.bind(self))
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func switch_track(new_track : AudioStream):
@@ -162,8 +164,9 @@ func create_pulled_by_harpoon_tween():
 	stop_harpoon()
 
 func pull_harpoon():
-	pull_requested.emit(harpoon_direction)
+	pull_requested.emit(harpoon_direction, self)
 	if pull_succsedded:
+		print(harpoon_target)
 		if pullable:
 			create_pull_harpoon_tween()
 		else:
@@ -234,7 +237,7 @@ func _on_tutorial_player_movement_enabled():
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
 
-func _on_letterbox_collider_player_pull_requested(direction):
+func _on_letterbox_collider_player_pull_requested(_direction):
 	pullable = true
 
 func _on_gamplay_pull_failed():

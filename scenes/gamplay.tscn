@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="Script" path="res://scripts/gamplay.gd" id="1_wipyt"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
-[ext_resource type="PackedScene" path="res://scenes/level_1.tscn" id="2_n21nf"]
+[ext_resource type="PackedScene" uid="uid://bwdutwl4s14vy" path="res://scenes/level_1.tscn" id="2_n21nf"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
 [ext_resource type="PackedScene" path="res://scenes/level_2.tscn" id="3_rw4o8"]
 [ext_resource type="Script" path="res://scripts/reset_tile_map.gd" id="4_7v1cw"]
