@@ -17,10 +17,10 @@ func play_next_level():
 		current_level.queue_free()
 	level_index += 1
 	current_level = levels[level_index].instantiate()
-	add_child(current_level)
 	for child in current_level.get_children():
 		if child.has_method("spawn_enemy"):
 			child.enemy_spawned.connect(on_enemey_spawned)
+	add_child(current_level)
 	new_wave_audio.play()
 	switch_track(drone_track)
 
@@ -43,5 +43,5 @@ func _on_tutorial_done():
 	(func(): tutorial_done = true).call_deferred()
 
 func _on_player_screen_reset():
-	if tutorial_done and enemey_count == 0:
+	if tutorial_done and enemey_count <= 0:
 		play_next_level()

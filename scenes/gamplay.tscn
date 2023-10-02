@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://v1qg51y85aih" path="res://scenes/background.tscn" id="7_5cllo"]
 [ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
 [ext_resource type="PackedScene" uid="uid://dmy4xk5gh5y3" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
-[ext_resource type="AudioStream" path="res://assets/New wave SFX.wav.wav" id="11_pom1t"]
+[ext_resource type="AudioStream" uid="uid://kp6vgarjl8g7" path="res://assets/New wave SFX.wav.wav" id="11_pom1t"]
 [ext_resource type="AudioStream" uid="uid://bh01nyf4ii4m0" path="res://assets/Blades of Industry drumless.wav" id="14_qgtim"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
@@ -1286,6 +1286,7 @@ autoplay = true
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="Camera2D" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="TileMap/Player" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="reset_position_requested" from="TileMap/Player" to="TileMap" method="_on_player_reset_position_requested"]
+[connection signal="screen_reset" from="TileMap/Player" to="." method="_on_player_screen_reset"]
 [connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]
 [connection signal="done" from="Tutorial" to="." method="_on_tutorial_done"]
 [connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_movement_enabled"]
