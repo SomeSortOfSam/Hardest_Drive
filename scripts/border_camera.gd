@@ -22,7 +22,7 @@ func _unhandled_input(event):
 		recalculate_border(recalculate_offsets())
 
 func start_tutorial():
-	recalculate_border(recalculate_offsets().grow_side(SIDE_BOTTOM,-64).grow_side(SIDE_TOP,-64 * 3))
+	recalculate_border(recalculate_offsets().grow_side(SIDE_BOTTOM,-64).grow_side(SIDE_TOP,-64))
 
 func recalculate_border(inner_rect : Rect2):
 	var polygon_rect := get_viewport_rect()

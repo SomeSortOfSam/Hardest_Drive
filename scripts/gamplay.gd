@@ -16,7 +16,7 @@ func play_next_level():
 	current_level = levels[level_index].instantiate()
 	add_child(current_level)
 	for child in current_level.get_children():
-		if child is EnemeySpawner:
+		if child.is_class("EnemeySpawner"):
 			child.enemy_spawned.connect(on_enemey_spawned)
 	audio.play()
 

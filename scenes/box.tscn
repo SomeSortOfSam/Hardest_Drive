@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvgvlx34lnx5l"]
+[gd_scene load_steps=11 format=3 uid="uid://bkrf8g5mfr2am"]
 
 [ext_resource type="Script" path="res://scenes/grapple_point.gd" id="1_vvr6g"]
 [ext_resource type="Texture2D" uid="uid://xcts5k8fi3ap" path="res://assets/disc_hit.png" id="2_24fi2"]
