@@ -48,10 +48,10 @@ func _unhandled_input(event):
 			sprite_mover.play("SpriteOut")
 			done.emit()
 
-func swap_sprite_to(name :String):
+func swap_sprite_to(animation_name :String):
 	sprite_mover.play("SpriteChange")
 	await sprite_mover.animation_finished
-	animator.play(name)
+	animator.play(animation_name)
 	sprite_mover.play_backwards("SpriteChange")
 
 func swap_banner_to(index :int):

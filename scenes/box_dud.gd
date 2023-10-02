@@ -1,6 +1,6 @@
 extends "res://scenes/grapple_point.gd"
 
-func _on_player_pull_requested(_direction,player):
+func _on_player_pull_requested(_direction,_player):
 	pass
 
 func _on_player_harpoon_hit(player):

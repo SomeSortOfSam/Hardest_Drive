@@ -101,3 +101,5 @@ speed_scale = 1.5
 libraries = {
 "": SubResource("AnimationLibrary_w06r8")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

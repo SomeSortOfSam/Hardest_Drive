@@ -8,10 +8,13 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var player = $"../../TileMap/Player"
-@onready var sprite :Sprite2D = $Sprite2D
-@onready var timer : Timer = $Timer
 @onready var tilemap :TileMap = $"../../TileMap"
-@onready var animator :AnimationPlayer = $"AnimationPlayer"
+
+@onready var sprite : AnimatedSprite2D = $Sprite2D
+@onready var walk_particals : GPUParticles2D = $WalkDust
+@onready var destroy_particals : GPUParticles2D = $Sprite2D/Destroy
+@onready var timer : Timer = $Timer
+
 @onready var hurtbox_shape :CollisionShape2D = $"HurtBox/CollisionShape2D"
 @onready var death_sound : AudioStreamPlayer2D = $DeathSound
 
@@ -36,7 +39,7 @@ func actor_setup():
 func set_movement_target(movement_target: Vector2):
 	navigation_agent.target_position = movement_target
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if navigation_agent.is_navigation_finished():
 		on_navigation_finished()
 
@@ -67,18 +70,16 @@ func face_target():
 
 func die():
 	dead.emit()
-	call_deferred("disable_hitbox")
+	(func(): hurtbox_shape.disabled = true).call_deferred()
 	nav_enabled = false
-	animator.play("Destroy")
+	sprite.play("destroy")
 	death_sound.stream = death_sounds.pick_random()
 	death_sound.play()
-	await animator.animation_finished
-	if death_sound.playing:
-		await death_sound.finished
+	walk_particals.emitting = false
+	destroy_particals.emitting = true
+	create_tween().tween_property(self,"modulate",Color(modulate,0),1)
+	await death_sound.finished
 	queue_free()
-
-func disable_hitbox():
-	hurtbox_shape.disabled = true
 
 func _on_hurt_box_area_entered(area : Area2D):
 	if area.get_parent().get_script() != get_script():

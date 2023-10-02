@@ -55,7 +55,7 @@ func get_movement_input():
 	elif moving_enabled:
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if moving_enabled:
 		get_movement_input()
 		animate_character()
