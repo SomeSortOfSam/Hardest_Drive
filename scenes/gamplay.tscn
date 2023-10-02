@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=67 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
 [ext_resource type="Script" path="res://scripts/gamplay.gd" id="1_wipyt"]
@@ -1213,6 +1213,9 @@ terrain_set_0/terrain_0/color = Color(1, 1, 1, 1)
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_yqq07")
 
+[sub_resource type="LabelSettings" id="LabelSettings_mrqym"]
+font_size = 32
+
 [node name="Gamplay" type="Node2D"]
 script = ExtResource("1_wipyt")
 levels = Array[PackedScene]([ExtResource("2_n21nf"), ExtResource("3_rw4o8"), ExtResource("4_3lwml")])
@@ -1275,6 +1278,15 @@ stream = null
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
+[node name="Label" type="Label" parent="Foreground"]
+visible = false
+offset_left = 475.0
+offset_top = 324.0
+offset_right = 617.0
+offset_bottom = 372.0
+text = "You Lost!"
+label_settings = SubResource("LabelSettings_mrqym")
+
 [node name="Background" parent="." instance=ExtResource("7_5cllo")]
 
 [node name="Tutorial" parent="." instance=ExtResource("9_1m4g8")]
@@ -1289,6 +1301,8 @@ autoplay = true
 [connection signal="pull_failed" from="Camera2D" to="TileMap/Player" method="_on_gamplay_pull_failed"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="Camera2D" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="TileMap/Player" method="_on_letterbox_collider_player_pull_requested"]
+[connection signal="lost" from="TileMap" to="Camera2D" method="_on_tile_map_lost"]
+[connection signal="lost" from="TileMap" to="Foreground/Label" method="set_visible" binds= [true]]
 [connection signal="reset_position_requested" from="TileMap/Player" to="TileMap" method="_on_player_reset_position_requested"]
 [connection signal="screen_reset" from="TileMap/Player" to="." method="_on_player_screen_reset"]
 [connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]

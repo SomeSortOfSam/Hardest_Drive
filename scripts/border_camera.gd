@@ -121,3 +121,7 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
 
+func _on_tile_map_lost():
+	var lose_rect = last_inner_rect
+	lose_rect.size = Vector2.ZERO
+	recalculate_border(lose_rect)

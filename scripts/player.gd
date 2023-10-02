@@ -239,6 +239,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		printerr("Player out of bounds - reseting")
 		moving_enabled = false
 		velocity = Vector2.ZERO
+		stop_harpoon()
 		respawn_animator.play_backwards("PutBack")
 		await respawn_animator.animation_finished
 		reset_position_requested.emit()
@@ -246,6 +247,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		await respawn_animator.animation_finished
 		moving_enabled = true
 		velocity = Vector2.ZERO
+		set_collision_mask_value(2,true)
 
 func _on_tutorial_player_movement_enabled():
 	await timer.timeout
