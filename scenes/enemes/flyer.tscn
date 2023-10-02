@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://cyic2sk1jbipk"]
+
+[ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemes/folder.tscn" id="1_ofit7"]
+[ext_resource type="Script" path="res://scripts/Flyer.gd" id="2_2p04i"]
+[ext_resource type="Texture2D" uid="uid://bt3gl6xr270iq" path="res://assets/app_fly.png" id="3_4dcua"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24107"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upv8a"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i54u2"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_374sm"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_661po"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1cl0"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1s0e"]
+atlas = ExtResource("3_4dcua")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w470s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24107")
+}],
+"loop": false,
+"name": &"destroy",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upv8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i54u2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_374sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_661po")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1cl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1s0e")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[node name="Flyer" instance=ExtResource("1_ofit7")]
+script = ExtResource("2_2p04i")
+
+[node name="Sprite2D" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_w470s")
+animation = &"destroy"
+frame_progress = 1.0

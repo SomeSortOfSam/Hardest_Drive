@@ -1,0 +1,74 @@
+[gd_scene load_steps=12 format=3 uid="uid://25t2j1o24gn0"]
+
+[ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemes/folder.tscn" id="1_pjv58"]
+[ext_resource type="Script" path="res://scripts/document_enemy.gd" id="2_cibpc"]
+[ext_resource type="Texture2D" uid="uid://bpbjqh8ieotr5" path="res://assets/page_run.png" id="3_hiexi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3q6lg"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq5av"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_423dv"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wder6"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q777f"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3517c"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kacw3"]
+atlas = ExtResource("3_hiexi")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bqywy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3q6lg")
+}],
+"loop": false,
+"name": &"destroy",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq5av")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_423dv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wder6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q777f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3517c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kacw3")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[node name="Document" instance=ExtResource("1_pjv58")]
+script = ExtResource("2_cibpc")
+
+[node name="Sprite2D" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_bqywy")
+frame_progress = 0.74405

@@ -123,7 +123,6 @@ _data = {
 [node name="Box" type="StaticBody2D"]
 y_sort_enabled = true
 texture_filter = 1
-position = Vector2(18, -100)
 collision_layer = 32
 collision_mask = 0
 script = ExtResource("1_vvr6g")

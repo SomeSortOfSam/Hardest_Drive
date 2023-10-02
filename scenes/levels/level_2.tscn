@@ -1,27 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://xtfrxfbmkm70"]
+[gd_scene load_steps=4 format=3 uid="uid://xtfrxfbmkm70"]
 
 [ext_resource type="PackedScene" uid="uid://bkrf8g5mfr2am" path="res://scenes/box.tscn" id="1_b26xt"]
 [ext_resource type="PackedScene" uid="uid://by0lpoywb56mx" path="res://scenes/enemes/enemy_spawner.tscn" id="2_jya7s"]
+[ext_resource type="PackedScene" uid="uid://di5sngvkb16tw" path="res://scenes/box_dud.tscn" id="3_iewwh"]
 
 [node name="Level2" type="Node2D"]
 
 [node name="Box" parent="." instance=ExtResource("1_b26xt")]
-position = Vector2(506, 340)
-
-[node name="Box3" parent="." instance=ExtResource("1_b26xt")]
-position = Vector2(824, 338)
+position = Vector2(675, 339)
 
 [node name="Box4" parent="." instance=ExtResource("1_b26xt")]
-position = Vector2(1012, 334)
+position = Vector2(1053, 332)
 
 [node name="Box5" parent="." instance=ExtResource("1_b26xt")]
 position = Vector2(90, 350)
 
-[node name="Box6" parent="." instance=ExtResource("1_b26xt")]
-position = Vector2(654, 334)
-
 [node name="Box2" parent="." instance=ExtResource("1_b26xt")]
-position = Vector2(246, 350)
+position = Vector2(479, 340)
 
 [node name="EnemySpawner" parent="." instance=ExtResource("2_jya7s")]
 position = Vector2(368, 346)
@@ -30,10 +25,10 @@ position = Vector2(368, 346)
 position = Vector2(578, 342)
 
 [node name="EnemySpawner3" parent="." instance=ExtResource("2_jya7s")]
-position = Vector2(744, 342)
+position = Vector2(752, 340)
 
 [node name="EnemySpawner4" parent="." instance=ExtResource("2_jya7s")]
-position = Vector2(924, 336)
+position = Vector2(943, 336)
 
 [node name="EnemySpawner5" parent="." instance=ExtResource("2_jya7s")]
 position = Vector2(166, 350)
@@ -48,7 +43,13 @@ position = Vector2(516, 252)
 position = Vector2(656, 258)
 
 [node name="EnemySpawner9" parent="." instance=ExtResource("2_jya7s")]
-position = Vector2(818, 254)
+position = Vector2(834, 255)
 
 [node name="EnemySpawner10" parent="." instance=ExtResource("2_jya7s")]
 position = Vector2(1006, 252)
+
+[node name="Box3" parent="." instance=ExtResource("3_iewwh")]
+position = Vector2(257, 339)
+
+[node name="Box6" parent="." instance=ExtResource("3_iewwh")]
+position = Vector2(843, 335)

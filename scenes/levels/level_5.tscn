@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://cx048oiib7xn8"]
+
+[ext_resource type="PackedScene" uid="uid://by0lpoywb56mx" path="res://scenes/enemes/enemy_spawner.tscn" id="1_6kihl"]
+[ext_resource type="PackedScene" uid="uid://cyic2sk1jbipk" path="res://scenes/enemes/flyer.tscn" id="2_4rscg"]
+[ext_resource type="PackedScene" uid="uid://25t2j1o24gn0" path="res://scenes/enemes/document.tscn" id="3_17rue"]
+[ext_resource type="PackedScene" uid="uid://bkrf8g5mfr2am" path="res://scenes/box.tscn" id="4_ptd5e"]
+
+[node name="Level_5" type="Node2D"]
+
+[node name="EnemySpawner" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(35, 41)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(1084, 33)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner3" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(574, 38)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner4" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(236, 223)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="EnemySpawner5" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(855, 203)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="EnemySpawner6" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(855, 203)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="Box" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(240, 114)
+
+[node name="Box3" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(559, 221)
+
+[node name="Box2" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(865, 114)
+
+[node name="EnemySpawner7" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(558, 288)
+
+[node name="EnemySpawner8" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(1084.12, 604.615)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner9" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(35.1222, 596.724)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner10" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(545.14, 599.45)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("2_4rscg")
+
+[node name="EnemySpawner11" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(885.903, 419.591)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="EnemySpawner12" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(266.671, 430.213)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="EnemySpawner13" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(266.671, 430.213)
+rotation = -3.12644
+scale = Vector2(1, 1)
+enemy_scene = ExtResource("3_17rue")
+
+[node name="Box4" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(880.252, 528.518)
+rotation = -3.12644
+scale = Vector2(1, 1)
+
+[node name="Box5" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(562.91, 416.698)
+rotation = -3.12644
+scale = Vector2(1, 1)
+
+[node name="Box6" parent="." instance=ExtResource("4_ptd5e")]
+position = Vector2(255.324, 519.051)
+rotation = -3.12644
+scale = Vector2(1, 1)
+
+[node name="EnemySpawner14" parent="." instance=ExtResource("1_6kihl")]
+position = Vector2(564.924, 349.721)
+rotation = -3.12644
+scale = Vector2(1, 1)
