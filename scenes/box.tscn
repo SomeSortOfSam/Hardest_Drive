@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkrf8g5mfr2am"]
+[gd_scene load_steps=12 format=3 uid="uid://bkrf8g5mfr2am"]
 
 [ext_resource type="Script" path="res://scenes/grapple_point.gd" id="1_vvr6g"]
 [ext_resource type="Texture2D" uid="uid://xcts5k8fi3ap" path="res://assets/disc_hit.png" id="2_24fi2"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="2_thhj4"]
+[ext_resource type="AudioStream" uid="uid://xvv16cf0gflb" path="res://assets/390832__nickyg11p__machinewhir03.wav" id="4_p4m4p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_po2po"]
 size = Vector2(65, 63)
@@ -154,3 +155,7 @@ speed_scale = 1.5
 libraries = {
 "": SubResource("AnimationLibrary_w06r8")
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_p4m4p")
+volume_db = 3.662
