@@ -50,7 +50,7 @@ func get_movement_input():
 func _physics_process(delta):
 	if moving_enabled:
 		get_movement_input()
-	animate_character()
+		animate_character()
 	move_and_slide()
 
 func animate_character():
@@ -214,6 +214,12 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 		global_position = get_viewport().get_camera_2d().global_position
 		printerr("Player out of bounds - reseting")
 		var camera = get_viewport().get_camera_2d()
+		moving_enabled = false
+		print("anim_name_before ",move_animator.current_animation)
+		move_animator.play("Respawn",-1,1,true)
+		print("anim_name_after ",move_animator.current_animation)
+		await move_animator.animation_finished
+		moving_enabled = true
 		global_position = camera.global_position + (get_viewport_rect().size * get_viewport_transform().get_scale())/2
 		velocity = Vector2.ZERO
 
@@ -231,3 +237,13 @@ func _on_letterbox_collider_player_pull_requested(direction):
 func _on_gamplay_pull_failed():
 	pull_succsedded = false
 	stop_harpoon()
+
+func _on_move_animator_animation_finished(anim_name):
+	if !moving_enabled:
+		print(anim_name)
+
+
+func _on_move_animator_animation_changed(old_name, new_name):
+	if !moving_enabled:
+		print("old_name ",old_name)
+		print("new_name ",new_name)
