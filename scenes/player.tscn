@@ -1,16 +1,21 @@
-[gd_scene load_steps=54 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=66 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
-[ext_resource type="AudioStream" uid="uid://e6pw0xo31kbm" path="res://assets/Alli....wav" id="2_nppxa"]
-[ext_resource type="AudioStream" uid="uid://cb7f7f0bgsr1p" path="res://assets/Alli without drone.wav" id="3_6a6uj"]
+[ext_resource type="AudioStream" uid="uid://b1hj46m38uake" path="res://assets/Blades of Industry.wav" id="2_fowjc"]
 [ext_resource type="Texture2D" uid="uid://bmosig3ogd0pl" path="res://assets/chain.png" id="3_6sanu"]
+[ext_resource type="AudioStream" uid="uid://bh01nyf4ii4m0" path="res://assets/Blades of Industry drumless.wav" id="3_nbcpo"]
 [ext_resource type="Texture2D" uid="uid://u8hxjcct1lw3" path="res://assets/drive_toggle.png" id="4_up6xg"]
 [ext_resource type="Texture2D" uid="uid://bq4w6aoshfec0" path="res://assets/ParticleLine.png" id="5_srnni"]
 [ext_resource type="Texture2D" uid="uid://b3dbddwkhehpg" path="res://assets/user_stand.png" id="7_piuu2"]
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="8_cc14j"]
 [ext_resource type="Texture2D" uid="uid://cjf253s3138lt" path="res://assets/user_walk.png" id="8_ckoa3"]
 [ext_resource type="AudioStream" uid="uid://cayshnd7c32ky" path="res://assets/Death sound effect.mp3" id="11_cd6dj"]
+[ext_resource type="AudioStream" uid="uid://b4ilkmugcqh46" path="res://assets/combined_chain.wav" id="12_hlrhg"]
+[ext_resource type="AudioStream" uid="uid://s864ytc10413" path="res://assets/combined_chain_hit.wav" id="13_d8upp"]
+[ext_resource type="AudioStream" uid="uid://dkx84ijmo6gg3" path="res://assets/electricty_combined.wav" id="13_nscar"]
+[ext_resource type="AudioStream" uid="uid://dg3bwfrikc4j7" path="res://assets/chain_pull.wav" id="14_tdtvn"]
+[ext_resource type="AudioStream" uid="uid://decnyn2e2vtn5" path="res://assets/reset.wav" id="15_cm2ta"]
 
 [sub_resource type="Gradient" id="Gradient_e2cr0"]
 offsets = PackedFloat32Array(0.814815, 1)
@@ -423,13 +428,112 @@ color_ramp = SubResource("GradientTexture1D_t3yx8")
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcu1o"]
 radius = 5.0
 
+[sub_resource type="Animation" id="Animation_4hm5e"]
+resource_name = "PutBack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-30, -0.25, 0, 0.25, 0, 12.5, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:scale:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.5, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 0.5)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TeleportWarning:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ln5h2"]
+_data = {
+"PutBack": SubResource("Animation_4hm5e")
+}
+
+[sub_resource type="Gradient" id="Gradient_bua20"]
+offsets = PackedFloat32Array(0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yt5ho"]
+gradient = SubResource("Gradient_bua20")
+
+[sub_resource type="Curve" id="Curve_medcx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.240964, 1), 0.0, 0.0, 0, 0, Vector2(0.746988, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_p66co"]
+curve = SubResource("Curve_medcx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_slynw"]
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 64.0
+emission_ring_inner_radius = 64.0
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+radial_accel_min = -100.0
+radial_accel_max = -100.0
+scale_min = 0.25
+scale_curve = SubResource("CurveTexture_p66co")
+color_ramp = SubResource("GradientTexture1D_yt5ho")
+
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
 collision_layer = 0
 collision_mask = 32
 script = ExtResource("1_0okmc")
-drone_track = ExtResource("2_nppxa")
-droneless_track = ExtResource("3_6a6uj")
+drone_track = ExtResource("2_fowjc")
+droneless_track = ExtResource("3_nbcpo")
 
 [node name="SpaceHit" type="GPUParticles2D" parent="."]
 z_index = 1
@@ -514,11 +618,6 @@ position = Vector2(0.5, 0)
 shape = SubResource("CapsuleShape2D_fxfg3")
 metadata/_edit_lock_ = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_6a6uj")
-volume_db = -80.0
-autoplay = true
-
 [node name="HurtWarn" type="GPUParticles2D" parent="."]
 z_index = 1
 emitting = false
@@ -562,12 +661,44 @@ shape = SubResource("CircleShape2D_hcu1o")
 
 [node name="HurtTimer" type="Timer" parent="Node2D"]
 
-[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("11_cd6dj")
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="RespawnAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ln5h2")
+}
+
+[node name="TeleportWarning" type="GPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_slynw")
+texture = ExtResource("5_srnni")
+speed_scale = 2.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_fowjc")
+autoplay = true
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_cd6dj")
+
+[node name="HarpoonFireSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_hlrhg")
+
+[node name="HarpoonHitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_d8upp")
+
+[node name="HarpoonPullSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_tdtvn")
+
+[node name="ScreenResetSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_cm2ta")
+
+[node name="WalkSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_nscar")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]

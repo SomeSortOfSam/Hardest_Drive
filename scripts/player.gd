@@ -8,15 +8,24 @@ const SPEED = 300.0
 @onready var chain : Line2D = $Line2D
 @onready var sprite : Node2D = $Rotor
 @onready var move_animator :AnimationPlayer = $MoveAnimator
+@onready var respawn_animator :AnimationPlayer = $RespawnAnimator
 @onready var anim_sprite :AnimatedSprite2D = $AnimatedSprite2D
 @onready var ray_cast : RayCast2D = $RayCast2D
 @onready var walk_dust : GPUParticles2D = $WalkDust
 @onready var shoot_animator :AnimationPlayer = $ShootAnimator
 @onready var harpoon_hit :GPUParticles2D = $HarpoonHit
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
+@onready var tele_warn :GPUParticles2D = $TeleportWarning
 @onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+
 @onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
+@onready var harpoon_shoot_audio : AudioStreamPlayer2D = $HarpoonFireSound
+@onready var harpoon_hit_audio : AudioStreamPlayer2D = $HarpoonHitSound
+@onready var harpoon_pull_audio : AudioStreamPlayer2D = $HarpoonPullSound
+@onready var screen_reset_audio : AudioStreamPlayer2D = $ScreenResetSound
+@onready var walk_audio : AudioStreamPlayer2D = $WalkSound
+
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 @onready var timer :Timer = $Timer
 @onready var hurt_timer : Timer = $Node2D/HurtTimer
@@ -60,9 +69,17 @@ func animate_character():
 	if velocity.length() > 0:
 		walk_dust.emitting = true
 		move_animator.play("WalkBounce")
+		if !walk_audio.playing:
+			var tween = create_tween()
+			tween.tween_callback(walk_audio.play)
+			tween.tween_property(walk_audio,"volume_db",0.0,.2).set_ease(Tween.EASE_IN)
 	else:
 		walk_dust.emitting = false
 		move_animator.play("Idle")
+		if walk_audio.playing:
+			var tween = create_tween()
+			tween.tween_property(walk_audio,"volume_db",-20.0,.2).set_ease(Tween.EASE_OUT)
+			tween.tween_callback(walk_audio.stop)
 	
 	if velocity.x > 0:
 		anim_sprite.scale = Vector2(-1,1)
@@ -86,6 +103,7 @@ func _unhandled_input(event):
 		stop_harpoon()
 		shoot_animator.play("SpaceHit")
 		screen_reset.emit()
+		screen_reset_audio.play()
 
 func start_rotation_tween(target_rotation : float):
 	if rotate_tween:
@@ -111,6 +129,7 @@ func create_fire_harpoon_tween():
 	harpoon_tween.tween_callback(add_hit_fx)
 	if ray_cast.get_collider().has_method("_on_player_harpoon_hit"):
 		harpoon_tween.tween_callback(ray_cast.get_collider()._on_player_harpoon_hit.bind(self))
+	harpoon_tween.tween_callback(harpoon_hit_audio.play)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func switch_track(new_track : AudioStream):
@@ -123,6 +142,7 @@ func fire_harpoon():
 	create_fire_harpoon_tween()
 	harpoon_direction = sprite.rotation
 	shoot_animator.play("HarpoonOut")
+	harpoon_shoot_audio.play()
 	if ray_cast.get_collider():
 		harpoon_target = null
 		pullable = false
@@ -143,18 +163,20 @@ func create_pull_harpoon_tween():
 	var target = to_global(chain.points[0]) + transition
 	harpoon_tween.kill()
 	harpoon_tween = create_tween()
+	harpoon_tween.tween_callback(harpoon_pull_audio.play)
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = \
 	lerp(to_local(current),to_local(target),percent),0.0,1.0,.5).set_trans(Tween.TRANS_ELASTIC)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func create_pulled_by_harpoon_tween():
+	harpoon_pull_audio.play()
 	moving_enabled = false
 	timer.start(0.3)
 	set_collision_mask_value(2,false)
 	hit_box.set_collision_mask_value(3,false)
 	hit_box.set_collision_layer_value(4,false)
 	hit_box.set_collision_layer_value(3,true)
-	velocity += to_local( ray_cast.get_collision_point()) * 4
+	velocity += chain.points[0] * 4
 	await timer.timeout
 	moving_enabled = true
 	set_collision_mask_value(2,true)
@@ -216,17 +238,25 @@ func _on_tile_map_check_body_entered(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,true)
 	hurt_timer.stop()
+	tele_warn.emitting = false
 
 func _on_tile_map_check_body_exited(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,false)
 	hurt_timer.start()
+	tele_warn.emitting = true
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	if moving_enabled:
 		printerr("Player out of bounds - reseting")
-		move_animator.play("Respawn",-1,1,true)
+		moving_enabled = false
+		velocity = Vector2.ZERO
+		respawn_animator.play_backwards("PutBack")
+		await respawn_animator.animation_finished
 		reset_position_requested.emit()
+		respawn_animator.play("PutBack")
+		await respawn_animator.animation_finished
+		moving_enabled = true
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
@@ -243,13 +273,3 @@ func _on_letterbox_collider_player_pull_requested(_direction):
 func _on_gamplay_pull_failed():
 	pull_succsedded = false
 	stop_harpoon()
-
-func _on_move_animator_animation_finished(anim_name):
-	if !moving_enabled:
-		print(anim_name)
-
-
-func _on_move_animator_animation_changed(old_name, new_name):
-	if !moving_enabled:
-		print("old_name ",old_name)
-		print("new_name ",new_name)
