@@ -75,15 +75,16 @@ func _on_navigation_agent_2d_waypoint_reached(details):
 	set_movement_target(player.global_position)
 
 func _on_hurt_box_area_entered(area : Area2D):
-	velocity += (global_position - area.global_position).normalized() * movement_speed * 3
-	var cell = tilemap.local_to_map(tilemap.to_local(global_position))
-	tilemap.erase_cell(0,cell)
-	tilemap.set_cells_terrain_connect(0,[cell],0,-1)
-	nav_enabled = false
-	timer.start()
-	await timer.timeout
-	nav_enabled = true
+	if area.get_parent().get_script() != get_script():
+		velocity += (global_position - area.global_position).normalized() * movement_speed * 3
+		var cell = tilemap.local_to_map(tilemap.to_local(global_position))
+		tilemap.erase_cell(0,cell)
+		tilemap.set_cells_terrain_connect(0,[cell],0,-1)
+		nav_enabled = false
+		timer.start()
+		await timer.timeout
+		nav_enabled = true
 
 func _on_hit_box_area_entered(area):
-	if area.collision_layer == 1:
+	if area.get_parent().get_script() != get_script():
 		die()
