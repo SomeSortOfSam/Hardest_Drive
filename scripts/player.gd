@@ -172,7 +172,7 @@ func create_pulled_by_harpoon_tween():
 	hit_box.set_collision_mask_value(3,false)
 	hit_box.set_collision_layer_value(4,false)
 	hit_box.set_collision_layer_value(3,true)
-	velocity += to_local( ray_cast.get_collision_point()) * 4
+	velocity += chain.points[0] * 4
 	await timer.timeout
 	moving_enabled = true
 	set_collision_mask_value(2,true)
