@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb80s27q5dtux"]
+
+[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="1_tw1fo"]
+[ext_resource type="PackedScene" uid="uid://bkrf8g5mfr2am" path="res://scenes/box.tscn" id="2_eot67"]
+[ext_resource type="PackedScene" path="res://scenes/box_dud.tscn" id="3_1q723"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2oqgd"]
+font_size = 32
+
+[node name="End" type="Node2D"]
+
+[node name="EnemySpawner" parent="." instance=ExtResource("1_tw1fo")]
+position = Vector2(-147, 60)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 415.0
+offset_top = 308.0
+offset_right = 709.0
+offset_bottom = 356.0
+text = "Thanks for Playing!"
+label_settings = SubResource("LabelSettings_2oqgd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Box" parent="." instance=ExtResource("2_eot67")]
+position = Vector2(96, 152)
+
+[node name="Box2" parent="." instance=ExtResource("2_eot67")]
+position = Vector2(1028, 162)
+
+[node name="Box3" parent="." instance=ExtResource("2_eot67")]
+position = Vector2(1022, 476)
+
+[node name="Box4" parent="." instance=ExtResource("2_eot67")]
+position = Vector2(97, 476)
+
+[node name="Box5" parent="." instance=ExtResource("3_1q723")]
+position = Vector2(296, 329)
+
+[node name="Box6" parent="." instance=ExtResource("3_1q723")]
+position = Vector2(804, 334)

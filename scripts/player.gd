@@ -178,7 +178,6 @@ func create_pulled_by_harpoon_tween():
 func pull_harpoon():
 	pull_requested.emit(harpoon_direction, self)
 	if pull_succsedded:
-		print(harpoon_target)
 		if pullable:
 			create_pull_harpoon_tween()
 		else:
