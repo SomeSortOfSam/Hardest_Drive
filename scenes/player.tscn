@@ -231,7 +231,7 @@ color_ramp = SubResource("GradientTexture1D_ywmk6")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dqpb6"]
 radius = 5.0
-height = 32.0
+height = 20.0
 
 [sub_resource type="Animation" id="Animation_yqpbn"]
 resource_name = "HarpoonIn"
@@ -417,6 +417,7 @@ scale_min = 0.5
 color_ramp = SubResource("GradientTexture1D_t3yx8")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hcu1o"]
+radius = 5.0
 
 [node name="Player" type="CharacterBody2D"]
 texture_filter = 1
@@ -548,7 +549,10 @@ collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/TileMapCheck"]
+position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_hcu1o")
+
+[node name="HurtTimer" type="Timer" parent="Node2D"]
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_cd6dj")
@@ -560,4 +564,5 @@ stream = ExtResource("11_cd6dj")
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]
 [connection signal="body_exited" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_exited"]
+[connection signal="timeout" from="Node2D/HurtTimer" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
