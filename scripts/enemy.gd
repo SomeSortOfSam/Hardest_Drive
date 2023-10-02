@@ -15,6 +15,8 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 @onready var hurtbox_shape :CollisionShape2D = $"HurtBox/CollisionShape2D"
 @onready var death_sound : AudioStreamPlayer2D = $DeathSound
 
+signal dead
+
 func _ready():
 	# These values need to be adjusted for the actor's speed
 	# and the navigation layout.
@@ -64,6 +66,7 @@ func face_target():
 		sprite.scale = Vector2(1,1)
 
 func die():
+	dead.emit()
 	call_deferred("disable_hitbox")
 	nav_enabled = false
 	animator.play("Destroy")

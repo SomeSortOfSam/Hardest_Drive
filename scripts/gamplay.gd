@@ -31,7 +31,7 @@ func switch_track(new_track : AudioStream):
 
 func on_enemey_spawned(enemy : Node2D):
 	enemey_count += 1
-	enemy.tree_exited.connect(on_enemy_die)
+	enemy.dead.connect(on_enemy_die)
 
 func on_enemy_die():
 	enemey_count -= 1

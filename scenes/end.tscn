@@ -10,7 +10,7 @@ font_size = 32
 [node name="End" type="Node2D"]
 
 [node name="EnemySpawner" parent="." instance=ExtResource("1_tw1fo")]
-position = Vector2(-147, 60)
+position = Vector2(-393, -168)
 
 [node name="Label" type="Label" parent="."]
 offset_left = 415.0
