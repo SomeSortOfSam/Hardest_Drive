@@ -1,13 +1,13 @@
-[gd_scene load_steps=60 format=3 uid="uid://csigbjrhsggkf"]
+[gd_scene load_steps=60 format=3 uid="uid://dmy4xk5gh5y3"]
 
 [ext_resource type="Script" path="res://scripts/tutorial.gd" id="1_of50h"]
-[ext_resource type="Texture2D" uid="uid://bre22mhhk4pgd" path="res://assets/tutor_screen2.png" id="2_g70r7"]
+[ext_resource type="Texture2D" uid="uid://b8umbvrw43ip7" path="res://assets/tutor_screen2.png" id="2_g70r7"]
 [ext_resource type="Texture2D" uid="uid://e67b0a27cnyy" path="res://assets/tutor_screen3.png" id="3_460du"]
 [ext_resource type="Texture2D" uid="uid://bdv2f0u300al7" path="res://assets/tutor_screen5.png" id="4_dxpbm"]
 [ext_resource type="Texture2D" uid="uid://32qt7kwgs8qn" path="res://assets/tutor_screen4.png" id="5_kekos"]
 [ext_resource type="Texture2D" uid="uid://dhn2ispwb2qy8" path="res://assets/tutor_screen1.png" id="6_wo6wc"]
+[ext_resource type="Shader" path="res://assets/shader_no_tile.gdshader" id="7_56yud"]
 [ext_resource type="Texture2D" uid="uid://7v1oxrq84hbs" path="res://assets/message_ribbon_background.png" id="7_o3spa"]
-[ext_resource type="Shader" path="res://scenes/shader_no_tile.gdshader" id="7_s8d1d"]
 [ext_resource type="Texture2D" uid="uid://4o6ify3ufh8o" path="res://assets/message_ribbon_edge.png" id="8_sls7r"]
 [ext_resource type="Texture2D" uid="uid://b5kxlgegus4pu" path="res://assets/message_ribbon1.png" id="9_xa87i"]
 [ext_resource type="Texture2D" uid="uid://cwukj0etelooj" path="res://assets/message_ribbon2.png" id="11_4qtub"]
@@ -357,19 +357,19 @@ _data = {
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kaviu"]
-shader = ExtResource("7_s8d1d")
+shader = ExtResource("7_56yud")
 shader_parameter/motion = Vector2(100, 0)
 shader_parameter/scale = 2.0
 shader_parameter/offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_34jcp"]
-shader = ExtResource("7_s8d1d")
+shader = ExtResource("7_56yud")
 shader_parameter/motion = Vector2(20, 0)
 shader_parameter/scale = 2.0
 shader_parameter/offset = Vector2(0, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vo41o"]
-shader = ExtResource("7_s8d1d")
+shader = ExtResource("7_56yud")
 shader_parameter/motion = Vector2(-80, 0)
 shader_parameter/scale = 2.0
 shader_parameter/offset = Vector2(0, 0)
