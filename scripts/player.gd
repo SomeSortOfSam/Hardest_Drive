@@ -8,12 +8,14 @@ const SPEED = 300.0
 @onready var chain : Line2D = $Line2D
 @onready var sprite : Node2D = $Rotor
 @onready var move_animator :AnimationPlayer = $MoveAnimator
+@onready var respawn_animator :AnimationPlayer = $RespawnAnimator
 @onready var anim_sprite :AnimatedSprite2D = $AnimatedSprite2D
 @onready var ray_cast : RayCast2D = $RayCast2D
 @onready var walk_dust : GPUParticles2D = $WalkDust
 @onready var shoot_animator :AnimationPlayer = $ShootAnimator
 @onready var harpoon_hit :GPUParticles2D = $HarpoonHit
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
+@onready var tele_warn :GPUParticles2D = $TeleportWarning
 @onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 
@@ -229,17 +231,25 @@ func _on_tile_map_check_body_entered(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,true)
 	hurt_timer.stop()
+	tele_warn.emitting = false
 
 func _on_tile_map_check_body_exited(_body):
 	if moving_enabled:
 		set_collision_mask_value(2,false)
 	hurt_timer.start()
+	tele_warn.emitting = true
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	if moving_enabled:
 		printerr("Player out of bounds - reseting")
-		move_animator.play("Respawn",-1,1,true)
+		moving_enabled = false
+		velocity = Vector2.ZERO
+		respawn_animator.play_backwards("PutBack")
+		await respawn_animator.animation_finished
 		reset_position_requested.emit()
+		respawn_animator.play("PutBack")
+		await respawn_animator.animation_finished
+		moving_enabled = true
 		velocity = Vector2.ZERO
 
 func _on_tutorial_player_movement_enabled():
@@ -256,13 +266,3 @@ func _on_letterbox_collider_player_pull_requested(direction):
 func _on_gamplay_pull_failed():
 	pull_succsedded = false
 	stop_harpoon()
-
-func _on_move_animator_animation_finished(anim_name):
-	if !moving_enabled:
-		print(anim_name)
-
-
-func _on_move_animator_animation_changed(old_name, new_name):
-	if !moving_enabled:
-		print("old_name ",old_name)
-		print("new_name ",new_name)
