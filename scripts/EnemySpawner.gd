@@ -1,4 +1,4 @@
-class_name EnemeySpawner
+class_name EnemySpawner
 extends Node2D
 
 @export var enemy_scene : PackedScene

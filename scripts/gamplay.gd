@@ -1,8 +1,11 @@
 extends Node2D
 
 @export var levels : Array[PackedScene]
+@export var drone_track : AudioStream
+@export var droneless_track : AudioStream
 
-@onready var audio : AudioStreamPlayer = $NewWave
+@onready var new_wave_audio : AudioStreamPlayer = $NewWave
+@onready var music : AudioStreamPlayer = $Music
 
 var tutorial_done := false
 var level_index = -1
@@ -16,13 +19,24 @@ func play_next_level():
 	current_level = levels[level_index].instantiate()
 	add_child(current_level)
 	for child in current_level.get_children():
-		if child.is_class("EnemeySpawner"):
+		if child.has_method("spawn_enemy"):
 			child.enemy_spawned.connect(on_enemey_spawned)
-	audio.play()
+	new_wave_audio.play()
+	switch_track(drone_track)
+
+func switch_track(new_track : AudioStream):
+	var playback_position = music.get_playback_position()
+	music.stream = new_track
+	music.play(playback_position)
 
 func on_enemey_spawned(enemy : Node2D):
 	enemey_count += 1
-	enemy.tree_exited.connect(func(): enemey_count -= 1)
+	enemy.tree_exited.connect(on_enemy_die)
+
+func on_enemy_die():
+	enemey_count -= 1
+	if enemey_count <= 0:
+		switch_track(droneless_track)
 
 func _on_tutorial_done():
 	play_next_level()

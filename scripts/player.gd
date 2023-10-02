@@ -2,9 +2,6 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 
-@export var drone_track : AudioStream
-@export var droneless_track : AudioStream
-
 @onready var chain : Line2D = $Line2D
 @onready var sprite : Node2D = $Rotor
 @onready var move_animator :AnimationPlayer = $MoveAnimator
@@ -17,7 +14,6 @@ const SPEED = 300.0
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
 @onready var tele_warn :GPUParticles2D = $TeleportWarning
 @onready var hurt_hit :GPUParticles2D = $HurtHit
-@onready var audio : AudioStreamPlayer = $AudioStreamPlayer
 
 @onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
 @onready var harpoon_shoot_audio : AudioStreamPlayer2D = $HarpoonFireSound
@@ -132,13 +128,7 @@ func create_fire_harpoon_tween():
 	harpoon_tween.tween_callback(harpoon_hit_audio.play)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
-func switch_track(new_track : AudioStream):
-	var playback_position = audio.get_playback_position()
-	audio.stream = new_track
-	audio.play(playback_position)
-
 func fire_harpoon():
-	switch_track(drone_track)
 	create_fire_harpoon_tween()
 	harpoon_direction = sprite.rotation
 	shoot_animator.play("HarpoonOut")
@@ -220,7 +210,6 @@ func stop_harpoon():
 	if !harpoon_tween:
 		return
 
-	switch_track(droneless_track)
 	create_stop_harpoon_tween()
 	shoot_animator.play("HarpoonIn")
 	harpoon_tween.tween_callback(start_rotation_tween.bind(get_target_rotation()))
