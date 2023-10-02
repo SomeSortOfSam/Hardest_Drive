@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cncullry5o5ou"]
-
-[ext_resource type="PackedScene" uid="uid://c0bavsp5m5qge" path="res://scenes/enemy.tscn" id="1_lun7y"]
-[ext_resource type="Script" path="res://scripts/Flyer.gd" id="2_ea4hi"]
-
-[node name="Flyer" instance=ExtResource("1_lun7y")]
-script = ExtResource("2_ea4hi")
