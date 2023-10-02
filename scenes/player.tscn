@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=54 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -191,9 +191,13 @@ tracks/2/keys = {
 "values": [Vector2(0, 10), Vector2(0, 0), Vector2(0, 5), Vector2(0, 10), Vector2(0, 0), Vector2(0, 5)]
 }
 
+[sub_resource type="Animation" id="Animation_t5hua"]
+resource_name = "Respawn"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fqrr2"]
 _data = {
 "Idle": SubResource("Animation_g0xkw"),
+"Respawn": SubResource("Animation_t5hua"),
 "WalkBounce": SubResource("Animation_4aixl")
 }
 
@@ -464,6 +468,7 @@ texture = ExtResource("3_6sanu")
 texture_mode = 1
 
 [node name="Rotor" type="Node2D" parent="."]
+position = Vector2(0, 10)
 scale = Vector2(0.5, 0.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="Rotor"]
@@ -515,6 +520,7 @@ volume_db = -80.0
 autoplay = true
 
 [node name="HurtWarn" type="GPUParticles2D" parent="."]
+z_index = 1
 emitting = false
 process_material = SubResource("ParticleProcessMaterial_xldir")
 texture = ExtResource("8_cc14j")
@@ -523,6 +529,7 @@ explosiveness = 0.75
 local_coords = true
 
 [node name="HurtHit" type="GPUParticles2D" parent="."]
+z_index = 1
 emitting = false
 amount = 16
 process_material = SubResource("ParticleProcessMaterial_0t0n3")
@@ -532,6 +539,7 @@ one_shot = true
 explosiveness = 1.0
 
 [node name="HarpoonHit" type="GPUParticles2D" parent="."]
+z_index = 1
 emitting = false
 amount = 16
 process_material = SubResource("ParticleProcessMaterial_jxnx8")

@@ -144,9 +144,11 @@ func create_pull_harpoon_tween():
 func create_pulled_by_harpoon_tween():
 	moving_enabled = false
 	timer.start(0.3)
+	set_collision_mask_value(2,false)
 	velocity += to_local( ray_cast.get_collision_point()) * 4
 	await timer.timeout
 	moving_enabled = true
+	set_collision_mask_value(2,true)
 	stop_harpoon()
 
 func pull_harpoon():
