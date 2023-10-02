@@ -36,6 +36,7 @@ var pull_succsedded := true
 
 signal pull_requested(direction : float)
 signal reset_position_requested
+signal screen_reset
 
 func get_movement_input():
 	var horizontal_input = Input.get_axis("player_left", "player_right")
@@ -81,9 +82,10 @@ func _unhandled_input(event):
 			try_fire_harpoon()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			stop_harpoon()
-	if can_reset_screen and event.is_action("reset_screen"):
+	if can_reset_screen and event.is_action_pressed("reset_screen"):
 		stop_harpoon()
 		shoot_animator.play("SpaceHit")
+		screen_reset.emit()
 
 func start_rotation_tween(target_rotation : float):
 	if rotate_tween:

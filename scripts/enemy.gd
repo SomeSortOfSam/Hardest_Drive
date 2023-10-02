@@ -7,10 +7,10 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 @export var death_sounds : Array[AudioStream]
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var player = $"../TileMap/Player"
+@onready var player = $"../../TileMap/Player"
 @onready var sprite :Sprite2D = $Sprite2D
 @onready var timer : Timer = $Timer
-@onready var tilemap :TileMap = $"../TileMap"
+@onready var tilemap :TileMap = $"../../TileMap"
 @onready var animator :AnimationPlayer = $"AnimationPlayer"
 @onready var hurtbox_shape :CollisionShape2D = $"HurtBox/CollisionShape2D"
 @onready var death_sound : AudioStreamPlayer2D = $DeathSound

@@ -143,6 +143,8 @@ one_shot = true
 explosiveness = 0.8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+y_sort_enabled = true
 texture = ExtResource("2_24fi2")
 hframes = 10
 frame = 9

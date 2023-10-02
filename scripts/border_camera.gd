@@ -2,11 +2,11 @@ extends CanvasItem
 
 const minimum_border_distance = 5.0
 
-@onready var area_collision_polygon : CollisionPolygon2D = $Camera2D/LetterboxCollider/CollisionPolygon2D
-@onready var body_collision_polygon : CollisionPolygon2D = $Camera2D/StaticBody2D/CollisionPolygon2D
-@onready var render_polygon : Polygon2D = $Camera2D/LetterboxCollider/Polygon2D
-@onready var border_line : Line2D = $Camera2D/LetterboxCollider/Line2D
-@onready var tile_map : TileMap = $TileMap
+@onready var area_collision_polygon : CollisionPolygon2D = $LetterboxCollider/CollisionPolygon2D
+@onready var body_collision_polygon : CollisionPolygon2D = $StaticBody2D/CollisionPolygon2D
+@onready var render_polygon : Polygon2D = $LetterboxCollider/Polygon2D
+@onready var border_line : Line2D = $LetterboxCollider/Line2D
+@onready var tile_map : TileMap = $"../TileMap"
 
 var minimum_inner_rect : Rect2
 var last_inner_rect : Rect2
@@ -22,7 +22,7 @@ func _unhandled_input(event):
 		recalculate_border(recalculate_offsets())
 
 func start_tutorial():
-	recalculate_border(recalculate_offsets().grow_side(SIDE_BOTTOM,-64))
+	recalculate_border(recalculate_offsets().grow_side(SIDE_BOTTOM,-64).grow_side(SIDE_TOP,-64 * 3))
 
 func recalculate_border(inner_rect : Rect2):
 	var polygon_rect := get_viewport_rect()
@@ -120,3 +120,4 @@ func _on_letterbox_collider_player_pull_requested(direction : float):
 
 func _on_tutorial_player_reset_screen_enabled():
 	can_reset_screen = true
+

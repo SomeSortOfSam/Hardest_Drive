@@ -1,15 +1,18 @@
-[gd_scene load_steps=60 format=3 uid="uid://t8h2a41u1nip"]
+[gd_scene load_steps=63 format=3 uid="uid://t8h2a41u1nip"]
 
 [ext_resource type="Texture2D" uid="uid://b1riy46aqmn18" path="res://assets/grid_edges.png" id="1_2tgxe"]
+[ext_resource type="Script" path="res://scripts/gamplay.gd" id="1_wipyt"]
 [ext_resource type="PackedScene" uid="uid://c6qw5oje450sv" path="res://scenes/player.tscn" id="2_7pc31"]
+[ext_resource type="PackedScene" uid="uid://csup02ayx0psy" path="res://scenes/level_1.tscn" id="2_n21nf"]
 [ext_resource type="Script" path="res://scripts/border_camera.gd" id="3_i8wvo"]
+[ext_resource type="PackedScene" uid="uid://xtfrxfbmkm70" path="res://scenes/level_2.tscn" id="3_rw4o8"]
 [ext_resource type="Script" path="res://scripts/reset_tile_map.gd" id="4_7v1cw"]
 [ext_resource type="Script" path="res://scripts/LetterboxCollider.gd" id="4_80nsy"]
 [ext_resource type="PackedScene" uid="uid://bvgvlx34lnx5l" path="res://scenes/box.tscn" id="5_f7nl1"]
-[ext_resource type="PackedScene" uid="uid://cm2ey8fk0fl14" path="res://scenes/enemy_spawner.tscn" id="6_yhgw7"]
 [ext_resource type="PackedScene" uid="uid://v1qg51y85aih" path="res://scenes/background.tscn" id="7_5cllo"]
 [ext_resource type="PackedScene" uid="uid://6kjvu1k0t34i" path="res://scenes/gui.tscn" id="7_xd0wi"]
 [ext_resource type="PackedScene" uid="uid://csigbjrhsggkf" path="res://scenes/tutorial.tscn" id="9_1m4g8"]
+[ext_resource type="AudioStream" uid="uid://kp6vgarjl8g7" path="res://assets/New wave SFX.wav.wav" id="11_pom1t"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0xnho"]
 vertices = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
@@ -1208,10 +1211,12 @@ navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_yqq07")
 
 [node name="Gamplay" type="Node2D"]
-script = ExtResource("3_i8wvo")
+script = ExtResource("1_wipyt")
+levels = Array[PackedScene]([ExtResource("2_n21nf"), ExtResource("3_rw4o8")])
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
+script = ExtResource("3_i8wvo")
 
 [node name="LetterboxCollider" type="Area2D" parent="Camera2D"]
 collision_mask = 0
@@ -1256,41 +1261,6 @@ position = Vector2(28, 287)
 
 [node name="Timer" type="Timer" parent="TileMap"]
 
-[node name="Box2" parent="TileMap" instance=ExtResource("5_f7nl1")]
-position = Vector2(-450, 191)
-
-[node name="EnemySpawner2" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(892, 271)
-
-[node name="EnemySpawner3" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(970, 396)
-
-[node name="EnemySpawner4" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(822, 554)
-
-[node name="EnemySpawner5" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(758, 88)
-
-[node name="EnemySpawner6" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(344, 489)
-
-[node name="EnemySpawner7" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(144, 378)
-
-[node name="EnemySpawner8" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(137, 212)
-
-[node name="EnemySpawner9" parent="." instance=ExtResource("6_yhgw7")]
-visible = false
-position = Vector2(291, 93)
-
 [node name="Foreground" type="CanvasLayer" parent="."]
 
 [node name="GUI" parent="Foreground" instance=ExtResource("7_xd0wi")]
@@ -1301,20 +1271,17 @@ metadata/_edit_lock_ = true
 
 [node name="Tutorial" parent="." instance=ExtResource("9_1m4g8")]
 
-[connection signal="pull_failed" from="." to="TileMap/Player" method="_on_gamplay_pull_failed"]
-[connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="." method="_on_letterbox_collider_player_pull_requested"]
+[node name="NewWave" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_pom1t")
+
+[connection signal="pull_failed" from="Camera2D" to="TileMap/Player" method="_on_gamplay_pull_failed"]
+[connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="Camera2D" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="player_pull_requested" from="Camera2D/LetterboxCollider" to="TileMap/Player" method="_on_letterbox_collider_player_pull_requested"]
 [connection signal="reset_position_requested" from="TileMap/Player" to="TileMap" method="_on_player_reset_position_requested"]
+[connection signal="screen_reset" from="TileMap/Player" to="." method="_on_player_screen_reset"]
 [connection signal="timeout" from="TileMap/Timer" to="TileMap/Box" method="queue_free"]
-[connection signal="done" from="Tutorial" to="EnemySpawner2" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner3" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner4" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner5" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner6" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner7" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner8" method="set_visible" flags=6 binds= [true]]
-[connection signal="done" from="Tutorial" to="EnemySpawner9" method="set_visible" flags=6 binds= [true]]
+[connection signal="done" from="Tutorial" to="." method="_on_tutorial_done"]
 [connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_movement_enabled"]
 [connection signal="player_movement_enabled" from="Tutorial" to="TileMap/Timer" method="start"]
-[connection signal="player_reset_screen_enabled" from="Tutorial" to="." method="_on_tutorial_player_reset_screen_enabled"]
+[connection signal="player_reset_screen_enabled" from="Tutorial" to="Camera2D" method="_on_tutorial_player_reset_screen_enabled"]
 [connection signal="player_reset_screen_enabled" from="Tutorial" to="TileMap/Player" method="_on_tutorial_player_reset_screen_enabled"]
