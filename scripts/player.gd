@@ -19,6 +19,7 @@ const SPEED = 300.0
 @onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 @onready var timer :Timer = $Timer
+@onready var hurt_timer : Timer = $Node2D/HurtTimer
 
 var harpoon_tween : Tween
 var rotate_tween : Tween
@@ -197,11 +198,14 @@ func _on_hit_box_area_entered(area : Area2D):
 	hurt_audio.play()
 
 func _on_tile_map_check_body_entered(_body):
-	is_overlaping_tilemap = true
-	velocity.y = 0
+	if moving_enabled:
+		set_collision_mask_value(2,true)
+		hurt_timer.stop()
 
 func _on_tile_map_check_body_exited(_body):
-	is_overlaping_tilemap = false
+	if moving_enabled:
+		set_collision_mask_value(2,false)
+		hurt_timer.start()
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	if moving_enabled:
