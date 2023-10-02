@@ -16,7 +16,13 @@ const SPEED = 300.0
 @onready var hurt_warn :GPUParticles2D = $HurtWarn
 @onready var hurt_hit :GPUParticles2D = $HurtHit
 @onready var audio : AudioStreamPlayer = $AudioStreamPlayer
+
 @onready var hurt_audio : AudioStreamPlayer2D = $HurtSound
+@onready var harpoon_shoot_audio : AudioStreamPlayer2D = $HarpoonFireSound
+@onready var harpoon_hit_audio : AudioStreamPlayer2D = $HarpoonHitSound
+@onready var harpoon_pull_audio : AudioStreamPlayer2D = $HarpoonPullSound
+@onready var walk_audio : AudioStreamPlayer2D = $WalkSound
+
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
 @onready var timer :Timer = $Timer
 @onready var hurt_timer : Timer = $Node2D/HurtTimer
@@ -59,9 +65,17 @@ func animate_character():
 	if velocity.length() > 0:
 		walk_dust.emitting = true
 		move_animator.play("WalkBounce")
+		if !walk_audio.playing:
+			var tween = create_tween()
+			tween.tween_callback(walk_audio.play)
+			tween.tween_property(walk_audio,"volume_db",0.0,.2).set_ease(Tween.EASE_IN)
 	else:
 		walk_dust.emitting = false
 		move_animator.play("Idle")
+		if walk_audio.playing:
+			var tween = create_tween()
+			tween.tween_property(walk_audio,"volume_db",-20.0,.2).set_ease(Tween.EASE_OUT)
+			tween.tween_callback(walk_audio.stop)
 	
 	if velocity.x > 0:
 		anim_sprite.scale = Vector2(-1,1)
@@ -107,6 +121,7 @@ func create_fire_harpoon_tween():
 	harpoon_tween = create_tween()
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = lerp(Vector2.ZERO,to_local(target), percent),0,1,.15)
 	harpoon_tween.tween_callback(add_hit_fx)
+	harpoon_tween.tween_callback(harpoon_hit_audio.play)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func switch_track(new_track : AudioStream):
@@ -119,6 +134,7 @@ func fire_harpoon():
 	create_fire_harpoon_tween()
 	harpoon_direction = sprite.rotation
 	shoot_animator.play("HarpoonOut")
+	harpoon_shoot_audio.play()
 	if ray_cast.get_collider():
 		harpoon_target = null
 		pullable = false
@@ -139,11 +155,13 @@ func create_pull_harpoon_tween():
 	var target = to_global(chain.points[0]) + transition
 	harpoon_tween.kill()
 	harpoon_tween = create_tween()
+	harpoon_tween.tween_callback(harpoon_pull_audio.play)
 	harpoon_tween.tween_method(func(percent : float): chain.points[0] = \
 	lerp(to_local(current),to_local(target),percent),0.0,1.0,.5).set_trans(Tween.TRANS_ELASTIC)
 	harpoon_tween.tween_callback(while_harpoon_out.bind(target))
 
 func create_pulled_by_harpoon_tween():
+	harpoon_pull_audio.play()
 	moving_enabled = false
 	timer.start(0.3)
 	set_collision_mask_value(2,false)

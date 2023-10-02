@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c6qw5oje450sv"]
+[gd_scene load_steps=58 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -11,6 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://bur7qpu0h6ixl" path="res://assets/ParticleHazard.png" id="8_cc14j"]
 [ext_resource type="Texture2D" uid="uid://cjf253s3138lt" path="res://assets/user_walk.png" id="8_ckoa3"]
 [ext_resource type="AudioStream" uid="uid://cayshnd7c32ky" path="res://assets/Death sound effect.mp3" id="11_cd6dj"]
+[ext_resource type="AudioStream" uid="uid://b4ilkmugcqh46" path="res://assets/combined_chain.wav" id="12_hlrhg"]
+[ext_resource type="AudioStream" uid="uid://s864ytc10413" path="res://assets/combined_chain_hit.wav" id="13_d8upp"]
+[ext_resource type="AudioStream" uid="uid://dkx84ijmo6gg3" path="res://assets/electricty_combined.wav" id="13_nscar"]
+[ext_resource type="AudioStream" uid="uid://dg3bwfrikc4j7" path="res://assets/chain_pull.wav" id="14_tdtvn"]
 
 [sub_resource type="Gradient" id="Gradient_e2cr0"]
 offsets = PackedFloat32Array(0.814815, 1)
@@ -571,11 +575,6 @@ position = Vector2(0.5, 0)
 shape = SubResource("CapsuleShape2D_fxfg3")
 metadata/_edit_lock_ = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_6a6uj")
-volume_db = -80.0
-autoplay = true
-
 [node name="HurtWarn" type="GPUParticles2D" parent="."]
 z_index = 1
 emitting = false
@@ -619,12 +618,29 @@ shape = SubResource("CircleShape2D_hcu1o")
 
 [node name="HurtTimer" type="Timer" parent="Node2D"]
 
-[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("11_cd6dj")
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6a6uj")
+volume_db = -80.0
+autoplay = true
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_cd6dj")
+
+[node name="HarpoonFireSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_hlrhg")
+
+[node name="HarpoonHitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_d8upp")
+
+[node name="HarpoonPullSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_tdtvn")
+
+[node name="WalkSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_nscar")
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]
