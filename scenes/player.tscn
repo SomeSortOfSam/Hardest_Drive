@@ -1,5 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://c6qw5oje450sv"]
-
+[gd_scene load_steps=66 format=3 uid="uid://c6qw5oje450sv"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_0okmc"]
 [ext_resource type="Texture2D" uid="uid://dwgutp6ehtqx0" path="res://assets/ParticleShard.png" id="2_7mr5a"]
@@ -16,6 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://s864ytc10413" path="res://assets/combined_chain_hit.wav" id="13_d8upp"]
 [ext_resource type="AudioStream" uid="uid://dkx84ijmo6gg3" path="res://assets/electricty_combined.wav" id="13_nscar"]
 [ext_resource type="AudioStream" uid="uid://dg3bwfrikc4j7" path="res://assets/chain_pull.wav" id="14_tdtvn"]
+[ext_resource type="AudioStream" uid="uid://decnyn2e2vtn5" path="res://assets/reset.wav" id="15_cm2ta"]
 
 [sub_resource type="Gradient" id="Gradient_e2cr0"]
 offsets = PackedFloat32Array(0.814815, 1)
@@ -155,6 +155,65 @@ tracks/1/keys = {
 "values": [Vector2(0, 10)]
 }
 
+[sub_resource type="Animation" id="Animation_t5hua"]
+resource_name = "Respawn"
+length = 0.7
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rotor:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-10, -0.25, 0, 0.25, 0, 15, -0.25, 0, 0.25, 0, 10, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.7)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.7)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-30, -0.25, 0, 0.25, 0, 15, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.7)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.7)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedSprite2D:scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.5, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.7)
+}
+
 [sub_resource type="Animation" id="Animation_4aixl"]
 resource_name = "WalkBounce"
 length = 1.2
@@ -199,6 +258,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fqrr2"]
 _data = {
 "Idle": SubResource("Animation_g0xkw"),
+"Respawn": SubResource("Animation_t5hua"),
 "WalkBounce": SubResource("Animation_4aixl")
 }
 
@@ -551,6 +611,7 @@ texture = ExtResource("2_7mr5a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
+position = Vector2(0, -7.5)
 sprite_frames = SubResource("SpriteFrames_761ax")
 animation = &"Idle"
 
@@ -568,7 +629,7 @@ texture = ExtResource("3_6sanu")
 texture_mode = 1
 
 [node name="Rotor" type="Node2D" parent="."]
-position = Vector2(0, 10)
+position = Vector2(0, 2.5)
 scale = Vector2(0.5, 0.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="Rotor"]
@@ -661,6 +722,19 @@ shape = SubResource("CircleShape2D_hcu1o")
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="RespawnAnimator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ln5h2")
+}
+
+[node name="TeleportWarning" type="GPUParticles2D" parent="."]
+z_index = 1
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_slynw")
+texture = ExtResource("5_srnni")
+speed_scale = 2.0
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_fowjc")
 autoplay = true
@@ -677,22 +751,11 @@ stream = ExtResource("13_d8upp")
 [node name="HarpoonPullSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("14_tdtvn")
 
+[node name="ScreenResetSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_cm2ta")
+
 [node name="WalkSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("13_nscar")
-
-[node name="RespawnAnimator" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_ln5h2")
-}
-
-[node name="TeleportWarning" type="GPUParticles2D" parent="."]
-z_index = 1
-emitting = false
-amount = 16
-process_material = SubResource("ParticleProcessMaterial_slynw")
-texture = ExtResource("5_srnni")
-speed_scale = 2.0
-
 
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="body_entered" from="Node2D/TileMapCheck" to="." method="_on_tile_map_check_body_entered"]

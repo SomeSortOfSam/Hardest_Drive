@@ -23,6 +23,7 @@ const SPEED = 300.0
 @onready var harpoon_shoot_audio : AudioStreamPlayer2D = $HarpoonFireSound
 @onready var harpoon_hit_audio : AudioStreamPlayer2D = $HarpoonHitSound
 @onready var harpoon_pull_audio : AudioStreamPlayer2D = $HarpoonPullSound
+@onready var screen_reset_audio : AudioStreamPlayer2D = $ScreenResetSound
 @onready var walk_audio : AudioStreamPlayer2D = $WalkSound
 
 @onready var tile_map_checker : Area2D = $Node2D/TileMapCheck
@@ -100,6 +101,7 @@ func _unhandled_input(event):
 	if can_reset_screen and event.is_action("reset_screen"):
 		stop_harpoon()
 		shoot_animator.play("SpaceHit")
+		screen_reset_audio.play()
 
 func start_rotation_tween(target_rotation : float):
 	if rotate_tween:
